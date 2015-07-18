@@ -1,0 +1,41 @@
+{
+  "name": "ripster",
+  "version": "1.0.0",
+  "description": "A ripster doesn't do what they do because they want to be cool, they just do it to have fun, the result is they look cool, and people try to do it too.",
+  "keywords": [
+    "ripster",
+    "fun",
+    "framework"
+  ],
+  "homepage": "https://github.com/vslinko/ripster",
+  "bugs": {
+    "url": "https://github.com/vslinko/ripster/issues",
+    "email": "vslinko@yahoo.com"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Vyacheslav Slinko",
+    "email": "vslinko@yahoo.com",
+    "url": "https://twitter.com/vslinko"
+  },
+  "contributors": [],
+  "main": "",
+  "bin": {},
+  "repository": {
+    "type": "git",
+    "url": "vslinko/ripster"
+  },
+  "scripts": {},
+  "config": {},
+  "dependencies": {},
+  "devDependencies": {},
+  "peerDependencies": {},
+  "bundledDependencies": [],
+  "optionalDependencies": {},
+  "engines": {},
+  "os": [],
+  "cpu": [],
+  "preferGlobal": false,
+  "private": false,
+  "publishConfig": {}
+}
