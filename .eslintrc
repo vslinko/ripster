@@ -12,6 +12,10 @@
     "node": true,
     "es6": true
   },
+  "globals": {
+    "__FRONTEND__": true,
+    "__BACKEND__": true
+  },
   "rules": {
     "comma-dangle": [2, "never"],
     "no-cond-assign": [2, "always"],
@@ -74,7 +78,7 @@
     "no-native-reassign": 2,
     "no-new-func": 2,
     "no-new-wrappers": 2,
-    "no-new": 2,
+    "no-new": 0,
     "no-octal-escape": 2,
     "no-octal": 2,
     "no-param-reassign": 0,

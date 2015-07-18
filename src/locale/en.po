@@ -1,0 +1,32 @@
+# English translations for ripster package.
+# Copyright (C) 2015 Vyacheslav Slinko
+# This file is distributed under the same license as the ripster package.
+# Automatically generated, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ripster 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-18 18:41+0300\n"
+"PO-Revision-Date: 2015-07-18 18:41+0300\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ASCII\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/shared/components/SignInForm/SignInForm.js:34
+#: src/shared/components/SignInForm/SignInForm.js:38
+msgid "Email"
+msgstr ""
+
+#: src/shared/components/SignInForm/SignInForm.js:49
+#: src/shared/components/SignInForm/SignInForm.js:53
+msgid "Password"
+msgstr ""
+
+#: src/shared/components/SignInForm/SignInForm.js:63
+msgid "Submit"
+msgstr ""

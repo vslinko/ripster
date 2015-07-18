@@ -13,6 +13,7 @@ export default class HomePage {
 
     return (
       <div className="HomePage">
+        {children('localeButtons')}
         {children('form')}
       </div>
     )

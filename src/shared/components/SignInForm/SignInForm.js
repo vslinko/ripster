@@ -3,6 +3,7 @@ import preventEvent from '../../utils/preventEvent'
 
 export default class SignInForm {
   static propTypes = {
+    gettext: PropTypes.func.isRequired,
     form: PropTypes.shape({
       email: PropTypes.string.isRequired,
       password: PropTypes.string.isRequired
@@ -18,6 +19,7 @@ export default class SignInForm {
 
   render() {
     const {
+      gettext,
       form,
       validationMessagesVisible,
       validation,
@@ -31,11 +33,11 @@ export default class SignInForm {
     return (
       <form onSubmit={preventEvent(onSubmit)}>
         <div>
-          <label htmlFor="SignInForm-Email">Email</label>
+          <label htmlFor="SignInForm-Email">{gettext('Email')}</label>
           <input
             type="email"
             id="SignInForm-Email"
-            placeholder="Email"
+            placeholder={gettext('Email')}
             value={form.email}
             onChange={event => onEmailChange(event.nativeEvent.target.value)}
             disabled={disabled}
@@ -46,11 +48,11 @@ export default class SignInForm {
           </span>
         </div>
         <div>
-          <label htmlFor="SignInForm-Password">Password</label>
+          <label htmlFor="SignInForm-Password">{gettext('Password')}</label>
           <input
             type="password"
             id="SignInForm-Password"
-            placeholder="Password"
+            placeholder={gettext('Password')}
             value={form.password}
             onChange={event => onPasswordChange(event.nativeEvent.target.value)}
             disabled={disabled}
@@ -60,7 +62,7 @@ export default class SignInForm {
               && validation.children.password.message}
           </span>
         </div>
-        <button disabled={disabled}>Submit</button>
+        <button disabled={disabled}>{gettext('Submit')}</button>
         {error && <p>{error.message}</p>}
       </form>
     )

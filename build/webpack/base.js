@@ -9,6 +9,11 @@ export default {
         test: /\.js$/,
         include: [config.src],
         loaders: ['babel']
+      },
+      {
+        test: /\.json$/,
+        include: [config.src],
+        loaders: ['json']
       }
     ]
   },
