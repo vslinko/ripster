@@ -1,0 +1,29 @@
+import {DefinePlugin, optimize} from 'webpack'
+
+import config from '../config'
+
+export default {
+  module: {
+    loaders: [
+      {
+        test: /\.js$/,
+        include: [config.src],
+        loaders: ['babel']
+      }
+    ]
+  },
+
+  debug: config.dev,
+
+  devtool: config.dev ? 'cheap-module-source-map' : 'source-map',
+
+  plugins: [
+    new DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(
+        process.env.NODE_ENV || 'development'
+      )
+    }),
+
+    ...(config.prod ? [new optimize.UglifyJsPlugin()] : [])
+  ]
+}
