@@ -8,6 +8,8 @@ const dist = path.join(root, 'dist')
 const prod = process.env.NODE_ENV === 'production'
 const dev = !prod
 
+const hotLoader = process.env.HOT_RELOAD === 'react-hot-loader'
+
 const nodeModulesDirectory = path.join(root, 'node_modules')
 const nodeModulesExternals = fs.readdirSync(nodeModulesDirectory)
   .filter(name => name !== '.bin')
@@ -22,6 +24,8 @@ export default {
 
   prod,
   dev,
+
+  hotLoader,
 
   nodeMixin: {
     target: 'node',

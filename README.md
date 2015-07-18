@@ -12,9 +12,22 @@ Actual list of my favorites:
 * Technologies for application:
   * [GraphQL](https://github.com/graphql/graphql-js) is best solution to write
     truly flexible backend API.
+  * [Redux](https://github.com/gaearon/redux) is managing local state of client
+    application in functional way. Its way allows you forget about problems of
+    state mutations and gives you many powerful abilities like time traveling.
   * [Neo4j](http://neo4j.com) is very useful database for data that are weaves
     like a spider web. At first, its query language seems strange, but after
     a while comes the realization of all its power.
+  * [React](https://facebook.github.io/react/) component library impressively
+    reduces complexity of UI. For me it's not about speed, it's about clearly
+    defined interfaces of all components.
+  * [React Router](http://rackt.github.io/react-router/) is good for
+    applications with any sizes. At least after they're reached version 1.0.
+  * [Fetch](https://fetch.spec.whatwg.org) is promise-based HTTP client. I'm
+    using [whatwg-fetch](https://github.com/github/fetch) for browser and
+    [node-fetch](https://github.com/bitinn/node-fetch) for node.
+  * [Strulidator](https://github.com/vslinko/strulidator) is my view on how
+    should looks validator of complex nested structures.
   * [Express](http://expressjs.com) is popular library to write HTTP servers
     without pain. All my HTTP servers are pretty simple so express fits for all
     my needs.
