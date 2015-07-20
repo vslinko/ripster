@@ -1,0 +1,27 @@
+machine:
+  pre:
+    - sudo sed -i "s/dbms.security.auth_enabled=true/dbms.security.auth_enabled=false/g" /etc/neo4j/neo4j-server.properties
+  environment:
+    WDIO_BROWSER: firefox
+  node:
+    version: iojs-v1.3.0
+  services:
+    - neo4j
+
+dependencies:
+  post:
+    - ./node_modules/.bin/selenium-standalone install
+
+test:
+  override:
+    - make selenium: {background: true}
+    - make start: {background: true}
+    - make lint
+    - sleep 5
+    - make wdio
+
+deployment:
+  staging:
+    branch: master
+    heroku:
+      appname: ripster

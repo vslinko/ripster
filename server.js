@@ -38,29 +38,35 @@ function createWebpackDevServer(webpackConfig, config) {
       colors: true
     },
     proxy: {
-      '*': `http://localhost:${config.proxyPort}`
+      '*': 'http://localhost:' + config.proxyPort
     }
   })
 
   server.listen(config.port)
 }
 
+var frontendPort = process.env.PORT
+  ? Number(process.env.PORT)
+  : 3000
+var webserverPort = frontendPort + 1
+var graphqlPort = webserverPort + 1
+
 createMoninor(webpackConfigGraphQL, {
   script: path.join(__dirname, 'dist', 'graphql.js'),
   env: {
-    PORT: 3001
+    PORT: graphqlPort
   }
 })
 
 createMoninor(webpackConfigWebserver, {
   script: path.join(__dirname, 'dist', 'webserver.js'),
   env: {
-    PORT: 3002,
-    GRAPHQL_URL: 'http://localhost:3001/'
+    PORT: webserverPort,
+    GRAPHQL_URL: 'http://localhost:' + graphqlPort + '/'
   }
 })
 
 createWebpackDevServer(webpackConfigFrontend, {
-  port: 3000,
-  proxyPort: 3002
+  port: frontendPort,
+  proxyPort: webserverPort
 })
