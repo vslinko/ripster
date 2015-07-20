@@ -17,6 +17,9 @@ DIST_DIR = dist
 PUBLIC_DIR = $(SRC_DIR)/public
 PUBLIC_DIST_DIR = $(DIST_DIR)/public
 LOCALE_DIR = $(SRC_DIR)/locale
+SCRIPT_DIR = scripts
+HOOK_DIR = $(SCRIPT_DIR)/hooks
+HOOK_DIST_DIR = .git/hooks
 
 # Files
 
@@ -29,6 +32,9 @@ TRANSLATE_FILES = $(filter-out $(SRC_DIR)/webserver/template.js,$(SOURCE_FILES))
 POT_FILE = $(LOCALE_DIR)/messages.pot
 LOCALE_PO_FILES = $(LOCALES:%=$(LOCALE_DIR)/%.po)
 LOCALE_JSON_FILES = $(LOCALE_PO_FILES:%.po=%.json)
+
+HOOK_FILES = $(shell find $(HOOK_DIR) -type f)
+HOOK_DIST_FILES = $(subst $(HOOK_DIR)/,$(HOOK_DIST_DIR)/,$(HOOK_FILES))
 
 # Commands
 
@@ -44,7 +50,9 @@ start: $(PUBLIC_DIST_FILES)
 lint:
 	$(ESLINT) $(BUILD_DIR) $(SRC_DIR) *.js
 
-.PHONY: all clean start lint
+hooks: $(HOOK_DIST_FILES)
+
+.PHONY: all clean start lint hooks
 
 # Targets
 
@@ -61,3 +69,7 @@ $(LOCALE_DIR)/%.po: $(POT_FILE)
 
 $(LOCALE_DIR)/%.json: $(LOCALE_DIR)/%.po
 	$(PO2JSON) -pf jed $< $@
+
+$(HOOK_DIST_DIR)/%: $(HOOK_DIR)/%
+	cp "$<" "$@"
+	chmod a+x "$@"
