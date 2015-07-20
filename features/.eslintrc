@@ -1,0 +1,7 @@
+{
+  "globals": {
+    "browser": true,
+    "assert": true,
+    "byComponent": true
+  }
+}

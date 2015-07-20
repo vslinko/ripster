@@ -39,5 +39,14 @@ Actual list of my favorites:
     build first-grade releases. Finest tool at current time but not simplest.
   * [Forever](https://github.com/foreverjs/forever) is used to restart backend
     server when code is changed by developer. Hot reload everywhere!
+  * [WebdriverIO](http://webdriver.io) is a test runner based on Selenium API.
+    Easiest way to write E2E tests.
+  * [Cucumber](https://github.com/cucumber/cucumber-js) is solution for
+    acceptance and integration tests. It's using native language to describe
+    application behavior.
+  * [selenium-standalone](https://www.npmjs.com/package/selenium-standalone) -
+    CLI wrapper on Selenium. Just run `selenium-standalone install` and
+    `selenium-standalone start` to get your Selenium.
+  * [Chai](http://chaijs.com) is assertion library for all kinds of tests.
 
 I believe that best Developer Experience leads us to best User Experience.

@@ -7,6 +7,10 @@ LOCALES = en ru
 WEBPACK = ./node_modules/.bin/webpack
 ESLINT = ./node_modules/.bin/eslint
 PO2JSON = ./node_modules/.bin/po2json
+BABEL = ./node_modules/.bin/babel
+SELENIUM_STANDALONE = ./node_modules/.bin/selenium-standalone
+WDIO = ./node_modules/.bin/wdio
+BABEL_NODE = ./node_modules/.bin/babel-node
 NODE = node
 
 # Directories
@@ -20,6 +24,9 @@ LOCALE_DIR = $(SRC_DIR)/locale
 SCRIPT_DIR = scripts
 HOOK_DIR = $(SCRIPT_DIR)/hooks
 HOOK_DIST_DIR = .git/hooks
+CUCUMBER_DIR = features
+CUCUMBER_DIST_DIR = features-dist
+SELENIUM_CACHE_DIR = node_modules/selenium-standalone/.selenium
 
 # Files
 
@@ -36,23 +43,35 @@ LOCALE_JSON_FILES = $(LOCALE_PO_FILES:%.po=%.json)
 HOOK_FILES = $(shell find $(HOOK_DIR) -type f)
 HOOK_DIST_FILES = $(subst $(HOOK_DIR)/,$(HOOK_DIST_DIR)/,$(HOOK_FILES))
 
+CUCUMBER_JS_FILES = $(shell find $(CUCUMBER_DIR) -type f -name '*.js')
+CUCUMBER_DIST_JS_FILES = $(subst $(CUCUMBER_DIR)/,$(CUCUMBER_DIST_DIR)/,$(CUCUMBER_JS_FILES))
+
 # Commands
 
 all: $(PUBLIC_DIST_FILES) $(LOCALE_JSON_FILES)
 	$(WEBPACK)
 
 clean:
-	rm -rf $(DIST_DIR)
+	rm -rf $(DIST_DIR) $(CUCUMBER_DIST_DIR)
 
 start: $(PUBLIC_DIST_FILES)
 	$(NODE) server.js
 
 lint:
-	$(ESLINT) $(BUILD_DIR) $(SRC_DIR) *.js
+	$(ESLINT) $(BUILD_DIR) $(CUCUMBER_DIR) $(SCRIPT_DIR) $(SRC_DIR) *.js
 
 hooks: $(HOOK_DIST_FILES)
 
-.PHONY: all clean start lint hooks
+selenium: $(SELENIUM_CACHE_DIR)
+	$(SELENIUM_STANDALONE) start
+
+parse_features:
+	$(BABEL_NODE) ./scripts/parseFeatures.js
+
+wdio: $(CUCUMBER_DIST_JS_FILES) parse_features
+	$(WDIO) wdio.conf.js
+
+.PHONY: all clean start lint hooks selenium parse_features wdio
 
 # Targets
 
@@ -73,3 +92,10 @@ $(LOCALE_DIR)/%.json: $(LOCALE_DIR)/%.po
 $(HOOK_DIST_DIR)/%: $(HOOK_DIR)/%
 	cp "$<" "$@"
 	chmod a+x "$@"
+
+$(CUCUMBER_DIST_DIR)/%.js: $(CUCUMBER_DIR)/%.js
+	@mkdir -p "$(shell dirname $@)"
+	$(BABEL) $< -o $@
+
+$(SELENIUM_CACHE_DIR):
+	$(SELENIUM_STANDALONE) install

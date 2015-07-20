@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {gettext} from '../../utils/gettext'
+import testDecorator from '../../utils/testDecorator'
 
 import {
   setEmail,
@@ -15,6 +16,7 @@ import SignInForm from './SignInForm'
   ...state.signInForm,
   gettext: gettext(state.locale.messages)
 }))
+@testDecorator()
 export default class SignInFormContainer {
   static propTypes = {
     dispatch: PropTypes.func.isRequired
