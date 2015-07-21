@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {gettext} from '../../utils/gettext'
+import {formData} from '../../utils/formHelpers'
 
 import {
   setEmail,
@@ -12,7 +13,7 @@ import {
 import SignInForm from './SignInForm'
 
 @connect(state => ({
-  ...state.signInForm,
+  ...formData(state.signInForm),
   gettext: gettext(state.locale.messages)
 }))
 export default class SignInFormContainer {

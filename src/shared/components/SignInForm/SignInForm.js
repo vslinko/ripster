@@ -5,30 +5,33 @@ import testDecorator from '../../utils/testDecorator'
 @testDecorator()
 export default class SignInForm {
   static propTypes = {
+    markTestElement: PropTypes.func.isRequired,
     gettext: PropTypes.func.isRequired,
-    form: PropTypes.shape({
-      email: PropTypes.string.isRequired,
-      password: PropTypes.string.isRequired
-    }).isRequired,
-    validationMessagesVisible: PropTypes.bool,
-    validation: PropTypes.object.isRequired,
+
+    email: PropTypes.string.isRequired,
+    password: PropTypes.string.isRequired,
+    emailError: PropTypes.string,
+    passwordError: PropTypes.string,
     disabled: PropTypes.bool,
-    error: PropTypes.instanceOf(Error),
+    error: PropTypes.string,
+
     onEmailChange: PropTypes.func.isRequired,
     onPasswordChange: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-    markTestElement: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired
   }
 
   render() {
     const {
       markTestElement,
       gettext,
-      form,
-      validationMessagesVisible,
-      validation,
+
+      email,
+      password,
+      emailError,
+      passwordError,
       disabled,
       error,
+
       onEmailChange,
       onPasswordChange,
       onSubmit
@@ -43,14 +46,11 @@ export default class SignInForm {
             type="email"
             id="SignInForm-Email"
             placeholder={gettext('Email')}
-            value={form.email}
+            value={email}
             onChange={event => onEmailChange(event.nativeEvent.target.value)}
             disabled={disabled}
           />
-          <span>
-            {validationMessagesVisible
-              && validation.children.email.message}
-          </span>
+          {emailError && <span>{emailError}</span>}
         </div>
         <div>
           <label htmlFor="SignInForm-Password">{gettext('Password')}</label>
@@ -59,17 +59,14 @@ export default class SignInForm {
             type="password"
             id="SignInForm-Password"
             placeholder={gettext('Password')}
-            value={form.password}
+            value={password}
             onChange={event => onPasswordChange(event.nativeEvent.target.value)}
             disabled={disabled}
           />
-          <span>
-            {validationMessagesVisible
-              && validation.children.password.message}
-          </span>
+          {passwordError && <span>{passwordError}</span>}
         </div>
         <button disabled={disabled}>{gettext('Submit')}</button>
-        {error && <p>{error.message}</p>}
+        {error && <p>{error}</p>}
       </form>
     )
   }
