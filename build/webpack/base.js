@@ -14,6 +14,10 @@ export default {
         test: /\.json$/,
         include: [config.src],
         loaders: ['json']
+      },
+      {
+        test: /\.(png|svg|eot|ttf|woff)$/,
+        loaders: ['url?limit=10000']
       }
     ]
   },

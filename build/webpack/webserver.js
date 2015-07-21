@@ -12,7 +12,8 @@ export default {
 
   output: {
     path: path.join(config.dist),
-    filename: 'webserver.js'
+    filename: 'webserver.js',
+    publicPath: '/'
   },
 
   module: {
@@ -22,8 +23,11 @@ export default {
       ...base.module.loaders,
 
       {
+        test: /\.less$/,
+        loaders: ['null']
+      },
+      {
         test: /\.css$/,
-        include: [config.src],
         loaders: ['null']
       }
     ]

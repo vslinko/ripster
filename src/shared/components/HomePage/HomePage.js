@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react'
 import childByKey from '../../utils/childByKey'
 
-import './HomePage.css'
+import './HomePage.less'
 
 export default class HomePage {
   static propTypes = {

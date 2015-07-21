@@ -2,6 +2,9 @@ import {DefinePlugin, ProvidePlugin, HotModuleReplacementPlugin} from 'webpack'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import path from 'path'
 
+import autoprefixer from 'autoprefixer-core'
+import mqpacker from 'css-mqpacker'
+
 import config from '../config'
 import base from './base'
 
@@ -19,7 +22,8 @@ export default {
 
   output: {
     path: path.join(config.dist, 'public'),
-    filename: 'frontend.js'
+    filename: 'frontend.js',
+    publicPath: '/'
   },
 
   module: {
@@ -33,15 +37,26 @@ export default {
       )),
 
       {
-        test: /\.css$/,
-        include: [config.src],
+        test: /\.less$/,
         loader: ExtractTextPlugin.extract(
           'style',
-          'css?sourceMap'
+          'css?sourceMap!postcss!less?sourceMap'
+        )
+      },
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract(
+          'style',
+          'css?sourceMap!postcss'
         )
       }
     ]
   },
+
+  postcss: () => ([
+    autoprefixer,
+    mqpacker
+  ]),
 
   plugins: [
     new DefinePlugin({
