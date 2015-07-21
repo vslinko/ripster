@@ -2,12 +2,12 @@ import {GraphQLSchema} from 'graphql'
 
 import rootQuery from './rootQuery'
 import rootMutation from './rootMutation'
-import user from './user'
+import * as types from './types'
 
 const refCreators = {
   rootQuery,
   rootMutation,
-  user
+  ...types
 }
 
 const refs = Object.keys(refCreators)

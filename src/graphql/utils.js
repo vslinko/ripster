@@ -1,7 +1,3 @@
-export function id(object) {
-  return String(object._id) // eslint-disable-line no-underscore-dangle
-}
-
 export function prop(key) {
   return object => object.properties[key]
 }

@@ -1,11 +1,23 @@
 import {GraphQLID, GraphQLString} from 'graphql'
-import setEmail from '../../queries/setEmail'
+import getUserByUUID from '../../queries/user/getUserByUUID'
+import setEmail from '../../queries/user/setEmail'
+import {wrapField, OP_UPDATE} from '../../acl'
 
-export default refs => ({
+export default refs => wrapField(OP_UPDATE, assertAccess => ({
   type: refs.user,
   args: {
-    userId: {type: GraphQLID},
+    uuid: {type: GraphQLID},
     email: {type: GraphQLString}
   },
-  resolve: (root, args) => setEmail(args.userId, args.email)
-})
+  resolve: async (root, args) => {
+    const user = await getUserByUUID(args.uuid)
+
+    if (!user) {
+      return
+    }
+
+    await assertAccess(user)
+
+    return await setEmail(user, args.email)
+  }
+}))
