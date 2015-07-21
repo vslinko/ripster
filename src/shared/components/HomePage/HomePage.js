@@ -1,22 +1,22 @@
 import React, {PropTypes} from 'react'
 import testDecorator from '../../utils/testDecorator'
-import childByKey from '../../utils/childByKey'
+import childrenToProps from '../../utils/childrenToProps'
 
 import './HomePage.less'
 
+@childrenToProps
 @testDecorator()
 export default class HomePage {
   static propTypes = {
-    children: PropTypes.node
+    localeButtons: PropTypes.node,
+    form: PropTypes.node
   }
 
   render() {
-    const children = childByKey(this.props.children)
-
     return (
       <div className="HomePage">
-        {children('localeButtons')}
-        {children('form')}
+        {this.props.localeButtons}
+        {this.props.form}
       </div>
     )
   }
