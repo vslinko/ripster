@@ -10,7 +10,7 @@ const fixturesFile = path.join(__dirname, '..', 'db', 'fixtures.cypher')
 
 async function main() {
   try {
-    const fixtures = fs.readFileSync(fixturesFile).toString()
+    const fixtures = fs.readFileSync(fixturesFile).toString().split(/;\n/)
 
     await executeQuery(cypher`
       MATCH (n)
@@ -18,9 +18,11 @@ async function main() {
       DELETE n, e
     `)
 
-    await executeQuery({
-      query: fixtures
-    })
+    for (const fixture of fixtures) {
+      await executeQuery({
+        query: fixture
+      })
+    }
 
   } catch (err) {
     console.log(err.stack)
