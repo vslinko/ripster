@@ -25,6 +25,25 @@ module.exports.config = {
   before: function() {
     global.assert = chai.assert
 
+    global.component = function(componentName) {
+      function component(labels) {
+        return Object.keys(labels || {})
+          .map(function(key) {
+            return global.byLabel(key, labels[key])
+          })
+          .concat([
+            global.byComponent(componentName)
+          ])
+          .join('')
+      }
+
+      component.element = function element(elementName) {
+        return global.byElement(componentName + '-' + elementName)
+      }
+
+      return component
+    }
+
     global.byComponent = function(name) {
       return '[data-test-component="' + name + '"]'
     }

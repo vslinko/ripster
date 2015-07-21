@@ -2,6 +2,9 @@
   "globals": {
     "browser": true,
     "assert": true,
-    "byComponent": true
+    "component": true
+  },
+  "rules": {
+    "babel/new-cap": 0
   }
 }

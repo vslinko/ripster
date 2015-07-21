@@ -1,6 +1,8 @@
 import React, {PropTypes} from 'react'
 import preventEvent from '../../utils/preventEvent'
+import testDecorator from '../../utils/testDecorator'
 
+@testDecorator()
 export default class SignInForm {
   static propTypes = {
     gettext: PropTypes.func.isRequired,
@@ -14,11 +16,13 @@ export default class SignInForm {
     error: PropTypes.instanceOf(Error),
     onEmailChange: PropTypes.func.isRequired,
     onPasswordChange: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
+    markTestElement: PropTypes.func.isRequired
   }
 
   render() {
     const {
+      markTestElement,
       gettext,
       form,
       validationMessagesVisible,
@@ -35,6 +39,7 @@ export default class SignInForm {
         <div>
           <label htmlFor="SignInForm-Email">{gettext('Email')}</label>
           <input
+            {...markTestElement('Email')}
             type="email"
             id="SignInForm-Email"
             placeholder={gettext('Email')}
@@ -50,6 +55,7 @@ export default class SignInForm {
         <div>
           <label htmlFor="SignInForm-Password">{gettext('Password')}</label>
           <input
+            {...markTestElement('Password')}
             type="password"
             id="SignInForm-Password"
             placeholder={gettext('Password')}

@@ -1,5 +1,7 @@
 import React, {PropTypes} from 'react'
+import testDecorator from '../../utils/testDecorator'
 
+@testDecorator()
 export default class LocaleButtons {
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
