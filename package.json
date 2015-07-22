@@ -81,6 +81,7 @@
     "null-loader": "0.1.1",
     "po2json": "0.4.1",
     "postcss-loader": "0.5.1",
+    "ramda": "0.17.1",
     "react-hot-loader": "1.2.8",
     "redux": "1.0.0-rc",
     "selenium-standalone": "4.5.3",
