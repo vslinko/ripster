@@ -25,4 +25,4 @@ deployment:
     branch: master
     commands:
       - git push -f git@heroku.com:ripster.git $CIRCLE_SHA1:refs/heads/master
-      - heroku run --app ripster make load_fixtures
+      - heroku run --app ripster ./bin/load_fixtures
