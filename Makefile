@@ -68,13 +68,11 @@ selenium: $(SELENIUM_CACHE_DIR)
 parse_features:
 	$(BABEL_NODE) ./scripts/parseFeatures.js
 
-load_fixtures:
-	$(BABEL_NODE) ./scripts/loadFixtures.js
-
-wdio: $(CUCUMBER_DIST_JS_FILES) parse_features load_fixtures
+wdio: $(CUCUMBER_DIST_JS_FILES) parse_features
+	./bin/load_fixtures
 	$(WDIO) wdio.conf.js
 
-.PHONY: all clean start lint hooks selenium parse_features load_fixtures wdio
+.PHONY: all clean start lint hooks selenium parse_features wdio
 
 # Targets
 
