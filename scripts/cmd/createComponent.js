@@ -1,10 +1,10 @@
+import {existsAsync, mkdirAsync} from 'fs-extra-promise'
+import {join} from 'path'
 import {
-  join,
-  fs,
   mainAnswers,
   underscore,
   renderTemplate,
-  components
+  componentsDir
 } from '../utils'
 
 const questions = [
@@ -17,7 +17,7 @@ const questions = [
         return 'Component name must be in CamelCase'
       }
 
-      if (await fs.existsAsync(join(components, name))) {
+      if (await existsAsync(join(componentsDir, name))) {
         return `Component "${name}" already exists`
       }
 
@@ -48,9 +48,9 @@ const questions = [
 ]
 
 mainAnswers(questions, async (context) => {
-  const directory = join(components, context.name)
+  const directory = join(componentsDir, context.name)
 
-  await fs.mkdirAsync(directory)
+  await mkdirAsync(directory)
 
   await* [
     renderTemplate(

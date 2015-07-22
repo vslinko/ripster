@@ -1,13 +1,10 @@
 import {basename} from 'path'
 import {last} from 'ramda'
+import {join} from 'path'
+import {readFileAsync} from 'fs-extra-promise'
 import crypto from 'crypto'
 import keywords from 'gherkin/lib/gherkin/gherkin-languages.json'
-import {
-  root,
-  join,
-  fs,
-  glob
-} from './utils'
+import {rootDir, glob} from './utils'
 
 /* eslint-disable max-statements */
 function *scrapBlocks(content, {defaultLanguage}) {
@@ -94,16 +91,16 @@ function *scrapBlocks(content, {defaultLanguage}) {
 /* eslint-enable max-statements */
 
 export async function parseFeatures({defaultLanguage} = {}) {
-  const files = await glob(join(root, 'planned-features', '**', '*.md'))
+  const files = await glob(join(rootDir, 'planned-features', '**', '*.md'))
   const blocks = []
 
   for (const file of files) {
-    const content = (await fs.readFileAsync(file)).toString()
+    const content = (await readFileAsync(file)).toString()
 
     for (const block of scrapBlocks(content, {defaultLanguage})) {
       blocks.push({
         ...block,
-        file: file.replace(root + '/', '')
+        file: file.replace(rootDir + '/', '')
       })
     }
   }

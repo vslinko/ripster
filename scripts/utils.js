@@ -1,16 +1,12 @@
 import inquirer from 'inquirer'
-import path from 'path'
-import fs from 'fs-extra-promise'
+import {join} from 'path'
+import {writeFileAsync, readFileAsync} from 'fs-extra-promise'
 import nodeGlob from 'glob'
 import mustache from 'mustache'
 
-export {default as fs} from 'fs-extra-promise'
-
-export const root = path.join(__dirname, '..')
-export const src = path.join(root, 'src')
-export const components = path.join(src, 'shared', 'components')
-
-export const join = path.join
+export const rootDir = join(__dirname, '..')
+export const srcDir = join(rootDir, 'src')
+export const componentsDir = join(srcDir, 'shared', 'components')
 
 function promisifyNode(cb) {
   return (...args) => {
@@ -85,14 +81,14 @@ export function getAnswers(questions) {
 }
 
 export function write(filePath, content) {
-  return fs.writeFileAsync(
+  return writeFileAsync(
     filePath,
     content.trim() + '\n'
   )
 }
 
 export async function readTemplate(name) {
-  const buffer = await fs.readFileAsync(
+  const buffer = await readFileAsync(
     join(__dirname, 'templates', name + '.mustache')
   )
 

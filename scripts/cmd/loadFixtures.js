@@ -1,15 +1,12 @@
-import {
-  root,
-  main,
-  join,
-  fs
-} from '../utils'
+import {readFileAsync} from 'fs-extra-promise'
+import {join} from 'path'
+import {rootDir, main} from '../utils'
 import {executeQuery, cypher} from '../../src/graphql/db'
 
 main(async () => {
-  const fixturesFile = join(root, 'db', 'fixtures.cypher')
+  const fixturesFile = join(rootDir, 'db', 'fixtures.cypher')
 
-  const fixtures = (await fs.readFileAsync(fixturesFile))
+  const fixtures = (await readFileAsync(fixturesFile))
     .toString()
     .split(/;\n/)
 

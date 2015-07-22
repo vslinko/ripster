@@ -1,15 +1,8 @@
+import {unlinkAsync} from 'fs-extra-promise'
 import yargs from 'yargs'
-import {
-  main,
-  join,
-  fs,
-  glob,
-  renderTemplate
-} from '../utils'
-import {
-  parseFeatures,
-  blockUniqueName
-} from '../parseFeatures'
+import {join} from 'path'
+import {main, glob, renderTemplate} from '../utils'
+import {parseFeatures, blockUniqueName} from '../parseFeatures'
 
 const {argv} = yargs
   .string(['o', 'l'])
@@ -26,7 +19,7 @@ main(async () => {
   const oldFeatures = await glob(join(outputDir, '**', '*.feature'))
 
   await* oldFeatures
-    .map(file => fs.unlinkAsync(file))
+    .map(file => unlinkAsync(file))
 
   const newFeatures = await parseFeatures({defaultLanguage})
 
