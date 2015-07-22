@@ -65,14 +65,12 @@ hooks: $(HOOK_DIST_FILES)
 selenium: $(SELENIUM_CACHE_DIR)
 	$(SELENIUM_STANDALONE) start
 
-parse_features:
-	$(BABEL_NODE) ./scripts/parseFeatures.js
-
-wdio: $(CUCUMBER_DIST_JS_FILES) parse_features
+wdio: $(CUCUMBER_DIST_JS_FILES)
+	./bin/dump_features
 	./bin/load_fixtures
 	$(WDIO) wdio.conf.js
 
-.PHONY: all clean start lint hooks selenium parse_features wdio
+.PHONY: all clean start lint hooks selenium wdio
 
 # Targets
 

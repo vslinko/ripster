@@ -1,44 +1,59 @@
-#!/usr/bin/env babel-node
+import {basename} from 'path'
+import {last} from 'ramda'
+import crypto from 'crypto'
+import keywords from 'gherkin/lib/gherkin/gherkin-languages.json'
+import {
+  root,
+  join,
+  fs,
+  glob
+} from './utils'
 
 /* eslint-disable max-statements */
-
-import glob from 'glob'
-import path from 'path'
-import fs from 'fs'
-
-const prefix = {
-  'en': 'And',
-  'ru': 'И'
-}
-
-function *scrapBlocks(content) {
+function *scrapBlocks(content, {defaultLanguage}) {
   let inBlock = false
   let block = []
   let blockLines = 0
-  let functional
-  let language = 'en'
-  let stage = 'stage1'
+  let functional = '<Undefined Functional>'
+  let language
+  let stage
+  let priority
+  let comments
+  let deadline
+  let startLine
 
   const lines = content.split('\n')
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]
 
-    const fnMatches = /^#\s*([^:]+:\s*[^\n]+)$/gm.exec(line)
+    const fnMatches = /^#\s*([^#:][^:]*:\s*[^\n]+)$/.exec(line)
     const languageMatches = /^#\s*language:\s*(.+)$/.exec(line)
-    const stageMatches = /^#\s*(stage\d+)$/.exec(line)
+    const deadlineMatches = /^#\s*deadline:\s*(.+)$/.exec(line)
+    const stageMatches = /^#\s*stage\s*(\d+)$/.exec(line)
+    const priorityMatches = /^#\s*(\d+)$/.exec(line)
 
     if (line.trim() === '') {
       continue
     } else if (languageMatches && inBlock) {
       language = languageMatches[1]
+    } else if (deadlineMatches && inBlock) {
+      deadline = deadlineMatches[1].trim()
     } else if (stageMatches && inBlock) {
-      stage = stageMatches[1]
+      stage = Number(stageMatches[1])
+    } else if (priorityMatches && inBlock) {
+      priority = Number(priorityMatches[1])
     } else if (fnMatches && !inBlock) {
       functional = fnMatches[1].trim()
 
-    } else if (line === '```feature' && functional) {
+    } else if (line === '```feature') {
       inBlock = true
+      language = defaultLanguage || 'en'
+      stage = 0
+      priority = undefined
+      comments = []
+      deadline = undefined
+      startLine = i + 1
 
     } else if (line === '```' && inBlock) {
       if (blockLines > 1) {
@@ -46,6 +61,11 @@ function *scrapBlocks(content) {
           language,
           stage,
           functional,
+          priority,
+          deadline,
+          startLine,
+          endLine: i + 1,
+          comments: comments.join('\n'),
           content: block.join('\n')
         }
       }
@@ -55,49 +75,57 @@ function *scrapBlocks(content) {
       inBlock = false
 
     } else if (inBlock) {
-      if (/^\s*#/.test(line) || /^\s*[^:]+:/.test(line)) {
+      if (/^\s*#/.test(line)) {
+        comments.push(line)
+      } else if (/^\s*[^:]+:/.test(line)) {
         block.push(line)
       } else {
         blockLines++
-        block.push(line.replace(/^([ ]*)/, `$1${prefix[language]} `))
+        block.push(
+          line.replace(
+            /^([ ]*)/,
+            `$1${last(keywords[language].and).trim()} `
+          )
+        )
       }
     }
   }
 }
+/* eslint-enable max-statements */
 
-function main() {
-  const rootDir = path.join(__dirname, '..')
-  const srcDir = path.join(rootDir, 'planned-features')
-  const distDir = path.join(rootDir, 'features-dist')
-
-  for (const file of glob.sync(path.join(distDir, '**', '*.feature'))) {
-    fs.unlinkSync(file)
-  }
-
+export async function parseFeatures({defaultLanguage} = {}) {
+  const files = await glob(join(root, 'planned-features', '**', '*.md'))
   const blocks = []
 
-  for (const markdownFile of glob.sync(path.join(srcDir, '**', '*.md'))) {
-    const content = fs.readFileSync(markdownFile).toString()
+  for (const file of files) {
+    const content = (await fs.readFileAsync(file)).toString()
 
-    for (const block of scrapBlocks(content)) {
-      blocks.push({...block, file: markdownFile})
+    for (const block of scrapBlocks(content, {defaultLanguage})) {
+      blocks.push({
+        ...block,
+        file: file.replace(root + '/', '')
+      })
     }
   }
 
-  blocks
-    .filter(block => block.stage === 'stage3')
-    .forEach((block, index) => {
-      const resultFile = path.join(distDir, `${index}.feature`)
-      const content = [
-        `# original file: ${block.file}`,
-        `# language: ${block.language}`,
-        block.functional,
-        block.content,
-        ''
-      ].join('\n')
-
-      fs.writeFileSync(resultFile, content)
-    })
+  return blocks
 }
 
-main()
+export function blockUniqueName(block) {
+  const hash = crypto
+    .createHash('sha1')
+    .update(JSON.stringify(block))
+    .digest('hex')
+
+  const name = [
+    10 - block.stage,
+    block.stage,
+    block.priority,
+    block.language,
+    basename(block.file, '.md'),
+    block.startLine,
+    hash
+  ].join('-') + '.feature'
+
+  return name
+}
