@@ -61,6 +61,7 @@
     "babel-eslint": "3.1.26",
     "babel-loader": "5.3.2",
     "chai": "3.2.0",
+    "colors": "1.1.2",
     "css-loader": "0.15.4",
     "css-mqpacker": "3.1.0",
     "cucumber": "0.5.2",
