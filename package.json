@@ -25,9 +25,7 @@
     "type": "git",
     "url": "vslinko/ripster"
   },
-  "scripts": {
-    "start": "make start"
-  },
+  "scripts": {},
   "config": {},
   "dependencies": {
     "access-rule": "4.0.0",
