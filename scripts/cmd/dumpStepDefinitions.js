@@ -1,10 +1,14 @@
 import {uniq} from 'ramda'
-import path from 'path'
-import {root, main, glob} from '../utils'
+import {
+  root,
+  main,
+  glob,
+  join
+} from '../utils'
 
 main(async () => {
   const definitionFiles = await glob(
-    path.join(root, 'features', 'step-definitions', '**', '*.js')
+    join(root, 'features', 'step-definitions', '**', '*.js')
   )
 
   const defs = []

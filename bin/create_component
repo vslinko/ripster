@@ -1,5 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env node
 
-cd "$(dirname $0)/.."
-
-./node_modules/.bin/babel-node scripts/createComponent $*
+require('babel-core/register')
+require('../scripts/cmd/createComponent')

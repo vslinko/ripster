@@ -1,6 +1,7 @@
 {
   "rules": {
     "no-console": 0,
-    "no-process-exit": 0
+    "no-process-exit": 0,
+    "babel/generator-star-spacing": 0
   }
 }

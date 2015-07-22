@@ -1,0 +1,29 @@
+import React, {PropTypes} from 'react'
+import testDecorator from '../../utils/testDecorator'
+import childrenToProps from '../../utils/childrenToProps'
+
+{{#less}}
+import './{{name}}.less'
+
+{{/less}}
+@childrenToProps
+@testDecorator()
+export default class {{name}} {
+  static propTypes = {
+    children: PropTypes.node,
+    gettext: PropTypes.func.isRequired
+  }
+
+  render() {
+    const {
+      gettext
+    } = this.props
+
+    return (
+      <div>
+        <div>{gettext('{{name}}')}</div>
+        <div>{this.props.children}</div>
+      </div>
+    )
+  }
+}
