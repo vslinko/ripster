@@ -45,19 +45,18 @@ export default function testDecorator(labelsConstructor) {
           Object.keys(labels)
             .map((key) => {
               const value = labels[key]
-              const labelName = key[0].toUpperCase() + key.slice(1)
 
               return {
-                key: `testLabel${labelName}`,
+                key: `data-test-label-${key}`,
                 value
               }
             })
             .concat([{
-              key: 'testComponent',
+              key: 'data-test-component',
               value: componentName
             }])
             .reduce((componentNode, {key, value}) => (
-              componentNode.dataset[key] = value,
+              componentNode.setAttribute(key, value),
               componentNode
             ), componentNode)
         }

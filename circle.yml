@@ -1,8 +1,6 @@
 machine:
   pre:
     - sudo sed -i "s/dbms.security.auth_enabled=true/dbms.security.auth_enabled=false/g" /etc/neo4j/neo4j-server.properties
-  environment:
-    WDIO_BROWSER: firefox
   node:
     version: iojs-v1.3.0
   services:
@@ -18,7 +16,9 @@ test:
     - make start: {background: true}
     - make lint
     - sleep 5
-    - make wdio
+    - DUMP_FEATURES=true BROWSER=firefox BROWSER_ENGINE=selenium CUCUMBER_FORMAT=pretty make acceptance_test
+    - DUMP_FEATURES= BROWSER=chrome BROWSER_ENGINE=selenium CUCUMBER_FORMAT=pretty make acceptance_test
+    - DUMP_FEATURES= BROWSER_ENGINE=jsdom CUCUMBER_FORMAT=json make acceptance_test -s > $CIRCLE_TEST_REPORTS/cucumber.json
 
 deployment:
   staging:

@@ -1,9 +1,4 @@
 {
-  "globals": {
-    "browser": true,
-    "assert": true,
-    "component": true
-  },
   "rules": {
     "babel/new-cap": 0
   }

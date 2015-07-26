@@ -1,6 +1,10 @@
 # Variables
 
-LOCALES = en ru
+LOCALES = en ifeq
+DUMP_FEATURES ?= true
+BROWSER ?= chrome
+BROWSER_ENGINE ?= jsdom
+CUCUMBER_FORMAT ?= pretty
 
 # Executables
 
@@ -65,12 +69,20 @@ hooks: $(HOOK_DIST_FILES)
 selenium: $(SELENIUM_CACHE_DIR)
 	$(SELENIUM_STANDALONE) start
 
-wdio: $(CUCUMBER_DIST_JS_FILES)
+acceptance_test: $(CUCUMBER_DIST_JS_FILES)
+ifdef DUMP_FEATURES
 	./bin/dump_features
+endif
 	./bin/load_fixtures
-	$(WDIO) wdio.conf.js
+ifeq ($(BROWSER_ENGINE), selenium)
+	BROWSER=$(BROWSER) BROWSER_ENGINE=$(BROWSER_ENGINE) \
+		./node_modules/.bin/cucumber-js --format $(CUCUMBER_FORMAT) features-dist
+else
+	BROWSER_ENGINE=$(BROWSER_ENGINE) \
+		./node_modules/.bin/cucumber-js --format $(CUCUMBER_FORMAT) features-dist
+endif
 
-.PHONY: all clean start lint hooks selenium wdio
+.PHONY: all clean start lint hooks selenium acceptance_test
 
 # Targets
 

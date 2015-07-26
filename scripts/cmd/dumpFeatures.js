@@ -1,8 +1,9 @@
-import {unlinkAsync} from 'fs-extra-promise'
+import {readFileAsync, writeFileAsync, unlinkAsync} from 'fs-extra-promise'
+import R from 'ramda'
 import yargs from 'yargs'
 import {join} from 'path'
-import {main, glob, renderTemplate} from '../utils'
-import {parseFeatures, blockUniqueName} from '../parseFeatures'
+import {main, glob, rootDir} from '../utils'
+import {parseBlocks, parseFeatures, compileGherkin} from 'adsoft-gherkin'
 
 const {argv} = yargs
   .string(['o', 'l'])
@@ -15,19 +16,42 @@ const {
   defaultLanguage
 } = argv
 
+const removeFiles = R.map(unlinkAsync)
+
+const readFile = async filePath => ({
+  path: readFileAsync,
+  content: (await readFileAsync(filePath)).toString()
+})
+
+const readFiles = R.map(readFile)
+
+const getFeaturesFromFiles = R.curry(R.uncurryN(2, (options) => R.pipe(
+  R.map(file => parseBlocks(file.content).map(block => ({
+    file,
+    block
+  }))),
+  R.flatten,
+  R.filter(({block}) => block.type === 'feature'),
+  R.map(({file, block}) => parseFeatures(options, block).map(ast => ({
+    file,
+    block,
+    ast
+  }))),
+  R.flatten
+)))
+
 main(async () => {
-  const oldFeatures = await glob(join(outputDir, '**', '*.feature'))
+  const oldFeaturesFilePathes = await glob(join(outputDir, '**', '*.feature'))
 
-  await* oldFeatures
-    .map(file => unlinkAsync(file))
+  await* removeFiles(oldFeaturesFilePathes)
 
-  const newFeatures = await parseFeatures({defaultLanguage})
+  const filePathes = await glob(join(rootDir, 'planned-features', '**', '*.md'))
+  const files = await* readFiles(filePathes)
+  const features = getFeaturesFromFiles({defaultLanguage}, files)
 
-  await* newFeatures
-    .filter(block => block.stage >= 3)
-    .map(block => renderTemplate(
-      join(outputDir, blockUniqueName(block)),
-      join('feature', 'feature'),
-      block
+  await* features
+    .map(async (feature, index) => writeFileAsync(
+      join(outputDir, `${index}.feature`),
+      await compileGherkin(feature.ast)
     ))
 })
