@@ -1,4 +1,5 @@
 import {DefinePlugin, optimize} from 'webpack'
+import path from 'path'
 
 import config from '../config'
 
@@ -12,7 +13,10 @@ export default {
       },
       {
         test: /\.json$/,
-        include: [config.src],
+        include: [
+          config.src,
+          path.join(config.root, 'node_modules', 'intl', 'locale-data', 'json')
+        ],
         loaders: ['json']
       },
       {

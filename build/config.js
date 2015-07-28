@@ -19,6 +19,7 @@ const nodeModulesExternals = fs.readdirSync(nodeModulesDirectory)
   ), {})
 
 export default {
+  root,
   src,
   dist,
 
