@@ -7,13 +7,15 @@ import React from 'react'
 import {renderToString} from 'react-dom/server'
 import template from './template'
 
-import Router from 'react-router'
-import Location from 'react-router/lib/Location'
-import routes from '../shared/routes'
+import {createMemoryHistory} from 'history'
+
+import createRouter from '../shared/createRouter'
 
 import createStore from '../shared/createStore'
 import {Provider} from 'react-redux'
 import {loadLocale} from '../shared/flux/locale/localeActions'
+
+import {AppContainer} from '../shared/components/App'
 
 const app = express()
 
@@ -41,42 +43,37 @@ function getLocale(req) {
   return req.acceptsLanguages(...knownLocales) || knownLocales[0]
 }
 
-app.get('*', (req, res) => {
-  const locale = getLocale(req)
-  const location = new Location(req.path, req.query)
+app.get('*', async (req, res) => {
+  try {
+    const locale = getLocale(req)
 
-  Router.run(routes, location, async (error, initialState) => {
-    if (error) {
-      return res.status(500).send()
-    }
-    if (!initialState) {
-      return res.status(404).send()
-    }
+    const history = createMemoryHistory(req.originalUrl)
+    const router = createRouter(history)
+    const store = createStore(history, router)
 
-    const title = 'App'
-    const initialData = {}
+    await router.waitQueue()
+    await store.dispatch(loadLocale(locale))
 
-    try {
-      const store = createStore()
+    const initialData = store.getState()
 
-      await store.dispatch(loadLocale(locale))
+    const {title, status} = initialData.router.screen
 
-      const html = renderToString(
-        <Provider store={store}>
-          {() => (
-            <Router {...initialState} />
-          )}
-        </Provider>
-      )
+    const html = renderToString(
+      <Provider store={store}>
+        {() => <AppContainer />}
+      </Provider>
+    )
 
-      initialData.store = store.getState()
+    res.status(status || 200)
+    res.send(template(title, html, initialData))
 
-      res.send(template(title, html, initialData))
-    } catch (e) {
-      console.log(e.stack) // eslint-disable-line no-console
-      return res.status(500).send()
-    }
-  })
+  } catch (err) {
+    console.log(err.stack) // eslint-disable-line no-console
+
+    res.status(500)
+    res.set('Content-Type', 'text/plain')
+    res.send(err.stack)
+  }
 })
 
 export default app
