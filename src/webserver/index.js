@@ -11,6 +11,7 @@ import {createMemoryHistory} from 'history'
 
 import createApp from '../shared/createApp'
 import {Provider} from 'react-redux'
+import {setToken} from '../shared/flux/token/tokenActions'
 import {loadLocale} from '../shared/flux/locale/localeActions'
 
 import {AppContainer} from '../shared/components/App'
@@ -48,8 +49,12 @@ app.get('*', async (req, res) => {
     const history = createMemoryHistory(req.originalUrl)
     const {router, store} = createApp(history)
 
-    await router.waitQueue()
+    if (req.cookies.token) {
+      await store.dispatch(setToken(req.cookies.token))
+    }
+
     await store.dispatch(loadLocale(locale))
+    await router.waitQueue()
 
     const initialData = store.getState()
 

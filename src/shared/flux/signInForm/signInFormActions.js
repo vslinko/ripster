@@ -7,6 +7,8 @@ import {
   SIGN_IN_FORM_RESET
 } from './signInFormConstants'
 
+import {authorize} from '../user/userActions'
+
 export function setEmail(email) {
   return {
     type: SIGN_IN_FORM_EMAIL_CHANGE,
@@ -68,7 +70,7 @@ export function submit() {
     dispatch(setValidationMessagesVisible(false))
 
     try {
-      console.log({email, password}) // eslint-disable-line no-console
+      await dispatch(authorize(email, password))
       dispatch(reset())
     } catch (error) {
       dispatch(setError(error))
