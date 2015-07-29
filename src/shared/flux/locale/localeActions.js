@@ -1,5 +1,6 @@
 import {
   LOCALE,
+  LOCALE_DATA,
   LOCALE_MESSAGES
 } from './localeConstants'
 
@@ -7,6 +8,13 @@ export function setLocaleMessages(messages) {
   return {
     type: LOCALE_MESSAGES,
     messages
+  }
+}
+
+export function setLocaleData(localeData) {
+  return {
+    type: LOCALE_DATA,
+    localeData
   }
 }
 
@@ -22,14 +30,14 @@ export function setLocale(locale) {
 }
 
 function loadRussian(cb) {
-  require.ensure('../../../locale/ru.json', (require) => {
-    cb(require('../../../locale/ru.json'))
+  require.ensure(['../../../locale/ru.json', 'intl/locale-data/json/ru.json'], (require) => {
+    cb(require('../../../locale/ru.json'), require('intl/locale-data/json/ru.json'))
   })
 }
 
 function loadEnglish(cb) {
-  require.ensure('../../../locale/en.json', (require) => {
-    cb(require('../../../locale/en.json'))
+  require.ensure(['../../../locale/en.json', 'intl/locale-data/json/en.json'], (require) => {
+    cb(require('../../../locale/en.json'), require('intl/locale-data/json/en.json'))
   })
 }
 
@@ -46,8 +54,9 @@ export function loadLocale(locale) {
           loader = loadEnglish
       }
 
-      loader(messages => {
+      loader((messages, localeData) => {
         dispatch(setLocale(locale))
+        dispatch(setLocaleData(localeData))
         dispatch(setLocaleMessages(messages))
         resolve()
       })
