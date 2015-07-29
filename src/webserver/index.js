@@ -9,9 +9,7 @@ import template from './template'
 
 import {createMemoryHistory} from 'history'
 
-import createRouter from '../shared/createRouter'
-
-import createStore from '../shared/createStore'
+import createApp from '../shared/createApp'
 import {Provider} from 'react-redux'
 import {loadLocale} from '../shared/flux/locale/localeActions'
 
@@ -48,8 +46,7 @@ app.get('*', async (req, res) => {
     const locale = getLocale(req)
 
     const history = createMemoryHistory(req.originalUrl)
-    const router = createRouter(history)
-    const store = createStore(history, router)
+    const {router, store} = createApp(history)
 
     await router.waitQueue()
     await store.dispatch(loadLocale(locale))

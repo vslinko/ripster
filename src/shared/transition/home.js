@@ -1,9 +1,12 @@
 import {createTransition} from 'vstack-router'
+import {homeTransition} from '../flux/transition/transitionActions'
 
-export default createTransition('/', () => {
-  return {
-    title: 'Home Page',
-    component: 'HomePage',
-    props: {}
+function createStoreTransition(pattern, transitionHandler) {
+  return store => {
+    return createTransition(pattern, query => {
+      return store.dispatch(transitionHandler(query))
+    })
   }
-})
+}
+
+export default createStoreTransition('/', homeTransition)

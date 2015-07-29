@@ -1,6 +1,14 @@
 import {combineTransitions} from 'vstack-router'
 import home from './home'
 
-export default combineTransitions(
+function combineTransitionsWithStore(...transitions) {
+  return store => {
+    return combineTransitions(
+      ...transitions.map(transition => transition(store))
+    )
+  }
+}
+
+export default combineTransitionsWithStore(
   home
 )
