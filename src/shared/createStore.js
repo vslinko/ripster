@@ -1,12 +1,10 @@
 import {createStore, applyMiddleware, combineReducers} from 'redux'
 import thunkMiddleware from 'redux-thunk'
-import {createRouter} from 'vstack-router'
-import {historyMiddleware, createRouterListener} from 'vstack-router/dist/redux'
+import {historyMiddleware} from 'vstack-router/dist/redux'
 
-import transition from './transition'
 import * as stores from './flux/stores'
 
-export default function createApp(history, initialState) {
+export default function createAppStore(history, initialState) {
   const createStoreWithMiddlewares = applyMiddleware(
     historyMiddleware(history),
     thunkMiddleware
@@ -16,12 +14,5 @@ export default function createApp(history, initialState) {
 
   const store = createStoreWithMiddlewares(reduce, initialState)
 
-  const router = createRouter(
-    history,
-    transition(store)
-  )
-
-  router.listen(createRouterListener(store))
-
-  return {router, store}
+  return store
 }

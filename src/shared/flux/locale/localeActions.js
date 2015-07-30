@@ -41,6 +41,12 @@ function loadEnglish(cb) {
   })
 }
 
+export function loadCurrentLocale() {
+  return (dispatch, getState) => {
+    return dispatch(loadLocale(getState().locale.locale))
+  }
+}
+
 export function loadLocale(locale) {
   return dispatch => {
     new Promise(resolve => {

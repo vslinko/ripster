@@ -1,3 +1,5 @@
+import cookie from 'cookie'
+
 import {
   TOKEN
 } from './tokenConstants'
@@ -10,5 +12,15 @@ export function setToken(token) {
   return {
     type: TOKEN,
     token
+  }
+}
+
+export function readToken() {
+  return dispatch => {
+    const cookies = cookie.parse(document.cookie)
+
+    if (cookies.token) {
+      dispatch(setToken(cookies.token))
+    }
   }
 }

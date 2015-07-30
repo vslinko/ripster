@@ -9,10 +9,12 @@ import template from './template'
 
 import {createMemoryHistory} from 'history'
 
-import createApp from '../shared/createApp'
+import createStore from '../shared/createStore'
+import createRouter from '../shared/createRouter'
 import {Provider} from 'react-redux'
 import {setToken} from '../shared/flux/token/tokenActions'
 import {loadLocale} from '../shared/flux/locale/localeActions'
+import {shrinkData} from '../shared/flux/app/appActions'
 
 import {AppContainer} from '../shared/components/App'
 
@@ -47,24 +49,28 @@ app.get('*', async (req, res) => {
     const locale = getLocale(req)
 
     const history = createMemoryHistory(req.originalUrl)
-    const {router, store} = createApp(history)
+    const store = createStore(history)
 
     if (req.cookies.token) {
       await store.dispatch(setToken(req.cookies.token))
     }
-
     await store.dispatch(loadLocale(locale))
+
+    const router = createRouter(history, store)
+
     await router.waitQueue()
-
-    const initialData = store.getState()
-
-    const {title, status} = initialData.router.screen
 
     const html = renderToString(
       <Provider store={store}>
         {() => <AppContainer />}
       </Provider>
     )
+
+    const {title, status} = store.getState().router.screen
+
+    await store.dispatch(shrinkData())
+
+    const initialData = store.getState()
 
     res.status(status || 200)
     res.send(template(title, html, initialData))

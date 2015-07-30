@@ -2,16 +2,29 @@ import React from 'react'
 import {render} from 'react-dom'
 
 import {createHistory} from 'history'
-import createApp from '../shared/createApp'
+import createStore from '../shared/createStore'
+import createRouter from '../shared/createRouter'
 
 import {Provider} from 'react-redux'
 
 import {AppContainer} from '../shared/components/App'
 
+import {loadCurrentLocale} from '../shared/flux/locale/localeActions'
+import {readToken} from '../shared/flux/token/tokenActions'
+import {stretchData} from '../shared/flux/app/appActions'
+
 async function initApp() {
   try {
     const history = createHistory()
-    const {router, store} = createApp(history, window.state)
+    const store = createStore(history, window.state)
+
+    await* [
+      store.dispatch(loadCurrentLocale()),
+      store.dispatch(readToken()),
+      store.dispatch(stretchData())
+    ]
+
+    const router = createRouter(history, store)
 
     await router.waitQueue()
 
