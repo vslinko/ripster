@@ -1,5 +1,5 @@
 import {createRouter} from 'vstack-router'
-import {createRouterListener} from 'vstack-router/dist/redux'
+import {createRouterListener} from 'redux-vstack-router'
 
 import transition from './transition'
 

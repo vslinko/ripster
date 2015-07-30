@@ -1,4 +1,4 @@
-import {routerReducer} from 'vstack-router/dist/redux'
+import {routerReducer} from 'redux-vstack-router'
 
 import {
   APP_SHRINK_DATA

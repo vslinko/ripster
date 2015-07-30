@@ -1,6 +1,6 @@
 import {createStore, applyMiddleware, combineReducers} from 'redux'
 import thunkMiddleware from 'redux-thunk'
-import {historyMiddleware} from 'vstack-router/dist/redux'
+import {historyMiddleware} from 'redux-vstack-router'
 
 import * as stores from './flux/stores'
 
