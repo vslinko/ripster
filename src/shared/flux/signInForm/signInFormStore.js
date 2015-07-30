@@ -60,7 +60,7 @@ function validationMessagesVisible(state, {visible}) {
 function error(state, {error}) {
   return {
     ...state,
-    error: error && error.message
+    error
   }
 }
 
