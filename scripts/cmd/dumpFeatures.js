@@ -25,6 +25,21 @@ const readFile = async filePath => ({
 
 const readFiles = R.map(readFile)
 
+function safe(fn) {
+  return (...args) => {
+    try {
+      return fn(...args)
+    } catch (err) {
+      return
+    }
+  }
+}
+
+const safeMap = fn => R.pipe(
+  R.map(safe(fn)),
+  R.filter(value => value !== undefined)
+)
+
 const getFeaturesFromFiles = R.curry(R.uncurryN(2, (options) => R.pipe(
   R.map(file => parseBlocks(file.content).map(block => ({
     file,
@@ -32,7 +47,7 @@ const getFeaturesFromFiles = R.curry(R.uncurryN(2, (options) => R.pipe(
   }))),
   R.flatten,
   R.filter(({block}) => block.type === 'feature'),
-  R.map(({file, block}) => parseFeatures(options, block).map(ast => ({
+  safeMap(({file, block}) => parseFeatures(options, block).map(ast => ({
     file,
     block,
     ast
