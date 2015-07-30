@@ -1,3 +1,4 @@
+export {default as graphql} from './graphql/graphqlStore'
 export {default as locale} from './locale/localeStore'
 export {default as router} from './router/routerStore'
 export {default as signInForm} from './signInForm/signInFormStore'

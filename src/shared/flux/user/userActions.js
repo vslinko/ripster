@@ -1,9 +1,9 @@
-import {graphqlQuery} from '../graphql/graphqlActions'
+import {graphqlMutation, executeQueries} from '../graphql/graphqlActions'
 import {setToken} from '../token/tokenActions'
 
 export function authorize(email, password) {
   return async (dispatch) => {
-    const result = await dispatch(graphqlQuery(`
+    const result = await dispatch(graphqlMutation(`
       mutation CreateSession {
         createSession(email: "${email}", password: "${password}") {
           sid
@@ -12,5 +12,7 @@ export function authorize(email, password) {
     `))
 
     dispatch(setToken(result.createSession.sid))
+
+    await dispatch(executeQueries())
   }
 }

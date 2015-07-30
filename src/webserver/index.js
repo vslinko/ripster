@@ -15,6 +15,7 @@ import {Provider} from 'react-redux'
 import {setToken} from '../shared/flux/token/tokenActions'
 import {loadLocale} from '../shared/flux/locale/localeActions'
 import {shrinkData} from '../shared/flux/app/appActions'
+import {executeQueries} from '../shared/flux/graphql/graphqlActions'
 
 import {AppContainer} from '../shared/components/App'
 
@@ -59,6 +60,14 @@ app.get('*', async (req, res) => {
     const router = createRouter(history, store)
 
     await router.waitQueue()
+
+    renderToString(
+      <Provider store={store}>
+        {() => <AppContainer />}
+      </Provider>
+    )
+
+    await store.dispatch(executeQueries())
 
     const html = renderToString(
       <Provider store={store}>

@@ -10,6 +10,7 @@ export default class HomePage {
   static propTypes = {
     localeButtons: PropTypes.node,
     form: PropTypes.node,
+    currentUser: PropTypes.node,
     formatDate: PropTypes.func.isRequired,
     formatNumber: PropTypes.func.isRequired,
     formatCurrency: PropTypes.func.isRequired
@@ -22,6 +23,7 @@ export default class HomePage {
       <div className="HomePage">
         {this.props.localeButtons}
         {this.props.form}
+        {this.props.currentUser}
 
         <div>
           <div>{'number: ' + formatNumber(10.900)}</div>
