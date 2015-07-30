@@ -14,6 +14,7 @@ function openUrl(url) {
     jsdom.env({
       url: baseUrl + url,
       cookieJar,
+      virtualConsole: jsdom.createVirtualConsole().sendTo(console),
       features: {
         FetchExternalResources: ['script', 'css'],
         ProcessExternalResources: ['script']
