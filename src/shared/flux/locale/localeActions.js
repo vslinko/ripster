@@ -49,7 +49,7 @@ export function loadCurrentLocale() {
 
 export function loadLocale(locale) {
   return dispatch => {
-    new Promise(resolve => {
+    return new Promise(resolve => {
       let loader
 
       switch (locale) {
