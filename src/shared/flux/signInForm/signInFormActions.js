@@ -73,7 +73,7 @@ export function submit() {
       await dispatch(authorize(email, password))
       dispatch(reset())
     } catch (error) {
-      dispatch(setError(error))
+      dispatch(setError(error.message))
     } finally {
       dispatch(setDisabled(false))
     }
