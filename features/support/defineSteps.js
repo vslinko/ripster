@@ -4,13 +4,21 @@ export function defineSteps(worldCreator, define) {
   return function() {
     const world = worldCreator(
       handler => this.registerHandler('BeforeFeatures', async (event, cb) => {
-        await handler()
-        cb()
+        try {
+          await handler()
+          cb()
+        } catch (err) {
+          cb(err)
+        }
       }),
 
       handler => this.registerHandler('AfterFeatures', async (event, cb) => {
-        await handler()
-        cb()
+        try {
+          await handler()
+          cb()
+        } catch (err) {
+          cb(err)
+        }
       })
     )
 
