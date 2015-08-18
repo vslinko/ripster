@@ -9,6 +9,7 @@ main(async () => {
 
   const defs = []
   const world = {
+    registerHandler() {},
     Given(regex) {
       defs.push(
         regex.toString()
@@ -21,7 +22,6 @@ main(async () => {
 
   definitionFiles
     .forEach((file) => {
-      global.component = () => ({})
       require(file).call(world)
     })
 
