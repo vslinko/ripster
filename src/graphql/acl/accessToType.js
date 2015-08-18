@@ -8,6 +8,13 @@ import {
   OP_DELETE
 } from 'access-rule'
 
+export const Node = byOperation({
+  [OP_CREATE]: allow,
+  [OP_READ]: allow,
+  [OP_UPDATE]: allow,
+  [OP_DELETE]: allow
+})
+
 export const User = byOperation({
   [OP_CREATE]: allow,
   [OP_READ]: allow,

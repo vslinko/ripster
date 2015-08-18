@@ -1,3 +1,9 @@
+import {globalIdField} from 'graphql-relay'
+
+export function idField(type) {
+  return globalIdField(type, object => object._id) // eslint-disable-line no-underscore-dangle
+}
+
 export function prop(key) {
   return object => object.properties[key]
 }

@@ -1,4 +1,4 @@
-import {GraphQLObjectType, GraphQLList} from 'graphql'
+import {GraphQLObjectType, GraphQLInterfaceType, GraphQLList} from 'graphql'
 import {everyRule, deny} from 'access-rule'
 import isOwner from '../../queries/common/isOwner'
 
@@ -23,6 +23,10 @@ export function self(object, subject) {
 /* eslint-enable no-underscore-dangle */
 
 export function owner(object, subject) {
+  if (!subject) {
+    return false
+  }
+
   return isOwner(object, subject)
 }
 
@@ -36,6 +40,10 @@ export function byGraphQLType(spec, defaultRule = deny) {
 
 export function byDatabaseObjectLabel(spec, defaultRule = deny) {
   return function accessToType(object, subject, operation) {
+    if (!object) {
+      return false
+    }
+
     const rules = object.labels
       .map(label => spec[label] || defaultRule)
 
@@ -45,10 +53,16 @@ export function byDatabaseObjectLabel(spec, defaultRule = deny) {
 
 export function byObject(accessToType, accessToObject) {
   return (object, subject, operation) => {
+    if (/Connection$/.test(object.name)) {
+      /* eslint-disable no-underscore-dangle */
+      object = object._fields.edges.type.ofType._fields.node.type
+      /* eslint-enable no-underscore-dangle */
+    }
+
     if (object instanceof GraphQLList) {
       return accessToType(object.ofType, subject, operation)
 
-    } else if (object instanceof GraphQLObjectType) {
+    } else if (object instanceof GraphQLObjectType || object instanceof GraphQLInterfaceType) {
       return accessToType(object, subject, operation)
 
     } else {

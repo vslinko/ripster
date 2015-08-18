@@ -1,22 +1,24 @@
-import {GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList} from 'graphql'
+import {GraphQLObjectType, GraphQLString} from 'graphql'
 import getUserSessions from '../../queries/user/getUserSessions'
-import {prop} from '../../utils'
-import {wrapField, OP_READ} from '../../acl'
+import {idField, prop} from '../../utils'
+import {wrapConnectionField, OP_READ} from '../../acl'
 
 export default refs => new GraphQLObjectType({
   name: 'User',
   fields: () => ({
+    id: idField('User'),
     uuid: {
-      type: GraphQLID,
+      type: GraphQLString,
       resolve: prop('uuid')
     },
     email: {
       type: GraphQLString,
       resolve: prop('email')
     },
-    sessions: wrapField(OP_READ, {
-      type: new GraphQLList(refs.session),
+    sessions: wrapConnectionField(OP_READ, {
+      type: refs.sessionConnection,
       resolve: (user) => getUserSessions(user)
     })
-  })
+  }),
+  interfaces: [refs.nodeInterface]
 })

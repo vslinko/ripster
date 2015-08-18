@@ -15,6 +15,7 @@ export {
 } from 'access-rule'
 
 export {default as wrapField} from './wrapField'
+export {default as wrapConnectionField} from './wrapConnectionField'
 
 export default byObject(
   byGraphQLType(accessToTypeSchema),

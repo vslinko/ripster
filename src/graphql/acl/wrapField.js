@@ -6,7 +6,7 @@ const knownOperations = [OP_CREATE, OP_READ, OP_UPDATE, OP_DELETE]
 const functionOperations = [OP_UPDATE, OP_DELETE]
 
 export default function wrapField(operation, field) {
-  let context
+  let currentInfo
 
   if (knownOperations.indexOf(operation) < 0) {
     throw new Error(`Unknown operation "${operation}"`)
@@ -22,17 +22,17 @@ export default function wrapField(operation, field) {
   }
 
   const checkReadAccess = (object) => {
-    return acl(object, context.user, OP_READ)
+    return acl(object, currentInfo.rootValue.user, OP_READ)
   }
 
   const checkAccess = (object) => {
-    return acl(object, context.user, operation)
+    return acl(object, currentInfo.rootValue.user, operation)
   }
 
   const assertAccess = async (object) => {
     if (!await checkAccess(object)) {
-      const userText = context.user
-        ? `User "${context.user.properties.email}"`
+      const userText = currentInfo.rootValue.user
+        ? `User "${currentInfo.rootValue.user.properties.email}"`
         : 'Anonymous user'
 
       const operationText = `operation "${operation}"`
@@ -53,12 +53,12 @@ export default function wrapField(operation, field) {
     ? field(assertAccess)
     : field
 
-  const wrappedResolve = async (root, args, ctx, ...other) => {
-    context = ctx
+  const wrappedResolve = async (root, args, info) => {
+    currentInfo = info
 
     await assertAccess(type)
 
-    const result = await resolve(root, args, context, ...other)
+    const result = await resolve(root, args, info)
 
     if (Array.isArray(result)) {
       const checks = await* result

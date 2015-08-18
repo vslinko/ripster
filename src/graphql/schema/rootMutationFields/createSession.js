@@ -26,7 +26,7 @@ export default refs => wrapField(OP_CREATE, {
     email: {type: GraphQLString},
     password: {type: GraphQLString}
   },
-  resolve: async (root, {email, password}, context) => {
+  resolve: async (root, {email, password}, info) => {
     const user = await getUserByEmail(email)
 
     if (!user) {
@@ -44,7 +44,7 @@ export default refs => wrapField(OP_CREATE, {
       throw new Error('Invalid credentials')
     }
 
-    context.user = user
+    info.rootValue.user = user
 
     return await createSessionForUser(user)
   }
