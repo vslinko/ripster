@@ -1,5 +1,3 @@
-import React, {PropTypes} from 'react'
-import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 
 import {
@@ -8,24 +6,11 @@ import {
 
 import LocaleButtons from './LocaleButtons'
 
-@connect(state => ({
-  currentLocale: state.locale.locale
-}))
-export default class LocaleButtonsContainer {
-  static propTypes = {
-    dispatch: PropTypes.func.isRequired
+export default connect(
+  state => ({
+    currentLocale: state.locale.locale
+  }),
+  {
+    onLocale: loadLocale
   }
-
-  render() {
-    const {dispatch, ...slice} = this.props
-
-    return (
-      <LocaleButtons
-        {...slice}
-        {...bindActionCreators({
-          onLocale: loadLocale
-        }, dispatch)}
-      />
-    )
-  }
-}
+)(LocaleButtons)
