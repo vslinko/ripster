@@ -15,6 +15,10 @@ export function component(componentName) {
   return component
 }
 
+export function chain(...selectors) {
+  return selectors.join(' ')
+}
+
 export function byComponent(name) {
   return '[data-test-component="' + name + '"]'
 }
