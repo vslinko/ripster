@@ -24,7 +24,7 @@ passport.use(new BearerStrategy(
 const app = express()
 
 app.disable('x-powered-by')
-app.use(morgan('combined'))
+app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'))
 app.use(bodyParser.text())
 app.use(passport.authenticate(['bearer', 'anonymous'], {
   session: false

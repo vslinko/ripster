@@ -1,7 +1,6 @@
 # Variables
 
 LOCALES = en ifeq
-DUMP_FEATURES ?= true
 BROWSER ?= chrome
 BROWSER_ENGINE ?= jsdom
 CUCUMBER_FORMAT ?= pretty
@@ -70,10 +69,6 @@ selenium: $(SELENIUM_CACHE_DIR)
 	$(SELENIUM_STANDALONE) start
 
 acceptance_test: $(CUCUMBER_DIST_JS_FILES)
-ifdef DUMP_FEATURES
-	./bin/dump_features
-endif
-	./bin/load_fixtures
 ifeq ($(BROWSER_ENGINE), selenium)
 	BROWSER=$(BROWSER) BROWSER_ENGINE=$(BROWSER_ENGINE) \
 		./node_modules/.bin/cucumber-js --format $(CUCUMBER_FORMAT) features-dist

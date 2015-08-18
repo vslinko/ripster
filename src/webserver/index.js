@@ -21,7 +21,7 @@ import {AppContainer} from '../shared/components/App'
 const app = express()
 
 app.disable('x-powered-by')
-app.use(morgan('combined'))
+app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'))
 app.use(cookieParser())
 
 if (process.env.PUBLIC_DIR) {
