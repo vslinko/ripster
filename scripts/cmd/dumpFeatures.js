@@ -20,7 +20,7 @@ const {argv} = yargs
 const {
   outputDir,
   defaultLanguage,
-  tag,
+  tag
 } = argv
 
 const removeFiles = R.map(unlinkAsync)
