@@ -1,7 +1,7 @@
 export function graphqlQuery(body) {
   return async (dispatch, getState) => {
     const headers = {
-      'Content-Type': 'text/plain'
+      'Content-Type': 'application/graphql'
     }
 
     const token = getState().token
@@ -10,7 +10,7 @@ export function graphqlQuery(body) {
       headers['Authorization'] = `Bearer ${token}`
     }
 
-    const url = process.env.GRAPHQL_URL || '/_graphql'
+    const url = process.env.GRAPHQL_URL || '/graphql'
 
     const response = await fetch(url, {
       method: 'POST',

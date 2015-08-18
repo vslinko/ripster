@@ -31,7 +31,7 @@ if (process.env.PUBLIC_DIR) {
 }
 
 if (process.env.GRAPHQL_URL) {
-  app.use('/_graphql', proxy(process.env.GRAPHQL_URL))
+  app.use('/graphql', proxy(process.env.GRAPHQL_URL))
 }
 
 function getLocale(req) {

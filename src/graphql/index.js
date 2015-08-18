@@ -1,11 +1,10 @@
 import express from 'express'
 import morgan from 'morgan'
-import bodyParser from 'body-parser'
 import passport from 'passport'
 import BearerStrategy from 'passport-http-bearer'
 import AnonymousStrategy from 'passport-anonymous'
+import graphqlHTTP from 'express-graphql'
 
-import {graphql} from 'graphql'
 import schema from './schema'
 
 import getUserByToken from './queries/user/getUserByToken'
@@ -25,17 +24,15 @@ const app = express()
 
 app.disable('x-powered-by')
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'))
-app.use(bodyParser.text())
 app.use(passport.authenticate(['bearer', 'anonymous'], {
   session: false
 }))
 
-app.post('/', async (req, res) => {
-  const {body, user} = req
-  const result = await graphql(schema, body, {user})
-
-  res.set('Access-Control-Allow-Origin', '*')
-  res.send(result)
-})
+app.use(graphqlHTTP(request => ({
+  schema,
+  rootValue: {
+    user: request.user
+  }
+})))
 
 export default app
