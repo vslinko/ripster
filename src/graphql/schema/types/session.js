@@ -1,7 +1,7 @@
 import {GraphQLObjectType, GraphQLString} from 'graphql'
 import getSessionOwner from '../../queries/session/getSessionOwner'
 import {idField, prop} from '../../utils'
-import {wrapField, OP_READ} from '../../acl'
+import {wrapField} from '../../acl'
 
 export default refs => new GraphQLObjectType({
   name: 'Session',
@@ -11,7 +11,7 @@ export default refs => new GraphQLObjectType({
       type: GraphQLString,
       resolve: prop('sid')
     },
-    user: wrapField(OP_READ, {
+    user: wrapField({
       type: refs.user,
       resolve: (session) => getSessionOwner(session)
     })

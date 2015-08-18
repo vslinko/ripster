@@ -1,62 +1,44 @@
 /* eslint-disable max-params */
 
-import acl, {OP_CREATE, OP_READ, OP_UPDATE, OP_DELETE} from '.'
+import acl, {OP_READ} from '.'
 
-const knownOperations = [OP_CREATE, OP_READ, OP_UPDATE, OP_DELETE]
-const functionOperations = [OP_UPDATE, OP_DELETE]
-
-export default function wrapField(operation, field) {
+export default function wrapField(field) {
   let currentInfo
 
-  if (knownOperations.indexOf(operation) < 0) {
-    throw new Error(`Unknown operation "${operation}"`)
-  }
-
-  const fieldIsFunction = typeof field === 'function'
-  const fieldMustBeFunction = functionOperations.indexOf(operation) >= 0
-
-  if (fieldMustBeFunction && !fieldIsFunction) {
-    throw new Error(
-      `You must assert access to object before operation "${operation}"`
-    )
-  }
-
-  const checkReadAccess = (object) => {
-    return acl(object, currentInfo.rootValue.user, OP_READ)
-  }
-
-  const checkAccess = (object) => {
+  const checkAccess = (object, operation) => {
     return acl(object, currentInfo.rootValue.user, operation)
   }
 
-  const assertAccess = async (object) => {
-    if (!await checkAccess(object)) {
-      const userText = currentInfo.rootValue.user
-        ? `User "${currentInfo.rootValue.user.properties.email}"`
-        : 'Anonymous user'
-
-      const operationText = `operation "${operation}"`
-
-      /* eslint-disable no-underscore-dangle */
-      const objectText = object.name
-        ? `type ${object.name}`
-        : `object (:${object.labels.join(':')}) with id "${object._id}"`
-      /* eslint-enable no-underscore-dangle */
-
-      const text = `${userText} can not make ${operationText} on ${objectText}`
-
-      throw new Error(`Forbidden: ${text}`)
+  const assertAccess = async (object, operation) => {
+    if (await checkAccess(object, operation)) {
+      return
     }
+
+    const userText = currentInfo.rootValue.user
+      ? `User "${currentInfo.rootValue.user.properties.email}"`
+      : 'Anonymous user'
+
+    const operationText = `operation "${operation}"`
+
+    /* eslint-disable no-underscore-dangle */
+    const objectText = object.name
+      ? `type ${object.name}`
+      : `object (:${object.labels.join(':')}) with id "${object._id}"`
+    /* eslint-enable no-underscore-dangle */
+
+    const text = `${userText} can not make ${operationText} on ${objectText}`
+
+    throw new Error(`Forbidden: ${text}`)
   }
 
-  const {type, resolve, ...other} = fieldIsFunction
+  const {type, resolve, ...other} = typeof field === 'function'
     ? field(assertAccess)
     : field
 
   const wrappedResolve = async (root, args, info) => {
     currentInfo = info
 
-    await assertAccess(type)
+    await assertAccess(type, OP_READ)
 
     const result = await resolve(root, args, info)
 
@@ -64,14 +46,14 @@ export default function wrapField(operation, field) {
       const checks = await* result
         .map(async (object) => ({
           object,
-          access: await checkReadAccess(object)
+          access: await checkAccess(object, OP_READ)
         }))
 
       return checks
         .filter(({access}) => access)
         .map(({object}) => object)
 
-    } else if (result && !await checkReadAccess(result)) {
+    } else if (result && !await checkAccess(result, OP_READ)) {
       return
     }
 

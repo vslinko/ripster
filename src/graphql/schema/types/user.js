@@ -1,7 +1,7 @@
 import {GraphQLObjectType, GraphQLString} from 'graphql'
 import getUserSessions from '../../queries/user/getUserSessions'
 import {idField, prop} from '../../utils'
-import {wrapConnectionField, OP_READ} from '../../acl'
+import {wrapConnectionField} from '../../acl'
 
 export default refs => new GraphQLObjectType({
   name: 'User',
@@ -15,7 +15,7 @@ export default refs => new GraphQLObjectType({
       type: GraphQLString,
       resolve: prop('email')
     },
-    sessions: wrapConnectionField(OP_READ, {
+    sessions: wrapConnectionField({
       type: refs.sessionConnection,
       resolve: (user) => getUserSessions(user)
     })

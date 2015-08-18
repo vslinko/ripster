@@ -37,7 +37,7 @@
     "express-graphql": "^0.3.0",
     "express-http-proxy": "^0.6.0",
     "graphql": "^0.4.2",
-    "graphql-relay": "^0.3.0",
+    "graphql-relay": "^0.3.1",
     "history": "^1.4.0",
     "intl": "^1.0.0",
     "jed": "^1.1.0",
