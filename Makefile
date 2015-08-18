@@ -1,8 +1,6 @@
 # Variables
 
 LOCALES = en ifeq
-BROWSER ?= chrome
-BROWSER_ENGINE ?= jsdom
 CUCUMBER_FORMAT ?= pretty
 
 # Executables
@@ -69,13 +67,7 @@ selenium: $(SELENIUM_CACHE_DIR)
 	$(SELENIUM_STANDALONE) start
 
 acceptance_test: $(CUCUMBER_DIST_JS_FILES)
-ifeq ($(BROWSER_ENGINE), selenium)
-	BROWSER=$(BROWSER) BROWSER_ENGINE=$(BROWSER_ENGINE) \
-		./node_modules/.bin/cucumber-js --format $(CUCUMBER_FORMAT) features-dist
-else
-	BROWSER_ENGINE=$(BROWSER_ENGINE) \
-		./node_modules/.bin/cucumber-js --format $(CUCUMBER_FORMAT) features-dist
-endif
+	./node_modules/.bin/cucumber-js --format $(CUCUMBER_FORMAT) features-dist
 
 .PHONY: all clean start lint hooks selenium acceptance_test
 

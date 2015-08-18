@@ -1,6 +1,20 @@
 machine:
   pre:
     - sudo sed -i "s/dbms.security.auth_enabled=true/dbms.security.auth_enabled=false/g" /etc/neo4j/neo4j-server.properties
+    - sudo sed -i "s/#wrapper.java.initmemory=512/wrapper.java.initmemory=2048/g" /etc/neo4j/neo4j-wrapper.conf
+    - sudo sed -i "s/#wrapper.java.maxmemory=512/wrapper.java.maxmemory=2048/g" /etc/neo4j/neo4j-wrapper.conf
+    - sudo service couchdb stop
+    - sudo service memcached stop
+    - sudo service mongodb stop
+    - sudo service mysql stop
+    - sudo service postgresql stop
+    - sudo service rabbitmq-server stop
+    - sudo service redis-server stop
+    - sudo service zookeeper stop
+  environment:
+    NODE_ENV: test
+    npm_config_tarball: "https://iojs.org/dist/v1.3.0/iojs-v1.3.0.tar.gz"
+  timezone: Europe/Moscow
   node:
     version: iojs-v1.3.0
   services:
@@ -11,18 +25,22 @@ dependencies:
     - ./node_modules/.bin/selenium-standalone install
 
 test:
-  override:
+  pre:
+    - mkdir -p $CIRCLE_TEST_REPORTS/cucumber
     - make selenium: {background: true}
     - make start: {background: true}
-    - make lint
+    - ./bin/dump_features
     - sleep 5
-    - DUMP_FEATURES=true BROWSER=firefox BROWSER_ENGINE=selenium CUCUMBER_FORMAT=pretty make acceptance_test
-    - DUMP_FEATURES= BROWSER=chrome BROWSER_ENGINE=selenium CUCUMBER_FORMAT=pretty make acceptance_test
-    - DUMP_FEATURES= BROWSER_ENGINE=jsdom CUCUMBER_FORMAT=json make acceptance_test -s > $CIRCLE_TEST_REPORTS/cucumber.json
+  override:
+    - make lint
+    - CUCUMBER_FORMAT=json make acceptance_test -s > $CIRCLE_TEST_REPORTS/cucumber/tests.cucumber
+  post:
+    - ./bin/dump_step_definitions | tee $CIRCLE_ARTIFACTS/steps.txt
 
 deployment:
   staging:
     branch: master
     commands:
+      - git fetch origin --unshallow
       - git push -f git@heroku.com:ripster.git $CIRCLE_SHA1:refs/heads/master
       - heroku run --app ripster ./bin/load_fixtures
