@@ -47,7 +47,7 @@ export default class SignInForm {
             id="SignInForm-Email"
             placeholder={gettext('Email')}
             value={email}
-            onChange={event => onEmailChange(event.nativeEvent.target.value)}
+            onChange={event => onEmailChange(event.target.value)}
             disabled={disabled}
           />
           {emailError && <span>{emailError}</span>}
@@ -60,7 +60,7 @@ export default class SignInForm {
             id="SignInForm-Password"
             placeholder={gettext('Password')}
             value={password}
-            onChange={event => onPasswordChange(event.nativeEvent.target.value)}
+            onChange={event => onPasswordChange(event.target.value)}
             disabled={disabled}
           />
           {passwordError && <span>{passwordError}</span>}
