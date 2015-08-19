@@ -5,17 +5,13 @@ import {join} from 'path'
 import {main, glob, rootDir} from '../utils'
 import {parseBlocks, parseFeatures, compileGherkin} from 'adsoft-gherkin'
 
-const defaultTag = process.env.CIRCLE_BRANCH && /^#\d+$/.test(process.env.CIRCLE_BRANCH)
-  ? '@issue-' + process.env.CIRCLE_BRANCH.slice(1)
-  : '@stage5'
-
 const {argv} = yargs
   .string(['o', 'l', 't'])
   .alias('o', 'output-dir')
   .default('o', 'features-dist')
   .alias('l', 'default-language')
   .alias('t', 'tag')
-  .default('t', defaultTag)
+  .default('t', '@stage5')
 
 const {
   outputDir,
