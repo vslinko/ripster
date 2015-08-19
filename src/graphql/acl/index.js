@@ -33,11 +33,11 @@ export default byType({
 
   Node: allow,
 
-  User: complex(allow, {
-    [OP_CREATE]: allow,
-    [OP_READ]: allow,
-    [OP_UPDATE]: someRule(admin, self),
-    [OP_DELETE]: deny
+  User: complex(allow, {                // UserACL(User, OP_READ | OP_UPDATE | OP_DELETE)
+    [OP_CREATE]: allow,                 // UserACL(User, OP_CREATE) | UserACL(user, OP_CREATE)
+    [OP_READ]: allow,                   // UserACL(user, OP_READ)
+    [OP_UPDATE]: someRule(admin, self), // UserACL(user, OP_UPDATE)
+    [OP_DELETE]: deny                   // UserACL(user, OP_DELETE)
   }),
 
   Session: complex(allow, {
