@@ -1,3 +1,5 @@
+import cookie from 'cookie'
+
 import {
   LOCALE,
   LOCALE_DATA,
@@ -41,12 +43,6 @@ function loadEnglish(cb) {
   })
 }
 
-export function loadCurrentLocale() {
-  return (dispatch, getState) => {
-    return dispatch(loadLocale(getState().locale.locale))
-  }
-}
-
 export function loadLocale(locale) {
   return dispatch => {
     return new Promise(resolve => {
@@ -67,5 +63,15 @@ export function loadLocale(locale) {
         resolve()
       })
     })
+  }
+}
+
+export function loadCurrentLocale() {
+  return (dispatch) => {
+    const cookies = cookie.parse(document.cookie)
+    const locale = cookies.locale || 'en'
+
+    dispatch(setLocale(locale))
+    dispatch(loadLocale(locale))
   }
 }

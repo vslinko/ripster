@@ -11,17 +11,15 @@ import {AppContainer} from '../shared/components/App'
 
 import {loadCurrentLocale} from '../shared/flux/locale/localeActions'
 import {readToken} from '../shared/flux/token/tokenActions'
-import {stretchData} from '../shared/flux/app/appActions'
 
 async function initApp() {
   try {
     const history = createHistory()
-    const store = createStore(history, window.state)
+    const store = createStore(history)
 
     await* [
       store.dispatch(loadCurrentLocale()),
-      store.dispatch(readToken()),
-      store.dispatch(stretchData())
+      store.dispatch(readToken())
     ]
 
     const router = createRouter(history, store)

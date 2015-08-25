@@ -5,5 +5,13 @@ import * as fields from './rootQueryFields'
 
 export default refs => new GraphQLObjectType({
   name: 'RootQuery',
-  fields: () => attachFields(refs, fields)
+  fields: () => ({
+    viewer: {
+      type: new GraphQLObjectType({
+        name: 'Viewer',
+        fields: () => attachFields(refs, fields)
+      }),
+      resolve: (root) => root
+    }
+  })
 })

@@ -1,4 +1,4 @@
-export default function template(title, content, state) {
+export default function template() {
   return `
 <!DOCTYPE html>
 <html>
@@ -6,14 +6,11 @@ export default function template(title, content, state) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>${title}</title>
+    <title></title>
     <link rel="stylesheet" href="/frontend.css" />
   </head>
   <body>
-    <div id="app">${content}</div>
-    <script>
-      window.state = ${JSON.stringify(state)}
-    </script>
+    <div id="app"></div>
     <script src="/frontend.js" async></script>
   </body>
 </html>

@@ -1,2 +1,0 @@
-export const APP_SHRINK_DATA = 'APP_SHRINK_DATA'
-export const APP_STRETCH_DATA = 'APP_STRETCH_DATA'

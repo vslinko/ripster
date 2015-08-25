@@ -9,7 +9,7 @@ export default {
       {
         test: /\.js$/,
         include: [config.src],
-        loaders: ['babel']
+        loaders: ['babel?plugins=./build/babelRelayPlugin']
       },
       {
         test: /\.json$/,

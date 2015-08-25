@@ -1,16 +1,12 @@
-import {graphqlQuery} from '../graphql/graphqlActions'
 import {setToken} from '../token/tokenActions'
+import applyMutation from '../../utils/applyMutation'
+
+import CreateSessionMutation from '../../relay/mutations/CreateSessionMutation'
 
 export function authorize(email, password) {
   return async (dispatch) => {
-    const result = await dispatch(graphqlQuery(`
-      mutation CreateSession {
-        createSession(email: "${email}", password: "${password}") {
-          sid
-        }
-      }
-    `))
+    const result = await applyMutation(new CreateSessionMutation({email, password}))
 
-    dispatch(setToken(result.createSession.sid))
+    dispatch(setToken(result.createSession.session.sid))
   }
 }
