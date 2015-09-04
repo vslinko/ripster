@@ -28,7 +28,7 @@ async function initApp() {
 
     render(
       <Provider store={store}>
-        {() => <AppContainer />}
+        <AppContainer />
       </Provider>,
       document.getElementById('app')
     )
