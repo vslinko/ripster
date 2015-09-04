@@ -1,7 +1,7 @@
 import Relay from 'react-relay'
 
-export default class UsersRoute extends Relay.Route {
-  static routeName = 'UsersRoute'
+export default class ViewerRoute extends Relay.Route {
+  static routeName = 'ViewerRoute'
 
   static queries = {
     users: Component => Relay.QL`
