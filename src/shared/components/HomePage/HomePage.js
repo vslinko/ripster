@@ -28,6 +28,8 @@ export default class HomePage {
           <div>{'date: ' + formatDate(new Date(1438101264 * 1000))}</div>
           <div>{'currency: ' + formatCurrency(100000000.999999, 'USD')}</div>
         </div>
+
+        {this.props.users}
       </div>
     )
   }

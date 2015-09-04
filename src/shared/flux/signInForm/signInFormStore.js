@@ -2,11 +2,6 @@ import createStore from '../../utils/createStore'
 import signInFormValidator from './signInFormValidator'
 
 import {
-  APP_SHRINK_DATA,
-  APP_STRETCH_DATA
-} from '../app/appConstants'
-
-import {
   SIGN_IN_FORM_EMAIL_CHANGE,
   SIGN_IN_FORM_PASSWORD_CHANGE,
   SIGN_IN_FORM_VALIDATION_MESSAGES_VISIBLE,
@@ -77,14 +72,5 @@ export default createStore(initialState, {
   [SIGN_IN_FORM_VALIDATION_MESSAGES_VISIBLE]: validationMessagesVisible,
   [SIGN_IN_FORM_ERROR]: error,
   [SIGN_IN_FORM_DISABLED]: disabled,
-  [SIGN_IN_FORM_RESET]: () => initialState,
-
-  [APP_SHRINK_DATA]: (state) => ({
-    ...state,
-    validation: undefined
-  }),
-  [APP_STRETCH_DATA]: (state) => ({
-    ...state,
-    validation: signInFormValidator(state.form)
-  })
+  [SIGN_IN_FORM_RESET]: () => initialState
 })

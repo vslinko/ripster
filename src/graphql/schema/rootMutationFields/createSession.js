@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs'
 import {GraphQLString} from 'graphql'
+import {mutationWithClientMutationId} from 'graphql-relay'
 import getUserByEmail from '../../queries/user/getUserByEmail'
 import createSessionForUser from '../../queries/session/createSessionForUser'
 import {wrapField, OP_CREATE} from '../../acl'
@@ -20,13 +21,21 @@ function timeout() {
   return new Promise(resolve => setTimeout(resolve, 500))
 }
 
-export default refs => wrapField(OP_CREATE, {
-  type: refs.session,
-  args: {
+export default refs => wrapField(assertAccess => mutationWithClientMutationId({
+  name: 'CreateSession',
+  inputFields: {
     email: {type: GraphQLString},
     password: {type: GraphQLString}
   },
-  resolve: async (root, {email, password}, context) => {
+  outputFields: {
+    session: wrapField({
+      type: refs.session,
+      resolve: session => session
+    })
+  },
+  mutateAndGetPayload: async ({email, password}, info) => {
+    await assertAccess(refs.session, OP_CREATE)
+
     const user = await getUserByEmail(email)
 
     if (!user) {
@@ -44,8 +53,8 @@ export default refs => wrapField(OP_CREATE, {
       throw new Error('Invalid credentials')
     }
 
-    context.user = user
+    info.rootValue.user = user
 
     return await createSessionForUser(user)
   }
-})
+}))

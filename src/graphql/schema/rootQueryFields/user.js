@@ -1,8 +1,8 @@
 import {GraphQLID} from 'graphql'
 import getUserByUUID from '../../queries/user/getUserByUUID'
-import {wrapField, OP_READ} from '../../acl'
+import {wrapField} from '../../acl'
 
-export default refs => wrapField(OP_READ, {
+export default refs => wrapField({
   type: refs.user,
   args: {
     uuid: {type: GraphQLID}
