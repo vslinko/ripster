@@ -2,15 +2,15 @@ import React from 'react';
 import {render} from 'react-dom';
 
 import {createHistory} from 'history';
-import createStore from '../shared/createStore';
-import createRouter from '../shared/createRouter';
+import createStore from './createStore';
+import createRouter from './createRouter';
 
 import {Provider} from 'react-redux';
 
-import {AppContainer} from '../shared/components/App';
+import {AppContainer} from './components/App';
 
-import {loadCurrentLocale} from '../shared/flux/locale/localeActions';
-import {readToken} from '../shared/flux/token/tokenActions';
+import {loadCurrentLocale} from './flux/locale/localeActions';
+import {readToken} from './flux/token/tokenActions';
 
 async function initApp() {
   try {
