@@ -1,11 +1,11 @@
-import {globalIdField} from 'graphql-relay'
+import {globalIdField} from 'graphql-relay';
 
 export function idField(type) {
-  return globalIdField(type, object => object._id) // eslint-disable-line no-underscore-dangle
+  return globalIdField(type, object => object._id);
 }
 
 export function prop(key) {
-  return object => object.properties[key]
+  return object => object.properties[key];
 }
 
 export function attachFields(refs, fields) {
@@ -13,5 +13,5 @@ export function attachFields(refs, fields) {
     .reduce((acc, key) => (
       acc[key] = fields[key](refs),
       acc
-    ), {})
+    ), {});
 }

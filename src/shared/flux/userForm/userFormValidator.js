@@ -1,4 +1,4 @@
-import {constraints} from 'strulidator'
+import {constraints} from 'strulidator';
 
 const {
   createObjectConstraint,
@@ -6,14 +6,14 @@ const {
   notNull,
   notEmpty,
   string,
-  email
-} = constraints
+  email,
+} = constraints;
 
 export default createObjectConstraint({
   email: combineConstraints({
     notNull,
     notEmpty,
     string,
-    email
-  })
-})
+    email,
+  }),
+});

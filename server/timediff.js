@@ -1,28 +1,28 @@
 /* eslint-disable no-var */
 
-var timers = {}
+var timers = {};
 
 function timediff(type) {
-  var diffString
-  var date = new Date()
+  var diffString;
+  var date = new Date();
 
   var diff = timers[type]
     ? date - timers[type]
-    : 0
+    : 0;
 
   if (diff >= 1000 * 60 * 60) {
-    diffString = String(Math.floor(diff / 1000 / 60 / 60)) + 'h'
+    diffString = String(Math.floor(diff / 1000 / 60 / 60)) + 'h';
   } else if (diff >= 1000 * 60) {
-    diffString = String(Math.floor(diff / 1000 / 60)) + 'm'
+    diffString = String(Math.floor(diff / 1000 / 60)) + 'm';
   } else if (diff >= 1000) {
-    diffString = String(Math.floor(diff / 1000)) + 's'
+    diffString = String(Math.floor(diff / 1000)) + 's';
   } else {
-    diffString = String(diff) + 'ms'
+    diffString = String(diff) + 'ms';
   }
 
-  timers[type] = date
+  timers[type] = date;
 
-  return '+' + diffString
+  return '+' + diffString;
 }
 
-module.exports = timediff
+module.exports = timediff;

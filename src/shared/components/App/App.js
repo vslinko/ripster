@@ -1,10 +1,10 @@
-import React, {PropTypes} from 'react'
-import testDecorator from '../../utils/testDecorator'
+import React, {PropTypes} from 'react';
+import testDecorator from '../../utils/testDecorator';
 
 @testDecorator()
 export default class App {
   static propTypes = {
-    children: PropTypes.node
+    children: PropTypes.node,
   }
 
   render() {
@@ -12,6 +12,6 @@ export default class App {
       <div>
         {this.props.children}
       </div>
-    )
+    );
   }
 }

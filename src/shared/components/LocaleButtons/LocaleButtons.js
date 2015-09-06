@@ -1,18 +1,18 @@
-import React, {PropTypes} from 'react'
-import testDecorator from '../../utils/testDecorator'
+import React, {PropTypes} from 'react';
+import testDecorator from '../../utils/testDecorator';
 
 @testDecorator()
 export default class LocaleButtons {
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
-    onLocale: PropTypes.func.isRequired
+    onLocale: PropTypes.func.isRequired,
   }
 
   render() {
     const {
       currentLocale,
-      onLocale
-    } = this.props
+      onLocale,
+    } = this.props;
 
     return (
       <div>
@@ -30,6 +30,6 @@ export default class LocaleButtons {
           English
         </button>
       </div>
-    )
+    );
   }
 }

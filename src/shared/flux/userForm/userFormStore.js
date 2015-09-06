@@ -1,37 +1,37 @@
-import createStore from '../../utils/createStore'
-import userFormValidator from './userFormValidator'
+import createStore from '../../utils/createStore';
+import userFormValidator from './userFormValidator';
 
 import {
   USER_FORM_EMAIL_CHANGE,
   USER_FORM_VALIDATION_MESSAGES_VISIBLE,
   USER_FORM_ERROR,
   USER_FORM_DISABLED,
-  USER_FORM_INIT
-} from './userFormConstants'
+  USER_FORM_INIT,
+} from './userFormConstants';
 
-const initialState = {}
+const initialState = {};
 
 function mergeForm(state, id, changes) {
   const form = {
     ...state[id].form,
-    ...changes
-  }
-  const validation = userFormValidator(form)
+    ...changes,
+  };
+  const validation = userFormValidator(form);
 
   return {
     ...state,
     [id]: {
       ...state[id],
       form,
-      validation
-    }
-  }
+      validation,
+    },
+  };
 }
 
-function init(state, {id, email}) {
+function initHandler(state, {id, email}) {
   const initialForm = {
-    email
-  }
+    email,
+  };
 
   const initialFormState = {
     form: initialForm,
@@ -39,53 +39,53 @@ function init(state, {id, email}) {
     validationMessagesVisible: false,
     validation: userFormValidator(initialForm),
     error: undefined,
-    disabled: false
-  }
+    disabled: false,
+  };
 
   return {
     ...state,
-    [id]: initialFormState
-  }
+    [id]: initialFormState,
+  };
 }
 
-function email(state, {id, email}) {
-  return mergeForm(state, id, {email})
+function emailHandler(state, {id, email}) {
+  return mergeForm(state, id, {email});
 }
 
-function validationMessagesVisible(state, {id, visible}) {
-  return {
-    ...state,
-    [id]: {
-      ...state[id],
-      validationMessagesVisible: visible
-    }
-  }
-}
-
-function error(state, {id, error}) {
+function validationMessagesVisibleHandler(state, {id, visible}) {
   return {
     ...state,
     [id]: {
       ...state[id],
-      error: error && error.message ? error.message : error
-    }
-  }
+      validationMessagesVisible: visible,
+    },
+  };
 }
 
-function disabled(state, {id, disabled}) {
+function errorHandler(state, {id, error}) {
   return {
     ...state,
     [id]: {
       ...state[id],
-      disabled
-    }
-  }
+      error: error && error.message ? error.message : error,
+    },
+  };
+}
+
+function disabledHandler(state, {id, disabled}) {
+  return {
+    ...state,
+    [id]: {
+      ...state[id],
+      disabled,
+    },
+  };
 }
 
 export default createStore(initialState, {
-  [USER_FORM_INIT]: init,
-  [USER_FORM_EMAIL_CHANGE]: email,
-  [USER_FORM_VALIDATION_MESSAGES_VISIBLE]: validationMessagesVisible,
-  [USER_FORM_ERROR]: error,
-  [USER_FORM_DISABLED]: disabled
-})
+  [USER_FORM_INIT]: initHandler,
+  [USER_FORM_EMAIL_CHANGE]: emailHandler,
+  [USER_FORM_VALIDATION_MESSAGES_VISIBLE]: validationMessagesVisibleHandler,
+  [USER_FORM_ERROR]: errorHandler,
+  [USER_FORM_DISABLED]: disabledHandler,
+});

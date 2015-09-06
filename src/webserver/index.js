@@ -1,41 +1,41 @@
-import express from 'express'
-import morgan from 'morgan'
-import proxy from 'express-http-proxy'
-import cookieParser from 'cookie-parser'
-import cookie from 'cookie'
+import express from 'express';
+import morgan from 'morgan';
+import proxy from 'express-http-proxy';
+import cookieParser from 'cookie-parser';
+import cookie from 'cookie';
 
-import template from './template'
+import template from './template';
 
-const app = express()
+const app = express();
 
-app.disable('x-powered-by')
-app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'))
-app.use(cookieParser())
+app.disable('x-powered-by');
+app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
+app.use(cookieParser());
 
 if (process.env.PUBLIC_DIR) {
   app.use(express.static(process.env.PUBLIC_DIR, {
-    index: false
-  }))
+    index: false,
+  }));
 }
 
 if (process.env.GRAPHQL_URL) {
   app.use('/graphql', proxy(process.env.GRAPHQL_URL, {
     decorateRequest(req) {
       if (req.headers.cookie) {
-        const token = cookie.parse(req.headers.cookie).token
+        const token = cookie.parse(req.headers.cookie).token;
 
         if (token) {
-          req.headers.Authorization = `Bearer ${token}`
+          req.headers.Authorization = `Bearer ${token}`;
         }
       }
 
-      return req
-    }
-  }))
+      return req;
+    },
+  }));
 }
 
 app.get('*', async (req, res) => {
-  res.send(template())
-})
+  res.send(template());
+});
 
-export default app
+export default app;

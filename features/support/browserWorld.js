@@ -1,17 +1,17 @@
-import jsdom from 'jsdom'
+import jsdom from 'jsdom';
 
-let cookieJar
-let currentWindow
-let cache
+let cookieJar;
+let currentWindow;
+let cache;
 
-const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-const waitForTimeout = Number(process.env.WAIT_FOR_TIMEOUT || '1000')
+const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
+const waitForTimeout = Number(process.env.WAIT_FOR_TIMEOUT || '1000');
 
 function openUrl(world, url) {
-  world.url = url
+  world.url = url;
 
   if (world.sessionId) {
-    cookieJar.setCookieSync(`token=${world.sessionId}`, baseUrl)
+    cookieJar.setCookieSync(`token=${world.sessionId}`, baseUrl);
   }
 
   return new Promise((resolve, reject) => {
@@ -20,94 +20,94 @@ function openUrl(world, url) {
       cookieJar,
       virtualConsole: jsdom.createVirtualConsole().sendTo(console),
       headers: {
-        'Accept-Language': world.systemLanguage || 'ru'
+        'Accept-Language': world.systemLanguage || 'ru',
       },
       features: {
         FetchExternalResources: ['script', 'css'],
-        ProcessExternalResources: ['script']
+        ProcessExternalResources: ['script'],
       },
       resourceLoader: (resource, callback) => {
         if (cache[resource.url.href]) {
-          return callback(undefined, cache[resource.url.href])
+          return callback(undefined, cache[resource.url.href]);
         }
 
         resource.defaultFetch((err, result) => {
           if (err) {
-            return callback(err)
+            return callback(err);
           }
 
-          cache[resource.url.href] = result
-          callback(undefined, result)
-        })
+          cache[resource.url.href] = result;
+          callback(undefined, result);
+        });
       },
       done: (err, window) => {
-        currentWindow = window
+        currentWindow = window;
 
         if (err) {
-          reject(err[0])
+          reject(err[0]);
         } else {
-          resolve()
+          resolve();
         }
-      }
-    })
-  })
+      },
+    });
+  });
 }
 
 function assertEventually(test, errorMessage) {
   return new Promise((resolve, reject) => {
-    let timeout
-    let interval
+    let timeout;
+    let interval;
 
     timeout = setTimeout(() => {
-      clearInterval(interval)
-      reject(new Error(errorMessage()))
-    }, waitForTimeout)
+      clearInterval(interval);
+      reject(new Error(errorMessage()));
+    }, waitForTimeout);
 
     interval = setInterval(() => {
       if (test()) {
-        clearTimeout(timeout)
-        resolve()
+        clearTimeout(timeout);
+        resolve();
       }
-    }, 50)
-  })
+    }, 50);
+  });
 }
 
 function assertEventuallyExists(world, selector) {
   return assertEventually(
     () => {
-      return currentWindow.document.querySelectorAll(selector).length > 0
+      return currentWindow.document.querySelectorAll(selector).length > 0;
     },
     () => {
       const visible = Array.prototype.slice
         .call(currentWindow.document.querySelectorAll('[data-test-component]'))
         .map(node => node.getAttribute('data-test-component'))
-        .join(', ')
+        .join(', ');
 
-      return `element (${selector}) still not existing after ${waitForTimeout}ms, existing components: ${visible}`
+      return `element (${selector}) still not existing after ${waitForTimeout}ms, existing components: ${visible}`;
     }
-  )
+  );
 }
 
 function click(world, selector) {
-  currentWindow.document.querySelector(selector).click()
+  currentWindow.document.querySelector(selector).click();
 }
 
 function reload(world) {
-  return world.openUrl(world.url)
+  return world.openUrl(world.url);
 }
 
 export function browserWorld({beforeEach}) {
   beforeEach(() => {
-    cookieJar = jsdom.createCookieJar()
-    cache = {}
-  })
+    cookieJar = jsdom.createCookieJar();
+    cache = {};
+  });
 
   return () => {
     return {
       openUrl,
       assertEventuallyExists,
       click,
-      reload
-    }
-  }
+      reload,
+    };
+  };
 }

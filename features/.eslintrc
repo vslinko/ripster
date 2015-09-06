@@ -1,5 +1,5 @@
 {
   "rules": {
-    "babel/new-cap": 0
+    "new-cap": 0
   }
 }

@@ -1,11 +1,11 @@
-import createStore from '../../utils/createStore'
+import createStore from '../../utils/createStore';
 
 import {
-  TOKEN
-} from './tokenConstants'
+  TOKEN,
+} from './tokenConstants';
 
-const initialState = null
+const initialState = null;
 
 export default createStore(initialState, {
-  [TOKEN]: (state, {token}) => token
-})
+  [TOKEN]: (state, {token}) => token,
+});

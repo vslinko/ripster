@@ -14,5 +14,5 @@ export default function template() {
     <script src="/frontend.js" async></script>
   </body>
 </html>
-`
+`;
 }

@@ -1,15 +1,15 @@
-import Relay from 'react-relay'
+import Relay from 'react-relay';
 
 export default class CreateSessionMutation extends Relay.Mutation {
   getMutation() {
-    return Relay.QL`mutation {createSession}`
+    return Relay.QL`mutation {createSession}`;
   }
 
   getVariables() {
     return {
       email: this.props.email,
-      password: this.props.password
-    }
+      password: this.props.password,
+    };
   }
 
   getFatQuery() {
@@ -19,7 +19,7 @@ export default class CreateSessionMutation extends Relay.Mutation {
           sid
         }
       }
-    `
+    `;
   }
 
   getConfigs() {
@@ -32,12 +32,12 @@ export default class CreateSessionMutation extends Relay.Mutation {
               sid
             }
           }
-        `
-      ]
-    }]
+        `,
+      ],
+    }];
   }
 
   getCollisionKey() {
-    return `createSession`
+    return `createSession`;
   }
 }

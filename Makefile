@@ -23,6 +23,7 @@ PUBLIC_DIR = $(SRC_DIR)/public
 PUBLIC_DIST_DIR = $(DIST_DIR)/public
 LOCALE_DIR = $(SRC_DIR)/locale
 SCRIPT_DIR = scripts
+SERVER_DIR = server
 HOOK_DIR = hooks
 HOOK_DIST_DIR = .git/hooks
 CUCUMBER_DIR = features
@@ -59,7 +60,7 @@ start: $(PUBLIC_DIST_FILES)
 	$(NODE) server.js
 
 lint:
-	$(ESLINT) $(BUILD_DIR) $(CUCUMBER_DIR) $(SCRIPT_DIR) $(SRC_DIR) *.js
+	$(ESLINT) $(BUILD_DIR) $(CUCUMBER_DIR) $(SCRIPT_DIR) $(SERVER_DIR) $(SRC_DIR) *.js
 
 hooks: $(HOOK_DIST_FILES)
 

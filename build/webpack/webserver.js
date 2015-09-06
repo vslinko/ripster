@@ -1,8 +1,8 @@
-import {DefinePlugin, ProvidePlugin} from 'webpack'
-import path from 'path'
+import {DefinePlugin, ProvidePlugin} from 'webpack';
+import path from 'path';
 
-import config from '../config'
-import base from './base'
+import config from '../config';
+import base from './base';
 
 export default {
   ...base,
@@ -13,7 +13,7 @@ export default {
   output: {
     path: path.join(config.dist),
     filename: 'webserver.js',
-    publicPath: '/'
+    publicPath: '/',
   },
 
   module: {
@@ -24,25 +24,25 @@ export default {
 
       {
         test: /\.less$/,
-        loaders: ['null']
+        loaders: ['null'],
       },
       {
         test: /\.css$/,
-        loaders: ['null']
-      }
-    ]
+        loaders: ['null'],
+      },
+    ],
   },
 
   plugins: [
     new DefinePlugin({
       '__FRONTEND__': false,
-      '__BACKEND__': true
+      '__BACKEND__': true,
     }),
 
     new ProvidePlugin({
-      'fetch': 'node-fetch'
+      'fetch': 'node-fetch',
     }),
 
-    ...base.plugins
-  ]
-}
+    ...base.plugins,
+  ],
+};

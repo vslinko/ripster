@@ -1,12 +1,12 @@
-import {DefinePlugin, ProvidePlugin, HotModuleReplacementPlugin} from 'webpack'
-import ExtractTextPlugin from 'extract-text-webpack-plugin'
-import path from 'path'
+import {DefinePlugin, ProvidePlugin, HotModuleReplacementPlugin} from 'webpack';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import path from 'path';
 
-import autoprefixer from 'autoprefixer-core'
-import mqpacker from 'css-mqpacker'
+import autoprefixer from 'autoprefixer-core';
+import mqpacker from 'css-mqpacker';
 
-import config from '../config'
-import base from './base'
+import config from '../config';
+import base from './base';
 
 export default {
   ...base,
@@ -16,14 +16,14 @@ export default {
 
     ...(config.hotLoader ? [
       'webpack/hot/dev-server',
-      'webpack-dev-server/client?'
-    ] : [])
+      'webpack-dev-server/client?',
+    ] : []),
   ],
 
   output: {
     path: path.join(config.dist, 'public'),
     filename: 'frontend.js',
-    publicPath: '/'
+    publicPath: '/',
   },
 
   module: {
@@ -41,37 +41,37 @@ export default {
         loader: ExtractTextPlugin.extract(
           'style',
           'css?sourceMap!postcss!less?sourceMap'
-        )
+        ),
       },
       {
         test: /\.css$/,
         loader: ExtractTextPlugin.extract(
           'style',
           'css?sourceMap!postcss'
-        )
-      }
-    ]
+        ),
+      },
+    ],
   },
 
   postcss: () => ([
     autoprefixer,
-    mqpacker
+    mqpacker,
   ]),
 
   plugins: [
     new DefinePlugin({
       '__FRONTEND__': true,
-      '__BACKEND__': false
+      '__BACKEND__': false,
     }),
 
     new ProvidePlugin({
-      'fetch': 'exports?self.fetch!whatwg-fetch'
+      'fetch': 'exports?self.fetch!whatwg-fetch',
     }),
 
     ...base.plugins,
 
     new ExtractTextPlugin('frontend.css'),
 
-    ...(config.hotLoader ? [new HotModuleReplacementPlugin()] : [])
-  ]
-}
+    ...(config.hotLoader ? [new HotModuleReplacementPlugin()] : []),
+  ],
+};

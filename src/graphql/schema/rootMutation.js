@@ -1,9 +1,9 @@
-import {GraphQLObjectType} from 'graphql'
-import {attachFields} from '../utils'
+import {GraphQLObjectType} from 'graphql';
+import {attachFields} from '../utils';
 
-import * as fields from './rootMutationFields'
+import * as fields from './rootMutationFields';
 
 export default refs => new GraphQLObjectType({
   name: 'RootMutation',
-  fields: () => attachFields(refs, fields)
-})
+  fields: () => attachFields(refs, fields),
+});

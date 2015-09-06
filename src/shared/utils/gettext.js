@@ -1,6 +1,5 @@
-import Jed from 'jed'
+import Jed from 'jed';
 
-/* eslint-disable camelcase */
 function prepareMesages({domain, locale_data: {messages}}) {
   return {
     domain,
@@ -11,14 +10,13 @@ function prepareMesages({domain, locale_data: {messages}}) {
             ? messages[key].slice(1)
             : messages[key],
           acc
-        ), {})
-    }
-  }
+        ), {}),
+    },
+  };
 }
-/* eslint-enable camelcase */
 
 export function gettext(messages) {
-  const jed = new Jed(prepareMesages(messages))
+  const jed = new Jed(prepareMesages(messages));
 
-  return (message, ...args) => jed.translate(message).fetch(...args)
+  return (message, ...args) => jed.translate(message).fetch(...args);
 }

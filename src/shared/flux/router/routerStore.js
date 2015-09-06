@@ -1,3 +1,3 @@
-import {routerReducer} from 'redux-vstack-router'
+import {routerReducer} from 'redux-vstack-router';
 
-export default routerReducer
+export default routerReducer;

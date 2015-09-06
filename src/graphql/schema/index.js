@@ -1,45 +1,43 @@
-/* eslint-disable no-use-before-define */
+import {GraphQLSchema} from 'graphql';
+import {nodeDefinitions, connectionDefinitions, fromGlobalId} from 'graphql-relay';
 
-import {GraphQLSchema} from 'graphql'
-import {nodeDefinitions, connectionDefinitions, fromGlobalId} from 'graphql-relay'
+import getObjectById from '../queries/common/getObjectById';
 
-import getObjectById from '../queries/common/getObjectById'
-
-import rootQuery from './rootQuery'
-import rootMutation from './rootMutation'
-import * as types from './types'
+import rootQuery from './rootQuery';
+import rootMutation from './rootMutation';
+import * as types from './types';
 
 const refCreators = {
   rootQuery,
   rootMutation,
-  ...types
-}
+  ...types,
+};
 
 const {nodeInterface, nodeField} = nodeDefinitions(
   (globalId) => {
-    const {id} = fromGlobalId(globalId)
+    const {id} = fromGlobalId(globalId);
 
-    return getObjectById(Number(id))
+    return getObjectById(Number(id));
   },
   (object) => {
-    const label = object.labels[0]
-    const refKey = label[0].toLowerCase() + label.slice(1)
+    const label = object.labels[0];
+    const refKey = label[0].toLowerCase() + label.slice(1);
 
-    return refs[refKey]
+    return refs[refKey]; // eslint-disable-line no-use-before-define
   }
-)
+);
 
 const refs = Object.keys(refCreators)
-  .reduce((refs, key) => (
-    refs[key] = refCreators[key](refs),
-    refs[key + 'Connection'] = connectionDefinitions({
-      name: refs[key].name,
-      nodeType: refs[key]
+  .reduce((acc, key) => (
+    acc[key] = refCreators[key](acc),
+    acc[key + 'Connection'] = connectionDefinitions({
+      name: acc[key].name,
+      nodeType: acc[key],
     }).connectionType,
-    refs
-  ), {nodeInterface, nodeField})
+    acc
+  ), {nodeInterface, nodeField});
 
 export default new GraphQLSchema({
   query: refs.rootQuery,
-  mutation: refs.rootMutation
-})
+  mutation: refs.rootMutation,
+});

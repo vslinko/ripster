@@ -1,21 +1,21 @@
-import uuid from 'node-uuid'
-import bcrypt from 'bcryptjs'
-import {executeQuery, cypher} from '../../db'
+import uuid from 'node-uuid';
+import bcrypt from 'bcryptjs';
+import {executeQuery, cypher} from '../../db';
 
 function hashPassword(password) {
   return new Promise((resolve, reject) => {
     bcrypt.hash(password, 10, (err, hash) => {
       if (err) {
-        reject(err)
+        reject(err);
       } else {
-        resolve(hash)
+        resolve(hash);
       }
-    })
-  })
+    });
+  });
 }
 
 export default async function createUser(email, password) {
-  const passwordHash = await hashPassword(password)
+  const passwordHash = await hashPassword(password);
 
   const result = await executeQuery(cypher`
     CREATE (u:User {
@@ -25,7 +25,7 @@ export default async function createUser(email, password) {
       role: "USER"
     })
     RETURN u
-  `)
+  `);
 
-  return result.map(row => row.u).shift()
+  return result.map(row => row.u).shift();
 }

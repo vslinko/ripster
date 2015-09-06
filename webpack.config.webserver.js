@@ -1,3 +1,3 @@
-require('babel-core/register')
+require('babel-core/register');
 
-module.exports = require('./build/webpack/webserver')
+module.exports = require('./build/webpack/webserver');

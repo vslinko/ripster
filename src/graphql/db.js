@@ -1,37 +1,35 @@
-import neo4j from 'neo4j'
+import neo4j from 'neo4j';
 
 const url = process.env.NEO4J_URL
   || process.env.GRAPHENEDB_URL
-  || 'http://localhost:7474'
+  || 'http://localhost:7474';
 
-export const db = new neo4j.GraphDatabase(url)
+export const db = new neo4j.GraphDatabase(url);
 
 export function executeQuery(query) {
   return new Promise((resolve, reject) => {
     db.cypher(query, (err, result) => {
       if (err) {
-        reject(err)
+        reject(err);
       } else {
-        resolve(result)
+        resolve(result);
       }
-    })
-  })
+    });
+  });
 }
 
 export function cypher(strings, ...values) {
-  const query = strings
+  return strings
     .reduce(({query, params}, string, index) => {
       if (index === 0) {
-        return {query: string, params: {}}
+        return {query: string, params: {}};
       }
 
-      const paramIndex = index - 1
+      const paramIndex = index - 1;
 
       return {
         query: `${query}{param${paramIndex}}${string}`,
-        params: {...params, [`param${paramIndex}`]: values[paramIndex]}
-      }
-    }, {})
-
-  return query
+        params: {...params, [`param${paramIndex}`]: values[paramIndex]},
+      };
+    }, {});
 }

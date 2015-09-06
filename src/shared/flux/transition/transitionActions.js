@@ -1,7 +1,7 @@
-import React from 'react'
-import Relay from 'react-relay'
-import {HomePageContainer} from '../../components/HomePage'
-import ViewerRoute from '../../relay/routes/ViewerRoute'
+import React from 'react';
+import Relay from 'react-relay';
+import {HomePageContainer} from '../../components/HomePage';
+import ViewerRoute from '../../relay/routes/ViewerRoute';
 
 export function homeTransition() {
   return () => {
@@ -10,6 +10,6 @@ export function homeTransition() {
         Component={HomePageContainer}
         route={new ViewerRoute()}
       />
-    )
-  }
+    );
+  };
 }

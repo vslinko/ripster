@@ -1,15 +1,15 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import {createFormatters} from '../../utils/intl'
+import React from 'react';
+import {connect} from 'react-redux';
+import {createFormatters} from '../../utils/intl';
 
-import {LocaleButtonsContainer} from '../LocaleButtons'
-import {SignInFormContainer} from '../SignInForm'
-import {UserInfoContainer} from '../UserInfo'
-import HomePage from './HomePage'
+import {LocaleButtonsContainer} from '../LocaleButtons';
+import {SignInFormContainer} from '../SignInForm';
+import {UserInfoContainer} from '../UserInfo';
+import HomePage from './HomePage';
 
 const HomePageFlux = connect(
   state => ({
-    ...createFormatters(state.locale.locale, state.locale.localeData)
+    ...createFormatters(state.locale.locale, state.locale.localeData),
   }),
   null,
   (stateProps, dispatchProps, parentProps) => ({
@@ -21,12 +21,12 @@ const HomePageFlux = connect(
         {parentProps.users.users.edges.map((edge) => (
           <UserInfoContainer key={edge.cursor} user={edge.node} />
         ))}
-      </div>
-    ]
+      </div>,
+    ],
   })
-)(HomePage)
+)(HomePage);
 
-import Relay from 'react-relay'
+import Relay from 'react-relay';
 
 export default Relay.createContainer(HomePageFlux, {
   fragments: {
@@ -41,6 +41,6 @@ export default Relay.createContainer(HomePageFlux, {
           }
         }
       }
-    `
-  }
-})
+    `,
+  },
+});

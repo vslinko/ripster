@@ -1,1 +1,1 @@
-export default from '../../validators/userValidator'
+export default from '../../validators/userValidator';

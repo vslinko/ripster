@@ -5,26 +5,26 @@ import {
   OP_CREATE,
   OP_READ,
   OP_UPDATE,
-  OP_DELETE
-} from 'access-rule'
+  OP_DELETE,
+} from 'access-rule';
 
 import {
   byType,
   complex,
   admin,
   self,
-  owner
-} from './rules'
+  owner,
+} from './rules';
 
 export {
   OP_CREATE,
   OP_READ,
   OP_UPDATE,
-  OP_DELETE
-} from 'access-rule'
+  OP_DELETE,
+} from 'access-rule';
 
-export {default as wrapField} from './wrapField'
-export {default as wrapConnectionField} from './wrapConnectionField'
+export {default as wrapField} from './wrapField';
+export {default as wrapConnectionField} from './wrapConnectionField';
 
 export default byType({
   CreateSessionPayload: allow,
@@ -37,13 +37,13 @@ export default byType({
     [OP_CREATE]: allow,                 // UserACL(User, OP_CREATE) | UserACL(user, OP_CREATE)
     [OP_READ]: allow,                   // UserACL(user, OP_READ)
     [OP_UPDATE]: someRule(admin, self), // UserACL(user, OP_UPDATE)
-    [OP_DELETE]: deny                   // UserACL(user, OP_DELETE)
+    [OP_DELETE]: deny,                  // UserACL(user, OP_DELETE)
   }),
 
   Session: complex(allow, {
     [OP_CREATE]: allow,
     [OP_READ]: owner,
     [OP_UPDATE]: deny,
-    [OP_DELETE]: owner
-  })
-})
+    [OP_DELETE]: owner,
+  }),
+});

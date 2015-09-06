@@ -1,11 +1,11 @@
-import {existsAsync, mkdirAsync} from 'fs-extra-promise'
-import {join} from 'path'
+import {existsAsync, mkdirAsync} from 'fs-extra-promise';
+import {join} from 'path';
 import {
   mainAnswers,
   underscore,
   renderTemplate,
   componentsDir
-} from '../utils'
+} from '../utils';
 
 const questions = [
   {
@@ -14,43 +14,43 @@ const questions = [
     message: 'Component name',
     async validate(name) {
       if (!/[A-Z]/.test(name[0])) {
-        return 'Component name must be in CamelCase'
+        return 'Component name must be in CamelCase';
       }
 
       if (await existsAsync(join(componentsDir, name))) {
-        return `Component "${name}" already exists`
+        return `Component "${name}" already exists`;
       }
 
-      return true
-    }
+      return true;
+    },
   },
   {
     type: 'confirm',
     name: 'less',
-    message: 'Create less file'
+    message: 'Create less file',
   },
   {
     type: 'input',
     name: 'css',
     message: 'CSS class name',
     default(answers) {
-      return underscore(answers.name)
+      return underscore(answers.name);
     },
     when(answers) {
-      return answers.less
-    }
+      return answers.less;
+    },
   },
   {
     type: 'confirm',
     name: 'container',
-    message: 'Create container component'
-  }
-]
+    message: 'Create container component',
+  },
+];
 
 mainAnswers(questions, async (context) => {
-  const directory = join(componentsDir, context.name)
+  const directory = join(componentsDir, context.name);
 
-  await mkdirAsync(directory)
+  await mkdirAsync(directory);
 
   await* [
     renderTemplate(
@@ -75,6 +75,6 @@ mainAnswers(questions, async (context) => {
       join(directory, `${context.name}.less`),
       join('component', 'component.less'),
       context
-    )
-  ]
-})
+    ),
+  ];
+});

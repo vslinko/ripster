@@ -1,16 +1,16 @@
-/* eslint-disable no-var, no-console, no-process-exit */
+/* eslint-disable no-var, no-console, no-process-exit, func-names */
 
-var blessed = require('blessed')
-var chalk = require('chalk')
-var fecha = require('fecha')
-var pad = require('pad')
-var psTree = require('ps-tree')
-var timediff = require('./timediff')
+var blessed = require('blessed');
+var chalk = require('chalk');
+var fecha = require('fecha');
+var pad = require('pad');
+var psTree = require('ps-tree');
+var timediff = require('./timediff');
 
 var screen = blessed.screen({
   smartCSR: true,
-  dockBorders: true
-})
+  dockBorders: true,
+});
 
 var graphqlLog = blessed.log({
   parent: screen,
@@ -20,19 +20,19 @@ var graphqlLog = blessed.log({
   width: '50%',
   height: '20%',
   border: {
-    type: 'line'
+    type: 'line',
   },
   scrollable: true,
   scrollbar: {},
   style: {
     scrollbar: {
-      bg: 'gray'
+      bg: 'gray',
     },
     border: {
-      fg: 'gray'
-    }
-  }
-})
+      fg: 'gray',
+    },
+  },
+});
 
 var webserverLog = blessed.log({
   parent: screen,
@@ -42,19 +42,19 @@ var webserverLog = blessed.log({
   width: '50%+1',
   height: '20%',
   border: {
-    type: 'line'
+    type: 'line',
   },
   scrollable: true,
   scrollbar: {},
   style: {
     scrollbar: {
-      bg: 'gray'
+      bg: 'gray',
     },
     border: {
-      fg: 'gray'
-    }
-  }
-})
+      fg: 'gray',
+    },
+  },
+});
 
 var frontendLog = blessed.log({
   parent: screen,
@@ -64,19 +64,19 @@ var frontendLog = blessed.log({
   width: '100%',
   height: '36%+1',
   border: {
-    type: 'line'
+    type: 'line',
   },
   scrollable: true,
   scrollbar: {},
   style: {
     scrollbar: {
-      bg: 'gray'
+      bg: 'gray',
     },
     border: {
-      fg: 'gray'
-    }
-  }
-})
+      fg: 'gray',
+    },
+  },
+});
 
 var testsLog = blessed.log({
   parent: screen,
@@ -86,67 +86,67 @@ var testsLog = blessed.log({
   width: '100%',
   height: '44%+2',
   border: {
-    type: 'line'
+    type: 'line',
   },
   scrollable: true,
   scrollbar: {},
   style: {
     scrollbar: {
-      bg: 'gray'
+      bg: 'gray',
     },
     border: {
-      fg: 'gray'
-    }
-  }
-})
+      fg: 'gray',
+    },
+  },
+});
 
-var terms = [graphqlLog, webserverLog, frontendLog, testsLog]
+var terms = [graphqlLog, webserverLog, frontendLog, testsLog];
 
 terms.forEach(function(term) {
-  term.on('wheelup', term.scroll.bind(term, -1))
-  term.on('wheeldown', term.scroll.bind(term, 1))
-})
+  term.on('wheelup', term.scroll.bind(term, -1));
+  term.on('wheeldown', term.scroll.bind(term, 1));
+});
 
 screen.program.key(['C-c', 'q'], function() {
-  screen.program.clear()
-  screen.program.disableMouse()
-  screen.program.showCursor()
-  screen.program.normalBuffer()
+  screen.program.clear();
+  screen.program.disableMouse();
+  screen.program.showCursor();
+  screen.program.normalBuffer();
   psTree(process.pid, function(err, children) {
     if (children) {
       children.forEach(function(p) {
         try {
-          process.kill(p.PID, 'SIGKILL')
+          process.kill(p.PID, 'SIGKILL');
         } catch (e) {
-          return
+          return;
         }
-      })
+      });
     }
-    process.exit(0)
-  })
-})
+    process.exit(0);
+  });
+});
 
 var logs = {
   graphql: graphqlLog,
   webserver: webserverLog,
   frontend: frontendLog,
-  tests: testsLog
-}
+  tests: testsLog,
+};
 
 function log(type, message) {
-  var lines = String(message).split('\n')
+  var lines = String(message).split('\n');
 
   lines
     .filter(function(line) {
-      return line.trim().length > 0
+      return line.trim().length > 0;
     })
     .forEach(function(line) {
       logs[type].log([
-         chalk.yellow(fecha.format(new Date(), 'HH:mm:ss')),
-         chalk.green(pad(timediff(type), 7)),
-         line
-      ].join(' '))
-    })
+        chalk.yellow(fecha.format(new Date(), 'HH:mm:ss')),
+        chalk.green(pad(timediff(type), 7)),
+        line,
+      ].join(' '));
+    });
 }
 
-module.exports = log
+module.exports = log;

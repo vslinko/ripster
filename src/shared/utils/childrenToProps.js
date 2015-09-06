@@ -1,17 +1,17 @@
-import React from 'react'
+import React from 'react';
 
 function collectChildren(children) {
-  const collection = []
+  const collection = [];
 
   React.Children.forEach(children, child =>
     collection.push(child)
-  )
+  );
 
-  return collection
+  return collection;
 }
 
 export default function childrenToProps(Component) {
-  const componentName = Component.displayName || Component.name || ''
+  const componentName = Component.displayName || Component.name || '';
 
   return class ChildrenToProps {
     static displayName = `ChildrenToProps(${componentName})`
@@ -22,16 +22,16 @@ export default function childrenToProps(Component) {
         .reduce((acc, child) => (
           acc[child.key] = child,
           acc
-        ), {})
+        ), {});
 
       const props = {
         ...this.props,
-        ...childrenAsProps
-      }
+        ...childrenAsProps,
+      };
 
       return (
         <Component {...props} />
-      )
+      );
     }
-  }
+  };
 }

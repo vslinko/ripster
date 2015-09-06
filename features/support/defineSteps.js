@@ -1,50 +1,48 @@
-/* eslint-disable max-params */
+import {browserWorld} from './browserWorld';
 
-import {browserWorld} from './browserWorld'
-
-let worldCreator
-let currentWorld
+let worldCreator;
+let currentWorld;
 
 function createWorldCreator(createCallback) {
   if (worldCreator) {
-    return
+    return;
   }
 
   worldCreator = browserWorld({
     before: createCallback('BeforeFeatures'),
     after: createCallback('AfterFeatures'),
     beforeEach: createCallback('BeforeScenario'),
-    afterEach: createCallback('AfterScenario')
-  })
+    afterEach: createCallback('AfterScenario'),
+  });
 
   createCallback('BeforeScenario')(() => {
-    currentWorld = worldCreator()
+    currentWorld = worldCreator();
 
     Object.keys(currentWorld)
       .forEach(key => {
-        currentWorld[key] = currentWorld[key].bind(null, currentWorld)
-      })
-  })
+        currentWorld[key] = currentWorld[key].bind(null, currentWorld);
+      });
+  });
 }
 
 export function defineSteps(define) {
-  return function() {
+  return () => {
     const createCallback = name => handler => this.registerHandler(name, async (event, cb) => {
       try {
-        await handler()
-        cb()
+        await handler();
+        cb();
       } catch (err) {
-        cb(err)
+        cb(err);
       }
-    })
+    });
 
     const step = (re, cb) => {
       this.Given(re, (a, b, c, d, e, f) => {
-        return cb(currentWorld, a, b, c, d, e, f)
-      })
-    }
+        return cb(currentWorld, a, b, c, d, e, f);
+      });
+    };
 
-    createWorldCreator(createCallback)
-    define(step)
-  }
+    createWorldCreator(createCallback);
+    define(step);
+  };
 }

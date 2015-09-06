@@ -1,9 +1,9 @@
-import {readFileAsync, writeFileAsync, unlinkAsync, existsAsync, mkdirAsync} from 'fs-extra-promise'
-import R from 'ramda'
-import yargs from 'yargs'
-import {join} from 'path'
-import {main, glob, rootDir} from '../utils'
-import {parseBlocks, parseFeatures, compileGherkin} from 'adsoft-gherkin'
+import {readFileAsync, writeFileAsync, unlinkAsync, existsAsync, mkdirAsync} from 'fs-extra-promise';
+import R from 'ramda';
+import yargs from 'yargs';
+import {join} from 'path';
+import {main, glob, rootDir} from '../utils';
+import {parseBlocks, parseFeatures, compileGherkin} from 'adsoft-gherkin';
 
 const {argv} = yargs
   .string(['o', 'l', 't'])
@@ -11,80 +11,80 @@ const {argv} = yargs
   .default('o', 'features-dist')
   .alias('l', 'default-language')
   .alias('t', 'tag')
-  .default('t', '@stage5')
+  .default('t', '@stage5');
 
 const {
   outputDir,
   defaultLanguage,
-  tag
-} = argv
+  tag,
+} = argv;
 
-const removeFiles = R.map(unlinkAsync)
+const removeFiles = R.map(unlinkAsync);
 
 const readFile = async filePath => ({
   path: readFileAsync,
-  content: (await readFileAsync(filePath)).toString()
-})
+  content: (await readFileAsync(filePath)).toString(),
+});
 
-const readFiles = R.map(readFile)
+const readFiles = R.map(readFile);
 
 function safe(fn) {
   return (...args) => {
     try {
-      return fn(...args)
+      return fn(...args);
     } catch (err) {
-      return
+      return null;
     }
-  }
+  };
 }
 
 const safeMap = fn => R.pipe(
   R.map(safe(fn)),
   R.filter(value => value !== undefined)
-)
+);
 
 const getFeaturesFromFiles = R.curry(R.uncurryN(2, (options) => R.pipe(
   R.map(file => parseBlocks(file.content).map(block => ({
     file,
-    block
+    block,
   }))),
   R.flatten,
   R.filter(({block}) => block.type === 'feature'),
   safeMap(({file, block}) => parseFeatures(options, block).map(ast => ({
     file,
     block,
-    ast
+    ast,
   }))),
   R.flatten
-)))
+)));
 
-const hasTag = (tag) => (feature) => {
-  const scenarioDefinition = R.head(feature.ast.scenarioDefinitions)
-  const tags = scenarioDefinition.tags.map(R.prop('name'))
+const hasTag = (t) => (feature) => {
+  const scenarioDefinition = R.head(feature.ast.scenarioDefinitions);
+  const tags = scenarioDefinition.tags.map(R.prop('name'));
 
-  return tags.indexOf(tag) >= 0
-}
+  return tags.indexOf(t) >= 0;
+};
 
 main(async () => {
   if (await existsAsync(outputDir)) {
-    const oldFeaturesFilePathes = await glob(join(outputDir, '**', '*.feature'))
+    const oldFeaturesFilePathes = await glob(join(outputDir, '**', '*.feature'));
 
-    await* removeFiles(oldFeaturesFilePathes)
+    await* removeFiles(oldFeaturesFilePathes);
   } else {
-    await mkdirAsync(outputDir)
+    await mkdirAsync(outputDir);
   }
 
-  const filePathes = await glob(join(rootDir, 'planned-features', '**', '*.md'))
-  const files = await* readFiles(filePathes)
-  let features = getFeaturesFromFiles({defaultLanguage}, files)
+  const filePathes = await glob(join(rootDir, 'planned-features', '**', '*.md'));
+  const files = await* readFiles(filePathes);
+  let features = getFeaturesFromFiles({defaultLanguage}, files);
 
   if (tag) {
-    features = features.filter(hasTag(tag))
+    features = features.filter(hasTag(tag));
   }
 
   await* features
     .map(async (feature, index) => writeFileAsync(
       join(outputDir, `${index}.feature`),
       await compileGherkin(feature.ast)
-    ))
-})
+    ));
+});

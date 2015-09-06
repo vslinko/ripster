@@ -1,6 +1,6 @@
-import React, {PropTypes} from 'react'
-import preventEvent from '../../utils/preventEvent'
-import testDecorator from '../../utils/testDecorator'
+import React, {PropTypes} from 'react';
+import preventEvent from '../../utils/preventEvent';
+import testDecorator from '../../utils/testDecorator';
 
 @testDecorator()
 export default class SignInForm {
@@ -17,7 +17,7 @@ export default class SignInForm {
 
     onEmailChange: PropTypes.func.isRequired,
     onPasswordChange: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
   }
 
   render() {
@@ -34,8 +34,8 @@ export default class SignInForm {
 
       onEmailChange,
       onPasswordChange,
-      onSubmit
-    } = this.props
+      onSubmit,
+    } = this.props;
 
     return (
       <form onSubmit={preventEvent(onSubmit)}>
@@ -68,6 +68,6 @@ export default class SignInForm {
         <button disabled={disabled}>{gettext('Submit')}</button>
         {error && <p>{error}</p>}
       </form>
-    )
+    );
   }
 }

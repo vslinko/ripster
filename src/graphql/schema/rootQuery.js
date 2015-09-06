@@ -1,7 +1,7 @@
-import {GraphQLObjectType} from 'graphql'
-import {attachFields} from '../utils'
+import {GraphQLObjectType} from 'graphql';
+import {attachFields} from '../utils';
 
-import * as fields from './rootQueryFields'
+import * as fields from './rootQueryFields';
 
 export default refs => new GraphQLObjectType({
   name: 'RootQuery',
@@ -9,9 +9,9 @@ export default refs => new GraphQLObjectType({
     viewer: {
       type: new GraphQLObjectType({
         name: 'Viewer',
-        fields: () => attachFields(refs, fields)
+        fields: () => attachFields(refs, fields),
       }),
-      resolve: (root) => root
-    }
-  })
-})
+      resolve: (root) => root,
+    },
+  }),
+});

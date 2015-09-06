@@ -1,8 +1,8 @@
-import {DefinePlugin} from 'webpack'
-import path from 'path'
+import {DefinePlugin} from 'webpack';
+import path from 'path';
 
-import config from '../config'
-import base from './base'
+import config from '../config';
+import base from './base';
 
 export default {
   ...base,
@@ -12,15 +12,15 @@ export default {
 
   output: {
     path: path.join(config.dist),
-    filename: 'graphql.js'
+    filename: 'graphql.js',
   },
 
   plugins: [
     new DefinePlugin({
       '__FRONTEND__': false,
-      '__BACKEND__': true
+      '__BACKEND__': true,
     }),
 
-    ...base.plugins
-  ]
-}
+    ...base.plugins,
+  ],
+};

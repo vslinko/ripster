@@ -4,78 +4,78 @@ import {
   SIGN_IN_FORM_VALIDATION_MESSAGES_VISIBLE,
   SIGN_IN_FORM_ERROR,
   SIGN_IN_FORM_DISABLED,
-  SIGN_IN_FORM_RESET
-} from './signInFormConstants'
+  SIGN_IN_FORM_RESET,
+} from './signInFormConstants';
 
-import {authorize} from '../user/userActions'
+import {authorize} from '../user/userActions';
 
 export function setEmail(email) {
   return {
     type: SIGN_IN_FORM_EMAIL_CHANGE,
-    email
-  }
+    email,
+  };
 }
 
 export function setPassword(password) {
   return {
     type: SIGN_IN_FORM_PASSWORD_CHANGE,
-    password
-  }
+    password,
+  };
 }
 
 export function setValidationMessagesVisible(visible) {
   return {
     type: SIGN_IN_FORM_VALIDATION_MESSAGES_VISIBLE,
-    visible
-  }
+    visible,
+  };
 }
 
 export function setError(error) {
   return {
     type: SIGN_IN_FORM_ERROR,
-    error
-  }
+    error,
+  };
 }
 
 export function setDisabled(disabled) {
   return {
     type: SIGN_IN_FORM_DISABLED,
-    disabled
-  }
+    disabled,
+  };
 }
 
 export function reset() {
   return {
-    type: SIGN_IN_FORM_RESET
-  }
+    type: SIGN_IN_FORM_RESET,
+  };
 }
 
 export function submit() {
   return async (dispatch, getState) => {
-    const {signInForm} = getState()
-    const {disabled, validation: {valid}, form} = signInForm
-    const {email, password} = form
+    const {signInForm} = getState();
+    const {disabled, validation: {valid}, form} = signInForm;
+    const {email, password} = form;
 
     if (disabled) {
-      return
+      return;
     }
 
     if (!valid) {
-      dispatch(setValidationMessagesVisible(true))
-      return
+      dispatch(setValidationMessagesVisible(true));
+      return;
     }
 
-    dispatch(setDisabled(true))
-    dispatch(setError(undefined))
-    dispatch(setValidationMessagesVisible(false))
+    dispatch(setDisabled(true));
+    dispatch(setError(undefined));
+    dispatch(setValidationMessagesVisible(false));
 
     try {
-      await dispatch(authorize(email, password))
-      dispatch(reset())
+      await dispatch(authorize(email, password));
+      dispatch(reset());
     } catch (error) {
-      dispatch(setError(error.message))
+      dispatch(setError(error.message));
     } finally {
-      dispatch(setDisabled(false))
+      dispatch(setDisabled(false));
     }
-  }
+  };
 }

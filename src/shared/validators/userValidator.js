@@ -1,4 +1,4 @@
-import {constraints} from 'strulidator'
+import {constraints} from 'strulidator';
 
 const {
   createObjectConstraint,
@@ -8,21 +8,21 @@ const {
   string,
   email,
   createMinLengthConstraint,
-  createMaxLengthConstraint
-} = constraints
+  createMaxLengthConstraint,
+} = constraints;
 
 export default createObjectConstraint({
   email: combineConstraints({
     notNull,
     notEmpty,
     string,
-    email
+    email,
   }),
   password: combineConstraints({
     notNull,
     notEmpty,
     string,
     minLength: createMinLengthConstraint(5),
-    maxLength: createMaxLengthConstraint(18)
-  })
-})
+    maxLength: createMaxLengthConstraint(18),
+  }),
+});

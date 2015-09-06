@@ -1,25 +1,23 @@
-import {defineSteps} from '../support/defineSteps'
-import {component} from '../support/component'
+import {defineSteps} from '../support/defineSteps';
+import {component} from '../support/component';
 
-const SignInForm = component('SignInForm')
+const SignInForm = component('SignInForm');
 
 export default defineSteps(step => {
-
   step(/^I open page "([^"]*)"$/, async (world, url) => {
-    await world.openUrl(url)
-    await world.assertEventuallyExists('#app')
-  })
+    await world.openUrl(url);
+    await world.assertEventuallyExists('#app');
+  });
 
   step(/I see login form/, async (world) => {
-    await world.assertEventuallyExists(SignInForm())
-  })
+    await world.assertEventuallyExists(SignInForm());
+  });
 
   step(/Login form have email field/, async (world) => {
-    await world.assertEventuallyExists(SignInForm.element('Email'))
-  })
+    await world.assertEventuallyExists(SignInForm.element('Email'));
+  });
 
   step(/Login form have password field/, async (world) => {
-    await world.assertEventuallyExists(SignInForm.element('Password'))
-  })
-
-})
+    await world.assertEventuallyExists(SignInForm.element('Password'));
+  });
+});

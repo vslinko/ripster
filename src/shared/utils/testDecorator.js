@@ -1,64 +1,64 @@
-import React from 'react'
-import {findDOMNode} from 'react-dom'
+import React from 'react';
+import {findDOMNode} from 'react-dom';
 
 export default function testDecorator(labelsConstructor) {
   return Component => {
-    const componentName = Component.displayName || Component.name
+    const componentName = Component.displayName || Component.name;
 
     if (!componentName) {
-      throw new Error()
+      throw new Error();
     }
 
     function markTestElement(name) {
       if (process.env.NODE_ENV === 'test') {
         return {
-          'data-test-element': `${componentName}-${name}`
-        }
+          'data-test-element': `${componentName}-${name}`,
+        };
       }
 
-      return {}
+      return {};
     }
 
     return class TestComponent {
       static displayName = `TestComponent(${componentName})`
 
       componentDidMount() {
-        this.refreshLabels()
+        this.refreshLabels();
       }
 
       componentDidUpdate() {
-        this.refreshLabels()
+        this.refreshLabels();
       }
 
       refreshLabels() {
         if (process.env.NODE_ENV === 'test') {
           const labels = labelsConstructor
             ? labelsConstructor(this.props)
-            : {}
+            : {};
 
-          const componentNode = findDOMNode(this)
+          const componentNode = findDOMNode(this);
 
           if (!componentNode) {
-            return
+            return;
           }
 
           Object.keys(labels)
             .map((key) => {
-              const value = labels[key]
+              const value = labels[key];
 
               return {
                 key: `data-test-label-${key}`,
-                value
-              }
+                value,
+              };
             })
             .concat([{
               key: 'data-test-component',
-              value: componentName
+              value: componentName,
             }])
-            .reduce((componentNode, {key, value}) => (
-              componentNode.setAttribute(key, value),
-              componentNode
-            ), componentNode)
+            .reduce((acc, {key, value}) => (
+              acc.setAttribute(key, value),
+              acc
+            ), componentNode);
         }
       }
 
@@ -68,8 +68,8 @@ export default function testDecorator(labelsConstructor) {
             {...this.props}
             markTestElement={markTestElement}
           />
-        )
+        );
       }
-    }
-  }
+    };
+  };
 }

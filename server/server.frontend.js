@@ -1,35 +1,35 @@
-/* eslint-disable no-var, no-console */
+/* eslint-disable no-var, no-console, func-names */
 
-var WebpackDevServer = require('webpack-dev-server')
-var webpack = require('webpack')
-var webpackConfig = require('../webpack.config.frontend')
-var onBuild = require('./onBuild')
+var WebpackDevServer = require('webpack-dev-server');
+var webpack = require('webpack');
+var webpackConfig = require('../webpack.config.frontend');
+var onBuild = require('./onBuild');
 
-var port = process.env.PORT
-var webserverUrl = process.env.WEBSERVER_URL
+var port = process.env.PORT;
+var webserverUrl = process.env.WEBSERVER_URL;
 
-var compiler = webpack(webpackConfig)
+var compiler = webpack(webpackConfig);
 
-console.log('first build')
+console.log('first build');
 
 var server = new WebpackDevServer(compiler, {
   quiet: true,
   hot: true,
   stats: {
-    colors: true
+    colors: true,
   },
   proxy: {
-    '*': webserverUrl
-  }
-})
+    '*': webserverUrl,
+  },
+});
 
 compiler.plugin('invalid', function() {
-  console.log('rebuild')
-})
+  console.log('rebuild');
+});
 
 compiler.plugin('done', function(stats) {
-  console.log('listening ' + port)
-  onBuild(stats)
-})
+  console.log('listening ' + port);
+  onBuild(stats);
+});
 
-server.listen(port)
+server.listen(port);

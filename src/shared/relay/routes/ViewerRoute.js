@@ -1,4 +1,4 @@
-import Relay from 'react-relay'
+import Relay from 'react-relay';
 
 export default class ViewerRoute extends Relay.Route {
   static routeName = 'ViewerRoute'
@@ -10,6 +10,6 @@ export default class ViewerRoute extends Relay.Route {
           ${Component.getFragment('users')}
         }
       }
-    `
+    `,
   }
 }

@@ -1,4 +1,4 @@
-import Relay from 'react-relay'
+import Relay from 'react-relay';
 
 export default class SetEmailMutation extends Relay.Mutation {
   static fragments = {
@@ -7,18 +7,18 @@ export default class SetEmailMutation extends Relay.Mutation {
         id
         uuid
       }
-    `
+    `,
   }
 
   getMutation() {
-    return Relay.QL`mutation {setEmail}`
+    return Relay.QL`mutation {setEmail}`;
   }
 
   getVariables() {
     return {
       uuid: this.props.user.uuid,
-      email: this.props.email
-    }
+      email: this.props.email,
+    };
   }
 
   getFatQuery() {
@@ -28,19 +28,19 @@ export default class SetEmailMutation extends Relay.Mutation {
           email
         }
       }
-    `
+    `;
   }
 
   getConfigs() {
     return [{
       type: 'FIELDS_CHANGE',
       fieldIDs: {
-        user: this.props.user.id
-      }
-    }]
+        user: this.props.user.id,
+      },
+    }];
   }
 
   getCollisionKey() {
-    return `setEmail_${this.props.user.id}`
+    return `setEmail_${this.props.user.id}`;
   }
 }

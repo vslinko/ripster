@@ -1,8 +1,8 @@
-import React, {PropTypes} from 'react'
-import testDecorator from '../../utils/testDecorator'
-import childrenToProps from '../../utils/childrenToProps'
+import React, {PropTypes} from 'react';
+import testDecorator from '../../utils/testDecorator';
+import childrenToProps from '../../utils/childrenToProps';
 
-import './HomePage.less'
+import './HomePage.less';
 
 @childrenToProps
 @testDecorator()
@@ -10,13 +10,14 @@ export default class HomePage {
   static propTypes = {
     localeButtons: PropTypes.node,
     form: PropTypes.node,
+    users: PropTypes.node,
     formatDate: PropTypes.func.isRequired,
     formatNumber: PropTypes.func.isRequired,
-    formatCurrency: PropTypes.func.isRequired
+    formatCurrency: PropTypes.func.isRequired,
   }
 
   render() {
-    const {formatDate, formatNumber, formatCurrency} = this.props
+    const {formatDate, formatNumber, formatCurrency} = this.props;
 
     return (
       <div className="HomePage">
@@ -31,6 +32,6 @@ export default class HomePage {
 
         {this.props.users}
       </div>
-    )
+    );
   }
 }
