@@ -2,7 +2,7 @@ import {DefinePlugin, ProvidePlugin, HotModuleReplacementPlugin} from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import path from 'path';
 
-import autoprefixer from 'autoprefixer-core';
+import autoprefixer from 'autoprefixer';
 import mqpacker from 'css-mqpacker';
 
 import config from '../config';
