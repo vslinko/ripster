@@ -6,7 +6,7 @@ import transition from './transition';
 export default function createAppRouter(history, store) {
   const router = createRouter(
     history,
-    transition(store)
+    transition
   );
 
   router.listen(createRouterListener(store));

@@ -1,12 +1,14 @@
+import React from 'react';
+import Relay from 'react-relay';
 import {createTransition} from 'vstack-router';
-import {homeTransition} from '../flux/transition/transitionActions';
+import {HomePageContainer} from '../components/HomePage';
+import ViewerRoute from '../relay/routes/ViewerRoute';
 
-function createStoreTransition(pattern, transitionHandler) {
-  return store => {
-    return createTransition(pattern, query => {
-      return store.dispatch(transitionHandler(query));
-    });
-  };
-}
-
-export default createStoreTransition('/', homeTransition);
+export default createTransition('/', () => {
+  return (
+    <Relay.RootContainer
+      Component={HomePageContainer}
+      route={new ViewerRoute()}
+    />
+  );
+});

@@ -18,7 +18,7 @@ const HomePageFlux = connect(
       <LocaleButtonsContainer key="localeButtons" />,
       <SignInFormContainer key="form" />,
       <div key="users">
-        {parentProps.users.users.edges.map((edge) => (
+        {parentProps.viewer.users.edges.map((edge) => (
           <UserInfoContainer key={edge.cursor} user={edge.node} />
         ))}
       </div>,
@@ -30,7 +30,7 @@ import Relay from 'react-relay';
 
 export default Relay.createContainer(HomePageFlux, {
   fragments: {
-    users: () => Relay.QL`
+    viewer: () => Relay.QL`
       fragment on Viewer {
         users(first: 10) {
           edges {

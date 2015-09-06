@@ -4,10 +4,10 @@ export default class ViewerRoute extends Relay.Route {
   static routeName = 'ViewerRoute'
 
   static queries = {
-    users: Component => Relay.QL`
+    viewer: Component => Relay.QL`
       query {
         viewer {
-          ${Component.getFragment('users')}
+          ${Component.getFragment('viewer')}
         }
       }
     `,
