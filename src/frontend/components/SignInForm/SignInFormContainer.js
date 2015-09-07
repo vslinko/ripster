@@ -1,23 +1,26 @@
+import {compose} from 'redux';
 import {connect} from 'react-redux';
+import {connectReduxForm} from 'redux-form';
 import {gettext} from '../../utils/gettext';
-import {formData} from '../../utils/formHelpers';
+import wrapValidate from '../../utils/wrapValidate';
 
-import {
-  setEmail,
-  setPassword,
-  submit,
-} from '../../flux/signInForm/signInFormActions';
+import {authorize} from '../../flux/user/userActions';
+import validate from '../../flux/signInForm/signInFormValidator';
 
 import SignInForm from './SignInForm';
 
-export default connect(
-  state => ({
-    ...formData(state.signInForm),
-    gettext: gettext(state.locale.messages),
-  }),
-  {
-    onEmailChange: setEmail,
-    onPasswordChange: setPassword,
-    onSubmit: submit,
-  }
+export default compose(
+  connect(
+    state => ({
+      gettext: gettext(state.locale.messages),
+    }),
+    {
+      onSubmit: authorize,
+    }
+  ),
+  connectReduxForm({
+    form: 'SignInForm',
+    fields: ['email', 'password'],
+    validate: wrapValidate(validate),
+  })
 )(SignInForm);

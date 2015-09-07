@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react';
-import preventEvent from '../../utils/preventEvent';
 import testDecorator from '../../utils/testDecorator';
 
 @testDecorator()
@@ -7,17 +6,12 @@ export default class SignInForm {
   static propTypes = {
     markTestElement: PropTypes.func.isRequired,
     gettext: PropTypes.func.isRequired,
-
-    email: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired,
-    emailError: PropTypes.string,
-    passwordError: PropTypes.string,
-    disabled: PropTypes.bool,
-    error: PropTypes.string,
-
-    onEmailChange: PropTypes.func.isRequired,
-    onPasswordChange: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
+    fields: PropTypes.shape({
+      email: PropTypes.object.isRequired,
+      password: PropTypes.object.isRequired,
+    }).isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    submitting: PropTypes.bool.isRequired,
   }
 
   render() {
@@ -25,20 +19,17 @@ export default class SignInForm {
       markTestElement,
       gettext,
 
-      email,
-      password,
-      emailError,
-      passwordError,
-      disabled,
-      error,
+      fields: {
+        email,
+        password,
+      },
 
-      onEmailChange,
-      onPasswordChange,
-      onSubmit,
+      handleSubmit,
+      submitting,
     } = this.props;
 
     return (
-      <form onSubmit={preventEvent(onSubmit)}>
+      <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="SignInForm-Email">{gettext('Email')}</label>
           <input
@@ -46,11 +37,10 @@ export default class SignInForm {
             type="email"
             id="SignInForm-Email"
             placeholder={gettext('Email')}
-            value={email}
-            onChange={event => onEmailChange(event.target.value)}
-            disabled={disabled}
+            {...email}
+            disabled={submitting}
           />
-          {emailError && <span>{emailError}</span>}
+          {email.error && email.touched && <span>{email.error}</span>}
         </div>
         <div>
           <label htmlFor="SignInForm-Password">{gettext('Password')}</label>
@@ -59,14 +49,12 @@ export default class SignInForm {
             type="password"
             id="SignInForm-Password"
             placeholder={gettext('Password')}
-            value={password}
-            onChange={event => onPasswordChange(event.target.value)}
-            disabled={disabled}
+            {...password}
+            disabled={submitting}
           />
-          {passwordError && <span>{passwordError}</span>}
+          {password.error && password.touched && <span>{password.error}</span>}
         </div>
-        <button disabled={disabled}>{gettext('Submit')}</button>
-        {error && <p>{error}</p>}
+        <button disabled={submitting}>{gettext('Submit')}</button>
       </form>
     );
   }

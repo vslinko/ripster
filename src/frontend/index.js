@@ -1,4 +1,5 @@
 import React from 'react';
+import Relay from 'react-relay';
 import {render} from 'react-dom';
 
 import {createHistory} from 'history';
@@ -14,6 +15,12 @@ import {readToken} from './flux/token/tokenActions';
 
 async function initApp() {
   try {
+    Relay.injectNetworkLayer(
+      new Relay.DefaultNetworkLayer('/graphql', {
+        credentials: 'same-origin',
+      })
+    );
+
     const history = createHistory();
     const store = createStore(history);
 

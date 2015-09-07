@@ -53,6 +53,7 @@
     "react-redux": "^2.1.0",
     "react-relay": "^0.2.1",
     "redux": "^2.0.0",
+    "redux-form": "^1.4.1",
     "redux-thunk": "^0.1.0",
     "redux-vstack-router": "^0.1.0",
     "source-map-support": "^0.3.2",

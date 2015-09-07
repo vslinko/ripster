@@ -1,3 +1,4 @@
+import {compose} from 'redux';
 import {connect} from 'react-redux';
 
 import {
@@ -6,11 +7,13 @@ import {
 
 import LocaleButtons from './LocaleButtons';
 
-export default connect(
-  state => ({
-    currentLocale: state.locale.locale,
-  }),
-  {
-    onLocale: loadLocale,
-  }
+export default compose(
+  connect(
+    state => ({
+      currentLocale: state.locale.locale,
+    }),
+    {
+      onLocale: loadLocale,
+    }
+  )
 )(LocaleButtons);
