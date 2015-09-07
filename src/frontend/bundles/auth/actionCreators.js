@@ -27,3 +27,9 @@ export function authorize({email, password}) {
     dispatch(setToken(token));
   };
 }
+
+export function init() {
+  return (dispatch) => {
+    dispatch(readToken());
+  };
+}

@@ -10,8 +10,7 @@ import {Provider} from 'react-redux';
 
 import {AppContainer} from 'frontend/bundles/common/components/App';
 
-import {loadCurrentLocale} from 'frontend/bundles/locale/actionCreators';
-import {readToken} from 'frontend/bundles/auth/actionCreators';
+import init from './init';
 
 async function initApp() {
   try {
@@ -24,10 +23,7 @@ async function initApp() {
     const history = createHistory();
     const store = createStore(history);
 
-    await* [
-      store.dispatch(loadCurrentLocale()),
-      store.dispatch(readToken()),
-    ];
+    await store.dispatch(init());
 
     const router = createRouter(history, store);
 

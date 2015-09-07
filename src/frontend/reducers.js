@@ -1,5 +1,18 @@
-export {routerReducer as router} from 'redux-vstack-router';
-export {reducer as form} from 'redux-form';
+import {routerReducer} from 'redux-vstack-router';
+import {reducer as formReducer} from 'redux-form';
 
-export {default as locale} from 'frontend/bundles/locale/reducers/locale';
-export {default as auth} from 'frontend/bundles/auth/reducers/auth';
+const pattern = /^\.\/[a-z]+\/reducers\/([a-z]+)\.js$/i;
+
+const req = require.context(
+  'frontend/bundles',
+  true,
+  /^\.\/[a-z]+\/reducers\/([a-z]+)\.js$/i
+);
+
+export default req.keys().reduce((acc, key) => {
+  const name = pattern.exec(key)[1];
+
+  acc[name] = req(key);
+
+  return acc;
+}, {router: routerReducer, form: formReducer});

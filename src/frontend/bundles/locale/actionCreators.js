@@ -52,3 +52,9 @@ export function loadCurrentLocale() {
     dispatch(loadLocale(locale));
   };
 }
+
+export function init() {
+  return (dispatch) => {
+    dispatch(loadCurrentLocale());
+  };
+}
