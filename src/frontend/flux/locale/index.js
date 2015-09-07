@@ -1,35 +1,5 @@
+import {createAction, createReducer} from 'redux-act';
 import cookie from 'cookie';
-
-import {
-  LOCALE,
-  LOCALE_DATA,
-  LOCALE_MESSAGES,
-} from './localeConstants';
-
-export function setLocaleMessages(messages) {
-  return {
-    type: LOCALE_MESSAGES,
-    messages,
-  };
-}
-
-export function setLocaleData(localeData) {
-  return {
-    type: LOCALE_DATA,
-    localeData,
-  };
-}
-
-export function setLocale(locale) {
-  if (__FRONTEND__) {
-    document.cookie = `locale=${locale}; path=/`;
-  }
-
-  return {
-    type: LOCALE,
-    locale,
-  };
-}
 
 function loadRussian(cb) {
   require.ensure(['../../../locale/ru.json', 'intl/locale-data/json/ru.json'], (require) => {
@@ -42,6 +12,13 @@ function loadEnglish(cb) {
     cb(require('../../../locale/en.json'), require('intl/locale-data/json/en.json'));
   });
 }
+
+const setLocaleMessages = createAction();
+const setLocaleData = createAction();
+const setLocale = createAction((locale) => {
+  document.cookie = `locale=${locale}; path=/`;
+  return locale;
+});
 
 export function loadLocale(locale) {
   return dispatch => {
@@ -75,3 +52,16 @@ export function loadCurrentLocale() {
     dispatch(loadLocale(locale));
   };
 }
+
+export const reducer = createReducer(
+  {
+    [setLocale]: (state, locale) => ({...state, locale}),
+    [setLocaleData]: (state, localeData) => ({...state, localeData}),
+    [setLocaleMessages]: (state, messages) => ({...state, messages}),
+  },
+  {
+    locale: undefined,
+    localeData: undefined,
+    messages: undefined,
+  }
+);

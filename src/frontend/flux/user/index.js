@@ -1,8 +1,8 @@
-import {setToken} from '../token/tokenActions';
+import {setToken} from '../token';
 import applyMutation from '../../utils/applyMutation';
 
-import CreateSessionMutation from '../../relay/mutations/CreateSessionMutation';
-import SetEmailMutation from '../../relay/mutations/SetEmailMutation';
+import CreateSessionMutation from './CreateSessionMutation';
+import SetEmailMutation from './SetEmailMutation';
 
 export function authorize({email, password}) {
   return async (dispatch) => {

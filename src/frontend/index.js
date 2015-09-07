@@ -10,8 +10,8 @@ import {Provider} from 'react-redux';
 
 import {AppContainer} from './components/App';
 
-import {loadCurrentLocale} from './flux/locale/localeActions';
-import {readToken} from './flux/token/tokenActions';
+import {loadCurrentLocale} from './flux/locale';
+import {readToken} from './flux/token';
 
 async function initApp() {
   try {

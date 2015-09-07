@@ -4,8 +4,8 @@ import {connectReduxForm} from 'redux-form';
 import {gettext} from '../../utils/gettext';
 import wrapValidate from '../../utils/wrapValidate';
 
-import {authorize} from '../../flux/user/userActions';
-import validate from '../../flux/signInForm/signInFormValidator';
+import {authorize} from '../../flux/user';
+import validate from './signInFormValidator';
 
 import SignInForm from './SignInForm';
 

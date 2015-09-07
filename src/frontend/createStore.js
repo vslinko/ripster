@@ -2,7 +2,7 @@ import {createStore, applyMiddleware, combineReducers} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import {historyMiddleware} from 'redux-vstack-router';
 
-import * as stores from './flux/stores';
+import * as reducers from './reducers';
 
 export default function createAppStore(history, initialState) {
   const createStoreWithMiddlewares = applyMiddleware(
@@ -10,7 +10,7 @@ export default function createAppStore(history, initialState) {
     thunkMiddleware
   )(createStore);
 
-  const reduce = combineReducers(stores);
+  const reduce = combineReducers(reducers);
 
   const store = createStoreWithMiddlewares(reduce, initialState);
 

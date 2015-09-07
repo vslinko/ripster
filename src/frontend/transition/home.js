@@ -2,7 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import {createTransition} from 'vstack-router';
 import {HomePageContainer} from '../components/HomePage';
-import ViewerRoute from '../relay/routes/ViewerRoute';
+import ViewerRoute from './ViewerRoute';
 
 export default createTransition('/', () => {
   return (
