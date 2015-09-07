@@ -13,6 +13,7 @@ machine:
     - sudo service zookeeper stop
   environment:
     NODE_ENV: test
+    HOT_RELOAD: ""
     npm_config_tarball: "https://iojs.org/dist/v1.3.0/iojs-v1.3.0.tar.gz"
   timezone: Europe/Moscow
   node:
@@ -44,3 +45,9 @@ deployment:
       - git fetch origin --unshallow || true
       - git push -f git@heroku.com:ripster.git $CIRCLE_SHA1:refs/heads/master
       - heroku run --app ripster ./bin/load_fixtures
+
+general:
+  branches:
+    only:
+      - master
+      - /#\d+/
