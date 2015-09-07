@@ -1,4 +1,4 @@
-import {createAction, createReducer} from 'redux-act';
+import {createAction} from 'redux-act';
 import cookie from 'cookie';
 
 function loadRussian(cb) {
@@ -13,9 +13,9 @@ function loadEnglish(cb) {
   });
 }
 
-const setLocaleMessages = createAction();
-const setLocaleData = createAction();
-const setLocale = createAction((locale) => {
+export const setLocaleMessages = createAction();
+export const setLocaleData = createAction();
+export const setLocale = createAction((locale) => {
   document.cookie = `locale=${locale}; path=/`;
   return locale;
 });
@@ -52,16 +52,3 @@ export function loadCurrentLocale() {
     dispatch(loadLocale(locale));
   };
 }
-
-export const reducer = createReducer(
-  {
-    [setLocale]: (state, locale) => ({...state, locale}),
-    [setLocaleData]: (state, localeData) => ({...state, localeData}),
-    [setLocaleMessages]: (state, messages) => ({...state, messages}),
-  },
-  {
-    locale: undefined,
-    localeData: undefined,
-    messages: undefined,
-  }
-);

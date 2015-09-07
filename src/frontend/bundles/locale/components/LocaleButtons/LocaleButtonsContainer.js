@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import {
   loadLocale,
-} from 'frontend/flux/locale';
+} from '../../actionCreators';
 
 import LocaleButtons from './LocaleButtons';
 

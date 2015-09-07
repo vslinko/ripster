@@ -8,10 +8,10 @@ import createRouter from './createRouter';
 
 import {Provider} from 'react-redux';
 
-import {AppContainer} from './components/App';
+import {AppContainer} from 'frontend/bundles/common/components/App';
 
-import {loadCurrentLocale} from './flux/locale';
-import {readToken} from './flux/token';
+import {loadCurrentLocale} from 'frontend/bundles/locale/actionCreators';
+import {readToken} from 'frontend/bundles/auth/actionCreators';
 
 async function initApp() {
   try {

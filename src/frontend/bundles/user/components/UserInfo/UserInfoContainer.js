@@ -6,8 +6,8 @@ import relay from 'frontend/utils/relay';
 
 import UserInfo from './UserInfo';
 
-import SetEmailMutation from 'frontend/flux/user/SetEmailMutation';
-import {setEmail} from 'frontend/flux/user';
+import SetEmailMutation from '../../mutations/SetEmailMutation';
+import {setEmail} from '../../actionCreators';
 
 export default compose(
   relay({
