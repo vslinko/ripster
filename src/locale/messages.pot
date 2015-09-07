@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-18 19:13+0300\n"
+"POT-Creation-Date: 2015-09-08 00:09+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,16 +17,16 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/shared/components/SignInForm/SignInForm.js:34
-#: src/shared/components/SignInForm/SignInForm.js:38
+#: src/frontend/bundles/auth/components/SignInForm/SignInForm.js:34
+#: src/frontend/bundles/auth/components/SignInForm/SignInForm.js:39
 msgid "Email"
 msgstr ""
 
-#: src/shared/components/SignInForm/SignInForm.js:49
-#: src/shared/components/SignInForm/SignInForm.js:53
+#: src/frontend/bundles/auth/components/SignInForm/SignInForm.js:46
+#: src/frontend/bundles/auth/components/SignInForm/SignInForm.js:51
 msgid "Password"
 msgstr ""
 
-#: src/shared/components/SignInForm/SignInForm.js:63
+#: src/frontend/bundles/auth/components/SignInForm/SignInForm.js:57
 msgid "Submit"
 msgstr ""

@@ -1,6 +1,6 @@
 # Variables
 
-LOCALES = en ifeq
+LOCALES = en ru
 CUCUMBER_FORMAT ?= pretty
 
 # Executables
