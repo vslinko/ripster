@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
-import testDecorator from '../../utils/testDecorator';
-import childrenToProps from '../../utils/childrenToProps';
+import testDecorator from 'frontend/utils/testDecorator';
+import childrenToProps from 'frontend/utils/childrenToProps';
 
 import './HomePage.less';
 

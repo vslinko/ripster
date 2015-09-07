@@ -2,12 +2,12 @@ import Relay from 'react-relay';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
 import {connectReduxForm} from 'redux-form';
-import relay from '../../utils/relay';
+import relay from 'frontend/utils/relay';
 
 import UserInfo from './UserInfo';
 
-import SetEmailMutation from '../../flux/user/SetEmailMutation';
-import {setEmail} from '../../flux/user';
+import SetEmailMutation from 'frontend/flux/user/SetEmailMutation';
+import {setEmail} from 'frontend/flux/user';
 
 export default compose(
   relay({

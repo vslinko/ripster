@@ -2,12 +2,13 @@ import React from 'react';
 import Relay from 'react-relay';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
-import {createFormatters} from '../../utils/intl';
-import relay from '../../utils/relay';
+import {createFormatters} from 'frontend/utils/intl';
+import relay from 'frontend/utils/relay';
 
-import {LocaleButtonsContainer} from '../LocaleButtons';
-import {SignInFormContainer} from '../SignInForm';
-import {UserInfoContainer} from '../UserInfo';
+import {LocaleButtonsContainer} from 'frontend/components/LocaleButtons';
+import {SignInFormContainer} from 'frontend/components/SignInForm';
+import {UserInfoContainer} from 'frontend/components/UserInfo';
+
 import HomePage from './HomePage';
 
 export default compose(

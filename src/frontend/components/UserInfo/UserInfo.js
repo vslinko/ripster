@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import testDecorator from '../../utils/testDecorator';
+import testDecorator from 'frontend/utils/testDecorator';
 
 @testDecorator()
 export default class UserInfo {

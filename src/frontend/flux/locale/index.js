@@ -2,14 +2,14 @@ import {createAction, createReducer} from 'redux-act';
 import cookie from 'cookie';
 
 function loadRussian(cb) {
-  require.ensure(['../../../locale/ru.json', 'intl/locale-data/json/ru.json'], (require) => {
-    cb(require('../../../locale/ru.json'), require('intl/locale-data/json/ru.json'));
+  require.ensure(['locale/ru.json', 'intl/locale-data/json/ru.json'], (require) => {
+    cb(require('locale/ru.json'), require('intl/locale-data/json/ru.json'));
   });
 }
 
 function loadEnglish(cb) {
-  require.ensure(['../../../locale/en.json', 'intl/locale-data/json/en.json'], (require) => {
-    cb(require('../../../locale/en.json'), require('intl/locale-data/json/en.json'));
+  require.ensure(['locale/en.json', 'intl/locale-data/json/en.json'], (require) => {
+    cb(require('locale/en.json'), require('intl/locale-data/json/en.json'));
   });
 }
 

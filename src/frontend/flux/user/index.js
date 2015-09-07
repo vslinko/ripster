@@ -1,5 +1,5 @@
-import {setToken} from '../token';
-import applyMutation from '../../utils/applyMutation';
+import {setToken} from 'frontend/flux/token';
+import applyMutation from 'frontend/utils/applyMutation';
 
 import CreateSessionMutation from './CreateSessionMutation';
 import SetEmailMutation from './SetEmailMutation';

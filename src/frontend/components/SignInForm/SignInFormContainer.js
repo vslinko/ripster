@@ -1,10 +1,10 @@
 import {compose} from 'redux';
 import {connect} from 'react-redux';
 import {connectReduxForm} from 'redux-form';
-import {gettext} from '../../utils/gettext';
-import wrapValidate from '../../utils/wrapValidate';
+import {gettext} from 'frontend/utils/gettext';
+import wrapValidate from 'frontend/utils/wrapValidate';
 
-import {authorize} from '../../flux/user';
+import {authorize} from 'frontend/flux/user';
 import validate from './signInFormValidator';
 
 import SignInForm from './SignInForm';

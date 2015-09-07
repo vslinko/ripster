@@ -53,6 +53,13 @@ export default {
     ],
   },
 
+  resolve: {
+    alias: {
+      frontend: path.join(config.src, 'frontend'),
+      locale: path.join(config.src, 'locale'),
+    },
+  },
+
   postcss: () => ([
     autoprefixer,
     mqpacker,
