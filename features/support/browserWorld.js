@@ -66,6 +66,7 @@ function assertEventually(test, errorMessage) {
     interval = setInterval(() => {
       if (test()) {
         clearTimeout(timeout);
+        clearInterval(interval);
         resolve();
       }
     }, 50);
