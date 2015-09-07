@@ -57,6 +57,7 @@
     "redux-form": "^1.4.1",
     "redux-thunk": "^0.1.0",
     "redux-vstack-router": "^0.1.0",
+    "reselect": "0.0.2",
     "source-map-support": "^0.3.2",
     "strulidator": "^1.2.1",
     "vstack-router": "^0.4.0",
