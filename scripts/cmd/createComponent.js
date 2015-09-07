@@ -2,7 +2,7 @@ import {existsAsync, mkdirAsync} from 'fs-extra-promise';
 import {join} from 'path';
 import {
   mainAnswers,
-  underscore,
+  dashify,
   renderTemplate,
   bundlesDir
 } from '../utils';
@@ -46,7 +46,7 @@ const questions = [
     name: 'css',
     message: 'CSS class name',
     default(answers) {
-      return underscore(answers.name);
+      return dashify(answers.name);
     },
     when(answers) {
       return answers.less;

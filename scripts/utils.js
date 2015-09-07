@@ -35,6 +35,17 @@ export function underscore(string) {
   ].join('');
 }
 
+export function dashify(string) {
+  return [
+    string[0]
+      .toLowerCase(),
+
+    string
+      .slice(1)
+      .replace(/[A-Z]/g, c => `-${c.toLowerCase()}`),
+  ].join('');
+}
+
 export async function main(programm) {
   try {
     await programm();
