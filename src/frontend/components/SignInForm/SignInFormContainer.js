@@ -1,7 +1,7 @@
 import {compose} from 'redux';
 import {connect} from 'react-redux';
 import {connectReduxForm} from 'redux-form';
-import {gettext} from 'frontend/utils/gettext';
+import {createGettext} from 'frontend/utils/gettext';
 import wrapValidate from 'frontend/utils/wrapValidate';
 
 import {authorize} from 'frontend/flux/user';
@@ -12,7 +12,7 @@ import SignInForm from './SignInForm';
 export default compose(
   connect(
     state => ({
-      gettext: gettext(state.locale.messages),
+      gettext: createGettext(state.locale.messages),
     }),
     {
       onSubmit: authorize,

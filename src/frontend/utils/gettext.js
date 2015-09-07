@@ -15,7 +15,7 @@ function prepareMesages({domain, locale_data: {messages}}) {
   };
 }
 
-export function gettext(messages) {
+export function createGettext(messages) {
   const jed = new Jed(prepareMesages(messages));
 
   return (message, ...args) => jed.translate(message).fetch(...args);
