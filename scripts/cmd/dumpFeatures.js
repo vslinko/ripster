@@ -11,7 +11,7 @@ const {argv} = yargs
   .default('o', 'features-dist')
   .alias('l', 'default-language')
   .alias('t', 'tag')
-  .default('t', '@stage5');
+  .default('t', '@dev_ok');
 
 const {
   outputDir,

@@ -1,7 +1,7 @@
 # Feature: Test Feature
 
 ```feature
-@stage5
+@dev_ok
 Scenario: Test Scenario
   * I open page "/"
   * I see login form
