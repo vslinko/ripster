@@ -1,4 +1,4 @@
-import {DefinePlugin, ProvidePlugin, HotModuleReplacementPlugin} from 'webpack';
+import {ProvidePlugin, HotModuleReplacementPlugin} from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import path from 'path';
 
@@ -59,11 +59,6 @@ export default {
   ]),
 
   plugins: [
-    new DefinePlugin({
-      '__FRONTEND__': true,
-      '__BACKEND__': false,
-    }),
-
     new ProvidePlugin({
       'fetch': 'exports?self.fetch!whatwg-fetch',
     }),

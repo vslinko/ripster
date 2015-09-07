@@ -1,4 +1,4 @@
-import {DefinePlugin, ProvidePlugin} from 'webpack';
+import {ProvidePlugin} from 'webpack';
 import path from 'path';
 
 import config from '../config';
@@ -34,11 +34,6 @@ export default {
   },
 
   plugins: [
-    new DefinePlugin({
-      '__FRONTEND__': false,
-      '__BACKEND__': true,
-    }),
-
     new ProvidePlugin({
       'fetch': 'node-fetch',
     }),

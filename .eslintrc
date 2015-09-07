@@ -1,9 +1,5 @@
 {
   "extends": "airbnb",
-  "globals": {
-    "__FRONTEND__": true,
-    "__BACKEND__": true
-  },
   "rules": {
     "vars-on-top": 0
   }

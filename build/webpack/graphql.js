@@ -1,4 +1,3 @@
-import {DefinePlugin} from 'webpack';
 import path from 'path';
 
 import config from '../config';
@@ -16,11 +15,6 @@ export default {
   },
 
   plugins: [
-    new DefinePlugin({
-      '__FRONTEND__': false,
-      '__BACKEND__': true,
-    }),
-
     ...base.plugins,
   ],
 };
