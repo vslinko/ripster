@@ -1,27 +1,6 @@
-import React, {PropTypes} from 'react'
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
-import {gettext} from '../../utils/gettext'
+import {compose} from 'redux';
 
-import {{name}} from './{{name}}'
+import {{name}} from './{{name}}';
 
-@connect(state => ({
-  gettext: gettext(state.locale.messages)
-}))
-export default class {{name}}Container {
-  static propTypes = {
-    dispatch: PropTypes.func.isRequired
-  }
-
-  render() {
-    const {dispatch, ...props} = this.props
-
-    return (
-      <{{name}}
-        {...props}
-        {...bindActionCreators({
-        }, dispatch)}
-      />
-    )
-  }
-}
+export default compose(
+)({{name}});

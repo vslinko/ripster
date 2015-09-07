@@ -6,7 +6,7 @@ import mustache from 'mustache';
 
 export const rootDir = join(__dirname, '..');
 export const srcDir = join(rootDir, 'src');
-export const componentsDir = join(srcDir, 'shared', 'components');
+export const bundlesDir = join(srcDir, 'frontend', 'bundles');
 
 function promisifyNode(cb) {
   return (...args) => {
