@@ -1,7 +1,7 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 
-export default function testDecorator(labelsConstructor) {
+export default function testable(labelsConstructor) {
   return Component => {
     const componentName = Component.displayName || Component.name;
 
@@ -19,8 +19,8 @@ export default function testDecorator(labelsConstructor) {
       return {};
     }
 
-    return class TestComponent {
-      static displayName = `TestComponent(${componentName})`
+    return class Testable {
+      static displayName = `Testable(${componentName})`
 
       componentDidMount() {
         this.refreshLabels();

@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
-import testDecorator from 'frontend/utils/testDecorator';
+import testable from 'frontend/utils/testable';
 
-@testDecorator()
+@testable()
 export default class App {
   static propTypes = {
     children: PropTypes.node,

@@ -1,11 +1,11 @@
 import React, {PropTypes} from 'react';
-import testDecorator from 'frontend/utils/testDecorator';
+import testable from 'frontend/utils/testable';
 import childrenToProps from 'frontend/utils/childrenToProps';
 
 import './HomePage.less';
 
 @childrenToProps
-@testDecorator()
+@testable()
 export default class HomePage {
   static propTypes = {
     localeButtons: PropTypes.node,
