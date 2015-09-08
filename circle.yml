@@ -12,28 +12,27 @@ machine:
     - sudo service redis-server stop
     - sudo service zookeeper stop
   environment:
+    WAIT_FOR_TIMEOUT: 60000
     NODE_ENV: test
     HOT_RELOAD: ""
-    npm_config_tarball: "https://iojs.org/dist/v1.3.0/iojs-v1.3.0.tar.gz"
+    npm_config_tarball: "https://iojs.org/dist/v3.3.0/iojs-v3.3.0.tar.gz"
   timezone: Europe/Moscow
-  node:
-    version: iojs-v1.3.0
   services:
     - neo4j
 
 dependencies:
-  post:
-    - ./node_modules/.bin/selenium-standalone install
+  pre:
+    - nvm install iojs-v3.3.0 && nvm alias default iojs-v3.3.0
+    - npm install -g npm@3.3.2
 
 test:
   pre:
     - mkdir -p $CIRCLE_TEST_REPORTS/cucumber
-    - make selenium: {background: true}
-    - make start: {background: true}
+    - npm start: {background: true}
     - ./bin/dump_features
     - sleep 5
   override:
-    - make lint
+    - npm run lint
     - CUCUMBER_FORMAT=json make acceptance_test -s > $CIRCLE_TEST_REPORTS/cucumber/tests.cucumber
   post:
     - ./bin/dump_step_definitions | tee $CIRCLE_ARTIFACTS/steps.txt
