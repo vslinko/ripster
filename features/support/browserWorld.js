@@ -44,7 +44,7 @@ function openUrl(world, url) {
         currentWindow = window;
 
         if (err) {
-          reject(err[0]);
+          reject(err);
         } else {
           resolve();
         }
