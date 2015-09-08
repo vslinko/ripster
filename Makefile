@@ -9,9 +9,6 @@ WEBPACK = ./node_modules/.bin/webpack
 ESLINT = ./node_modules/.bin/eslint
 PO2JSON = ./node_modules/.bin/po2json
 BABEL = ./node_modules/.bin/babel
-SELENIUM_STANDALONE = ./node_modules/.bin/selenium-standalone
-WDIO = ./node_modules/.bin/wdio
-BABEL_NODE = ./node_modules/.bin/babel-node
 NODE = node
 
 # Directories
@@ -28,7 +25,6 @@ HOOK_DIR = hooks
 HOOK_DIST_DIR = .git/hooks
 CUCUMBER_DIR = features
 CUCUMBER_DIST_DIR = features-dist
-SELENIUM_CACHE_DIR = node_modules/selenium-standalone/.selenium
 
 # Files
 
@@ -64,13 +60,10 @@ lint:
 
 hooks: $(HOOK_DIST_FILES)
 
-selenium: $(SELENIUM_CACHE_DIR)
-	$(SELENIUM_STANDALONE) start
-
 acceptance_test: $(CUCUMBER_DIST_JS_FILES)
 	./node_modules/.bin/cucumber-js --format $(CUCUMBER_FORMAT) features-dist
 
-.PHONY: all clean start lint hooks selenium acceptance_test
+.PHONY: all clean start lint hooks acceptance_test
 
 # Targets
 
@@ -95,6 +88,3 @@ $(HOOK_DIST_DIR)/%: $(HOOK_DIR)/%
 $(CUCUMBER_DIST_DIR)/%.js: $(CUCUMBER_DIR)/%.js
 	@mkdir -p "$(shell dirname $@)"
 	$(BABEL) $< -o $@
-
-$(SELENIUM_CACHE_DIR):
-	$(SELENIUM_STANDALONE) install
