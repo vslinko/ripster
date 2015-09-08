@@ -26,7 +26,7 @@ function createWorldCreator(createCallback) {
 }
 
 export function defineSteps(define) {
-  return () => {
+  return function stepDefinitions() {
     const createCallback = name => handler => this.registerHandler(name, async (event, cb) => {
       try {
         await handler();
