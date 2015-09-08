@@ -43,13 +43,10 @@ all: $(PUBLIC_DIST_FILES) $(LOCALE_JSON_FILES)
 clean:
 	rm -rf $(DIST_DIR) $(CUCUMBER_DIST_DIR)
 
-start: $(PUBLIC_DIST_FILES)
-	$(NODE) server.js
-
 acceptance_test: $(CUCUMBER_DIST_JS_FILES)
 	./node_modules/.bin/cucumber-js --format $(CUCUMBER_FORMAT) features-dist
 
-.PHONY: all clean start acceptance_test
+.PHONY: all clean acceptance_test
 
 # Targets
 

@@ -32,6 +32,7 @@ testRunner.wrap(function(runTests) {
     env: {
       PORT: webserverPort,
       GRAPHQL_URL: 'http://localhost:' + graphqlPort + '/',
+      PUBLIC_DIR: path.join(__dirname, 'src', 'public'),
     },
     onListening: runTests,
   });
