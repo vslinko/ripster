@@ -37,7 +37,7 @@ CUCUMBER_DIST_JS_FILES = $(subst $(CUCUMBER_DIR)/,$(CUCUMBER_DIST_DIR)/,$(CUCUMB
 
 # Commands
 
-all: $(PUBLIC_DIST_FILES) $(LOCALE_JSON_FILES)
+all: $(PUBLIC_DIST_FILES) $(LOCALE_JSON_FILES) $(DIST_DIR)/package.json
 	$(WEBPACK)
 
 clean:
@@ -67,3 +67,6 @@ $(LOCALE_DIR)/%.json: $(LOCALE_DIR)/%.po
 $(CUCUMBER_DIST_DIR)/%.js: $(CUCUMBER_DIR)/%.js
 	@mkdir -p "$(shell dirname $@)"
 	$(BABEL) $< -o $@
+
+$(DIST_DIR)/package.json: package.json
+	cp $< $@
