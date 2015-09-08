@@ -11,6 +11,8 @@ const dev = !prod && !test;
 
 const hotLoader = !test && process.env.HOT_RELOAD === 'react-hot-loader';
 
+const extractStyles = !hotLoader;
+
 const nodeModulesDirectory = path.join(root, 'node_modules');
 const nodeModulesExternals = fs.readdirSync(nodeModulesDirectory)
   .filter(name => name !== '.bin')
@@ -28,6 +30,7 @@ export default {
   dev,
 
   hotLoader,
+  extractStyles,
 
   nodeMixin: {
     target: 'node',

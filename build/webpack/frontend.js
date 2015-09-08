@@ -38,17 +38,15 @@ export default {
 
       {
         test: /\.less$/,
-        loader: ExtractTextPlugin.extract(
-          'style',
-          'css?sourceMap!postcss!less?sourceMap'
-        ),
+        loader: config.extractStyles
+          ? ExtractTextPlugin.extract('style', 'css?sourceMap!postcss!less?sourceMap')
+          : 'style!css!postcss!less',
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract(
-          'style',
-          'css?sourceMap!postcss'
-        ),
+        loader: config.extractStyles
+          ? ExtractTextPlugin.extract('style', 'css?sourceMap!postcss')
+          : 'style!css!postcss',
       },
     ],
   },
@@ -72,7 +70,7 @@ export default {
 
     ...base.plugins,
 
-    new ExtractTextPlugin('frontend.css'),
+    ...(config.extractStyles ? [new ExtractTextPlugin('frontend.css')] : []),
 
     ...(config.hotLoader ? [new HotModuleReplacementPlugin()] : []),
   ],
