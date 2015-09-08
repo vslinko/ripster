@@ -38,7 +38,7 @@ CUCUMBER_DIST_JS_FILES = $(subst $(CUCUMBER_DIR)/,$(CUCUMBER_DIST_DIR)/,$(CUCUMB
 # Commands
 
 all: $(PUBLIC_DIST_FILES) $(LOCALE_JSON_FILES) $(DIST_DIR)/package.json
-	$(WEBPACK)
+	NODE_ENV=production $(WEBPACK)
 
 clean:
 	rm -rf $(DIST_DIR) $(CUCUMBER_DIST_DIR)
