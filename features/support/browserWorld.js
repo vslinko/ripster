@@ -5,7 +5,7 @@ let currentWindow;
 let cache;
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
-const waitForTimeout = Number(process.env.WAIT_FOR_TIMEOUT || '1000');
+const waitForTimeout = Number(process.env.WAIT_FOR_TIMEOUT || '5000');
 
 function openUrl(world, url) {
   world.url = url;
