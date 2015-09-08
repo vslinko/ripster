@@ -1,5 +1,0 @@
-#!/bin/bash
-
-trap 'exit' ERR
-
-make lint

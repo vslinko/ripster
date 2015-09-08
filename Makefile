@@ -6,23 +6,17 @@ CUCUMBER_FORMAT ?= pretty
 # Executables
 
 WEBPACK = ./node_modules/.bin/webpack
-ESLINT = ./node_modules/.bin/eslint
 PO2JSON = ./node_modules/.bin/po2json
 BABEL = ./node_modules/.bin/babel
 NODE = node
 
 # Directories
 
-BUILD_DIR = build
 SRC_DIR = src
 DIST_DIR = dist
 PUBLIC_DIR = $(SRC_DIR)/public
 PUBLIC_DIST_DIR = $(DIST_DIR)/public
 LOCALE_DIR = $(SRC_DIR)/locale
-SCRIPT_DIR = scripts
-SERVER_DIR = server
-HOOK_DIR = hooks
-HOOK_DIST_DIR = .git/hooks
 CUCUMBER_DIR = features
 CUCUMBER_DIST_DIR = features-dist
 
@@ -38,9 +32,6 @@ POT_FILE = $(LOCALE_DIR)/messages.pot
 LOCALE_PO_FILES = $(LOCALES:%=$(LOCALE_DIR)/%.po)
 LOCALE_JSON_FILES = $(LOCALE_PO_FILES:%.po=%.json)
 
-HOOK_FILES = $(shell find $(HOOK_DIR) -type f)
-HOOK_DIST_FILES = $(subst $(HOOK_DIR)/,$(HOOK_DIST_DIR)/,$(HOOK_FILES))
-
 CUCUMBER_JS_FILES = $(shell find $(CUCUMBER_DIR) -type f -name '*.js')
 CUCUMBER_DIST_JS_FILES = $(subst $(CUCUMBER_DIR)/,$(CUCUMBER_DIST_DIR)/,$(CUCUMBER_JS_FILES))
 
@@ -55,15 +46,10 @@ clean:
 start: $(PUBLIC_DIST_FILES)
 	$(NODE) server.js
 
-lint:
-	$(ESLINT) $(BUILD_DIR) $(CUCUMBER_DIR) $(SCRIPT_DIR) $(SERVER_DIR) $(SRC_DIR) *.js
-
-hooks: $(HOOK_DIST_FILES)
-
 acceptance_test: $(CUCUMBER_DIST_JS_FILES)
 	./node_modules/.bin/cucumber-js --format $(CUCUMBER_FORMAT) features-dist
 
-.PHONY: all clean start lint hooks acceptance_test
+.PHONY: all clean start acceptance_test
 
 # Targets
 
@@ -80,10 +66,6 @@ $(LOCALE_DIR)/%.po: $(POT_FILE)
 
 $(LOCALE_DIR)/%.json: $(LOCALE_DIR)/%.po
 	$(PO2JSON) -pf jed $< $@
-
-$(HOOK_DIST_DIR)/%: $(HOOK_DIR)/%
-	cp "$<" "$@"
-	chmod a+x "$@"
 
 $(CUCUMBER_DIST_DIR)/%.js: $(CUCUMBER_DIR)/%.js
 	@mkdir -p "$(shell dirname $@)"
