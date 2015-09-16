@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import passport from 'passport';
 import BearerStrategy from 'passport-http-bearer';
 import AnonymousStrategy from 'passport-anonymous';
+import cookieParser from 'cookie-parser';
 import graphqlHTTP from 'express-graphql';
 
 import schema from './schema';
@@ -24,6 +25,7 @@ const app = express();
 
 app.disable('x-powered-by');
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
+app.use(cookieParser());
 app.use(passport.authenticate(['bearer', 'anonymous'], {
   session: false,
 }));
@@ -31,6 +33,7 @@ app.use(passport.authenticate(['bearer', 'anonymous'], {
 app.use(graphqlHTTP(request => ({
   schema,
   rootValue: {
+    locale: request.cookies.locale || 'en',
     user: request.user,
   },
 })));
