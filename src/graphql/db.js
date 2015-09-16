@@ -1,8 +1,9 @@
 import neo4j from 'neo4j';
+import config from './config';
 
 const url = process.env.NEO4J_URL
   || process.env.GRAPHENEDB_URL
-  || 'http://localhost:7474';
+  || config.get('neo4j:url');
 
 export const db = new neo4j.GraphDatabase(url);
 
