@@ -1,4 +1,5 @@
 import 'source-map-support/register';
+import 'babel/polyfill';
 import app from '../graphql';
 
 const port = process.env.PORT || '3000';

@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import testable from 'frontend/utils/testable';
 
 @testable()
-export default class SignInForm {
+export default class SignInForm extends React.Component {
   static propTypes = {
     markTestElement: PropTypes.func.isRequired,
     gettext: PropTypes.func.isRequired,

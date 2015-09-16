@@ -1,20 +1,34 @@
+import Intl from 'intl';
 import {createAction} from 'redux-act';
 import cookie from 'cookie';
 
 function loadRussian(cb) {
-  require.ensure(['locale/ru.json', 'intl/locale-data/json/ru.json'], (require) => {
-    cb(require('locale/ru.json'), require('intl/locale-data/json/ru.json'));
-  });
+  if (Intl.__addLocaleData) {
+    require.ensure(['locale/ru.json', 'intl/locale-data/json/ru.json'], (require) => {
+      Intl.__addLocaleData(require('intl/locale-data/json/ru.json'));
+      cb(require('locale/ru.json'));
+    });
+  } else {
+    require.ensure(['locale/ru.json'], (require) => {
+      cb(require('locale/ru.json'));
+    });
+  }
 }
 
 function loadEnglish(cb) {
-  require.ensure(['locale/en.json', 'intl/locale-data/json/en.json'], (require) => {
-    cb(require('locale/en.json'), require('intl/locale-data/json/en.json'));
-  });
+  if (Intl.__addLocaleData) {
+    require.ensure(['locale/en.json', 'intl/locale-data/json/en.json'], (require) => {
+      Intl.__addLocaleData(require('intl/locale-data/json/en.json'));
+      cb(require('locale/en.json'));
+    });
+  } else {
+    require.ensure(['locale/en.json'], (require) => {
+      cb(require('locale/en.json'));
+    });
+  }
 }
 
 export const setLocaleMessages = createAction();
-export const setLocaleData = createAction();
 export const setLocale = createAction((locale) => {
   document.cookie = `locale=${locale}; path=/`;
   return locale;
@@ -33,10 +47,9 @@ export function loadLocale(locale) {
         loader = loadEnglish;
       }
 
-      loader((messages, localeData) => {
-        dispatch(setLocale(locale));
-        dispatch(setLocaleData(localeData));
+      loader((messages) => {
         dispatch(setLocaleMessages(messages));
+        dispatch(setLocale(locale));
         resolve();
       });
     });
@@ -48,7 +61,6 @@ export function loadCurrentLocale() {
     const cookies = cookie.parse(document.cookie);
     const locale = cookies.locale || 'en';
 
-    dispatch(setLocale(locale));
     dispatch(loadLocale(locale));
   };
 }

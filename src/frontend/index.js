@@ -1,3 +1,5 @@
+import 'babel/polyfill';
+
 import React from 'react';
 import Relay from 'react-relay';
 import {render} from 'react-dom';

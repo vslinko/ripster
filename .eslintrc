@@ -1,6 +1,7 @@
 {
   "extends": "airbnb",
   "rules": {
-    "vars-on-top": 0
+    "vars-on-top": 0,
+    "react/jsx-quotes": 0
   }
 }

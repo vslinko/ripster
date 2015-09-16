@@ -19,7 +19,7 @@ export default function testable(labelsConstructor) {
       return {};
     }
 
-    return class Testable {
+    return class Testable extends React.Component {
       static displayName = `Testable(${componentName})`
 
       componentDidMount() {

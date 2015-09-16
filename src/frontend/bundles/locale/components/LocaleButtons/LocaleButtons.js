@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import testable from 'frontend/utils/testable';
 
 @testable()
-export default class LocaleButtons {
+export default class LocaleButtons extends React.Component {
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
     onLocale: PropTypes.func.isRequired,

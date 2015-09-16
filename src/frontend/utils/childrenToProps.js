@@ -13,7 +13,7 @@ function collectChildren(children) {
 export default function childrenToProps(Component) {
   const componentName = Component.displayName || Component.name || '';
 
-  return class ChildrenToProps {
+  return class ChildrenToProps extends React.Component {
     static displayName = `ChildrenToProps(${componentName})`
 
     render() {

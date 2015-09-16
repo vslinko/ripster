@@ -1,4 +1,4 @@
-import {createSelector} from 'reselect';
+import {createSelector, createStructuredSelector} from 'reselect';
 import Jed from 'jed';
 
 function prepareMesages({domain, locale_data: {messages}}) {
@@ -16,17 +16,15 @@ function prepareMesages({domain, locale_data: {messages}}) {
   };
 }
 
-function createGettext(messages) {
+function gettextSelector(messages) {
   const jed = new Jed(prepareMesages(messages));
 
   return (message, ...args) => jed.translate(message).fetch(...args);
 }
 
-const localeSelector = state => state.locale;
-
 export default createSelector(
-  [localeSelector],
-  (locale) => ({
-    gettext: createGettext(locale.messages),
+  state => state.locale.messages,
+  createStructuredSelector({
+    gettext: gettextSelector,
   })
 );

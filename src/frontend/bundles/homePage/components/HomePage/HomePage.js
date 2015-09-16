@@ -6,7 +6,7 @@ import './HomePage.less';
 
 @childrenToProps
 @testable()
-export default class HomePage {
+export default class HomePage extends React.Component {
   static propTypes = {
     localeButtons: PropTypes.node,
     form: PropTypes.node,
