@@ -9,9 +9,9 @@ const prod = process.env.NODE_ENV === 'production';
 const test = process.env.NODE_ENV === 'test';
 const dev = !prod && !test;
 
-const hotLoader = !test && process.env.HOT_RELOAD === 'react-hot-loader';
+const hot = !test && process.env.HOT_REPLACEMENT;
 
-const extractStyles = !hotLoader;
+const extractStyles = !hot;
 
 const nodeModulesDirectory = path.join(root, 'node_modules');
 const nodeModulesExternals = fs.readdirSync(nodeModulesDirectory)
@@ -29,7 +29,7 @@ export default {
   prod,
   dev,
 
-  hotLoader,
+  hot,
   extractStyles,
 
   nodeMixin: {

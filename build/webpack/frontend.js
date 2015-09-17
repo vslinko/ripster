@@ -1,4 +1,4 @@
-import {ProvidePlugin, HotModuleReplacementPlugin} from 'webpack';
+import {ProvidePlugin, HotModuleReplacementPlugin, NoErrorsPlugin} from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import path from 'path';
 
@@ -14,7 +14,7 @@ export default {
   entry: [
     path.join(config.src, 'frontend'),
 
-    ...(config.hotLoader ? [
+    ...(config.hot ? [
       'webpack/hot/dev-server',
       'webpack-dev-server/client?',
     ] : []),
@@ -72,6 +72,9 @@ export default {
 
     ...(config.extractStyles ? [new ExtractTextPlugin('frontend.css')] : []),
 
-    ...(config.hotLoader ? [new HotModuleReplacementPlugin()] : []),
+    ...(config.hot ? [
+      new HotModuleReplacementPlugin(),
+      new NoErrorsPlugin(),
+    ] : []),
   ],
 };

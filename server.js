@@ -1,7 +1,7 @@
 /* eslint-disable no-var, func-names */
 
 if (!process.env.CI) {
-  process.env.HOT_RELOAD = 'react-hot-loader';
+  process.env.HOT_REPLACEMENT = '1';
 }
 
 var path = require('path');
