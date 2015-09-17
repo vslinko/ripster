@@ -1,6 +1,5 @@
 import {GraphQLString} from 'graphql';
 import {mutationWithClientMutationId} from 'graphql-relay';
-import getUserByUUID from '../../queries/user/getUserByUUID';
 import setEmail from '../../queries/user/setEmail';
 import {wrapField, OP_UPDATE} from '../../acl';
 
@@ -16,8 +15,8 @@ export default refs => wrapField(assertAccess => mutationWithClientMutationId({
       resolve: user => user,
     }),
   },
-  mutateAndGetPayload: async ({uuid, email}) => {
-    const user = await getUserByUUID(uuid);
+  mutateAndGetPayload: async ({uuid, email}, {rootValue}) => {
+    const user = await rootValue.loaders.User.load(uuid);
 
     if (!user) {
       return null;

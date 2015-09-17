@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import graphqlHTTP from 'express-graphql';
 
 import schema from './schema';
+import createLoaders from './createLoaders';
 
 import getUserByToken from './queries/user/getUserByToken';
 
@@ -35,6 +36,7 @@ app.use(graphqlHTTP(request => ({
   rootValue: {
     locale: request.cookies.locale || 'en',
     user: request.user,
+    loaders: createLoaders(),
   },
 })));
 

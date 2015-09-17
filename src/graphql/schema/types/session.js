@@ -6,7 +6,7 @@ import {wrapField} from '../../acl';
 export default refs => new GraphQLObjectType({
   name: 'Session',
   fields: () => ({
-    id: idField('Session'),
+    id: idField('Session', 'sid'),
     sid: {
       type: GraphQLString,
       resolve: prop('sid'),

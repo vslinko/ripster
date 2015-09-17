@@ -1,5 +1,4 @@
 import {GraphQLID} from 'graphql';
-import getUserByUUID from '../../queries/user/getUserByUUID';
 import {wrapField} from '../../acl';
 
 export default refs => wrapField({
@@ -7,5 +6,5 @@ export default refs => wrapField({
   args: {
     uuid: {type: GraphQLID},
   },
-  resolve: (root, args) => getUserByUUID(args.uuid),
+  resolve: (root, args) => root.loaders.User.load(args.uuid),
 });
