@@ -31,12 +31,33 @@ async function initApp() {
 
     await router.waitQueue();
 
-    render(
+    const component = (
       <Provider store={store}>
         <AppContainer />
-      </Provider>,
-      document.getElementById('app')
+      </Provider>
     );
+    const container = document.getElementById('app');
+
+    if (process.env.NODE_ENV !== 'production') {
+      const {DevTools, DebugPanel, LogMonitor} = require('redux-devtools/lib/react');
+
+      render(
+        <div>
+          {component}
+          <DebugPanel top right bottom>
+            <DevTools
+              store={store}
+              monitor={LogMonitor}
+              visibleOnLoad={false}
+              keyboardEnabled
+            />
+          </DebugPanel>
+        </div>,
+        container
+      );
+    } else {
+      render(component, container);
+    }
   } catch (err) {
     console.log(err.stack); // eslint-disable-line no-console
   }
