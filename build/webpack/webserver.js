@@ -1,4 +1,3 @@
-import {ProvidePlugin} from 'webpack';
 import path from 'path';
 
 import config from '../config';
@@ -34,10 +33,6 @@ export default {
   },
 
   plugins: [
-    new ProvidePlugin({
-      'fetch': 'node-fetch',
-    }),
-
     ...base.plugins,
   ],
 };

@@ -1,4 +1,4 @@
-import {DefinePlugin, optimize} from 'webpack';
+import {ProvidePlugin, DefinePlugin, optimize} from 'webpack';
 import path from 'path';
 
 import config from '../config';
@@ -31,6 +31,10 @@ export default {
   devtool: config.dev ? 'cheap-module-source-map' : 'source-map',
 
   plugins: [
+    new ProvidePlugin({
+      'fetch': 'isomorphic-fetch',
+    }),
+
     new DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(
         process.env.NODE_ENV || 'development'

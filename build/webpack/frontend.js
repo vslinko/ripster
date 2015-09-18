@@ -1,4 +1,4 @@
-import {ProvidePlugin, HotModuleReplacementPlugin, NoErrorsPlugin} from 'webpack';
+import {HotModuleReplacementPlugin, NoErrorsPlugin} from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import path from 'path';
 
@@ -64,10 +64,6 @@ export default {
   ]),
 
   plugins: [
-    new ProvidePlugin({
-      'fetch': 'exports?self.fetch!whatwg-fetch',
-    }),
-
     ...base.plugins,
 
     ...(config.extractStyles ? [new ExtractTextPlugin('frontend.css')] : []),
