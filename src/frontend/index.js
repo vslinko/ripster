@@ -1,17 +1,12 @@
 import 'babel/polyfill';
 
 import React from 'react';
-import Relay from 'react-relay';
 import {render} from 'react-dom';
-
-import {createHistory} from 'history';
-import createStore from './createStore';
-import createRouter from './createRouter';
-
+import Relay from 'react-relay';
 import {Provider} from 'react-redux';
-
-import {AppContainer} from 'frontend/bundles/common/components/App';
-
+import {ReduxRouter} from 'redux-react-router';
+import ReactRouterRelay from 'react-router-relay';
+import createStore from './createStore';
 import init from './init';
 
 async function initApp() {
@@ -22,18 +17,15 @@ async function initApp() {
       })
     );
 
-    const history = createHistory();
-    const store = createStore(history);
+    const store = createStore();
 
     await store.dispatch(init());
 
-    const router = createRouter(history, store);
-
-    await router.waitQueue();
-
     const component = (
       <Provider store={store}>
-        <AppContainer />
+        <ReduxRouter
+          createElement={ReactRouterRelay.createElement}
+        />
       </Provider>
     );
     const container = document.getElementById('app');

@@ -57,15 +57,16 @@
     "react-dom": "0.14.0-rc1",
     "react-redux": "^2.1.2",
     "react-relay": "^0.3.1",
+    "react-router": "1.0.0-rc1",
+    "react-router-relay": "^0.5.0",
     "redux": "^3.0.0",
     "redux-act": "^0.1.1",
     "redux-form": "^1.5.3",
+    "redux-react-router": "^1.0.0-beta3",
     "redux-thunk": "^0.1.0",
-    "redux-vstack-router": "^0.1.0",
     "reselect": "^1.1.0",
     "source-map-support": "^0.3.2",
     "strulidator": "^1.2.1",
-    "vstack-router": "^0.4.0",
     "whatwg-fetch": "^0.9.0"
   },
   "devDependencies": {

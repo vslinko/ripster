@@ -1,32 +1,32 @@
+import {createHistory} from 'history';
 import {createStore, applyMiddleware, compose, combineReducers} from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import {historyMiddleware} from 'redux-vstack-router';
+import {reduxReactRouter} from 'redux-react-router';
 
+import routes from './routes';
 import reducers from './reducers';
 
-export default function createAppStore(history, initialState) {
-  const middlewares = applyMiddleware(
-    historyMiddleware(history),
-    thunkMiddleware
-  );
-
-  let finalCreateStore;
+export default function createAppStore(initialState) {
+  let finalCreateStore = createStore;
 
   if (process.env.NODE_ENV !== 'production') {
     const {devTools, persistState} = require('redux-devtools');
 
     finalCreateStore = compose(
-      middlewares,
       devTools(),
       persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
-    )(createStore);
-  } else {
-    finalCreateStore = middlewares(createStore);
+    )(finalCreateStore);
   }
 
-  const reduce = combineReducers(reducers);
+  finalCreateStore = compose(
+    applyMiddleware(
+      thunkMiddleware
+    ),
+    reduxReactRouter({
+      routes,
+      createHistory,
+    }),
+  )(finalCreateStore);
 
-  const store = finalCreateStore(reduce, initialState);
-
-  return store;
+  return finalCreateStore(combineReducers(reducers), initialState);
 }

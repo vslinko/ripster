@@ -1,4 +1,4 @@
-import {routerReducer} from 'redux-vstack-router';
+import {routerStateReducer} from 'redux-react-router';
 import {reducer as formReducer} from 'redux-form';
 
 const pattern = /^\.\/[a-z]+\/reducers\/([a-z]+)\.js$/i;
@@ -15,4 +15,4 @@ export default req.keys().reduce((acc, key) => {
   acc[name] = req(key);
 
   return acc;
-}, {router: routerReducer, form: formReducer});
+}, {router: routerStateReducer, form: formReducer});
