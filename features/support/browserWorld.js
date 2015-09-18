@@ -40,6 +40,18 @@ function openUrl(world, url) {
           callback(undefined, result);
         });
       },
+      created: (err, window) => {
+        if (window) {
+          window.sessionStorage = {
+            setItem(key, value) {
+              this[key] = value;
+            },
+            getItem(key) {
+              return this[key];
+            },
+          };
+        }
+      },
       done: (err, window) => {
         currentWindow = window;
 
