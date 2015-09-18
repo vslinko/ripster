@@ -44,7 +44,11 @@ clean:
 	rm -rf $(DIST_DIR) $(CUCUMBER_DIST_DIR)
 
 acceptance_test: $(CUCUMBER_DIST_JS_FILES)
-	./node_modules/.bin/cucumber-js --format $(CUCUMBER_FORMAT) features-dist
+	./node_modules/.bin/cucumber-js \
+		-r node_modules/babel/polyfill.js \
+		-r features-dist/step-definitions \
+		--format $(CUCUMBER_FORMAT) \
+		features-dist
 
 .PHONY: all clean acceptance_test
 
