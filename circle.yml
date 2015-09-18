@@ -15,15 +15,14 @@ machine:
     WAIT_FOR_TIMEOUT: 60000
     NODE_ENV: test
     HOT_RELOAD: ""
-    npm_config_tarball: "https://iojs.org/dist/v3.3.0/iojs-v3.3.0.tar.gz"
   timezone: Europe/Moscow
   services:
     - neo4j
 
 dependencies:
   pre:
-    - nvm install iojs-v3.3.0 && nvm alias default iojs-v3.3.0
-    - npm install -g npm@3.3.2
+    - nvm install v4.1.0 && nvm alias default v4.1.0
+    - npm install -g npm@3.3.3
 
 test:
   pre:
