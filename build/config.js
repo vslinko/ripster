@@ -9,7 +9,7 @@ const prod = process.env.NODE_ENV === 'production';
 const test = process.env.NODE_ENV === 'test';
 const dev = !prod && !test;
 
-const hot = !test && process.env.HOT_REPLACEMENT;
+const hot = !prod && process.env.HOT_REPLACEMENT;
 
 const extractStyles = !hot;
 
