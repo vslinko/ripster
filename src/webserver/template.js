@@ -7,7 +7,7 @@ export default function template() {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title></title>
-    <link rel="stylesheet" href="/frontend.css" />
+    ${process.env.EXTRACTED_STYLES ? '<link rel="stylesheet" href="/frontend.css" />' : ''}
   </head>
   <body>
     <div id="app"></div>

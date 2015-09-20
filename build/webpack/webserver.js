@@ -1,3 +1,4 @@
+import {DefinePlugin} from 'webpack';
 import path from 'path';
 
 import config from '../config';
@@ -34,5 +35,9 @@ export default {
 
   plugins: [
     ...base.plugins,
+
+    new DefinePlugin({
+      'process.env.EXTRACTED_STYLES': config.extractStyles,
+    }),
   ],
 };
