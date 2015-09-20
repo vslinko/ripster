@@ -4,7 +4,7 @@ import {
   mainAnswers,
   dashify,
   renderTemplate,
-  bundlesDir
+  bundlesDir,
 } from '../utils';
 
 const questions = [

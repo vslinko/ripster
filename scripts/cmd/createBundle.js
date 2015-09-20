@@ -2,7 +2,7 @@ import {existsAsync, mkdirAsync} from 'fs-extra-promise';
 import {join} from 'path';
 import {
   mainAnswers,
-  bundlesDir
+  bundlesDir,
 } from '../utils';
 
 const questions = [
