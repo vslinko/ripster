@@ -111,7 +111,7 @@
     "ps-tree": "^1.0.0",
     "ramda": "^0.17.1",
     "react-transform-catch-errors": "^0.2.0",
-    "react-transform-webpack-hmr": "^0.1.5",
+    "react-transform-hmr": "^1.0.1",
     "redbox-react": "^1.0.5",
     "redux-devtools": "^2.1.2",
     "style-loader": "^0.12.3",
