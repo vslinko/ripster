@@ -5,11 +5,13 @@ CUCUMBER_FORMAT ?= pretty
 
 # Executables
 
-WEBPACK = ./node_modules/.bin/webpack
-PO2JSON = ./node_modules/.bin/po2json
-BABEL = ./node_modules/.bin/babel
+BIN = $(PWD)/node_modules/.bin
+WEBPACK = $(BIN)/webpack
+PO2JSON = $(BIN)/po2json
+BABEL = $(BIN)/babel
 NODE = node
-
+MOCHA_OPTIONS = --compilers js:babel/register --require ./scripts/test-setup.js
+MOCHA					= NODE_ENV=test $(NODE) $(BIN)/mocha $(MOCHA_OPTIONS)
 # Directories
 
 SRC_DIR = src
@@ -17,6 +19,7 @@ DIST_DIR = dist
 PUBLIC_DIR = $(SRC_DIR)/public
 PUBLIC_DIST_DIR = $(DIST_DIR)/public
 LOCALE_DIR = $(SRC_DIR)/locale
+TESTS = $(shell find ./src -path '**/__tests__/*-test.js')
 CUCUMBER_DIR = features
 CUCUMBER_DIST_DIR = features-dist
 
@@ -43,14 +46,20 @@ all: $(PUBLIC_DIST_FILES) $(LOCALE_JSON_FILES) $(DIST_DIR)/package.json
 clean:
 	rm -rf $(DIST_DIR) $(CUCUMBER_DIST_DIR)
 
+test:
+	@$(MOCHA) -- $(TESTS)
+
+ci:
+	@$(MOCHA) --watch -- $(TESTS)
+
 acceptance_test: $(CUCUMBER_DIST_JS_FILES)
-	./node_modules/.bin/cucumber-js \
+	$(BIN)/cucumber-js \
 		-r node_modules/babel/polyfill.js \
 		-r features-dist/step-definitions \
 		--format $(CUCUMBER_FORMAT) \
 		features-dist
 
-.PHONY: all clean acceptance_test
+.PHONY: all clean test ci acceptance_test
 
 # Targets
 

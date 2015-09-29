@@ -17,6 +17,9 @@
           }]
         },
       }
+    },
+    "test": {
+      "plugins": ["babel-plugin-espower"]
     }
   }
 }
