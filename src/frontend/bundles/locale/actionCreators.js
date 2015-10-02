@@ -69,16 +69,16 @@ function detectLanguage() {
 }
 
 export function loadCurrentLocale() {
-  return (dispatch) => {
+  return async (dispatch) => {
     const cookies = cookie.parse(document.cookie);
     const locale = cookies.locale || detectLanguage();
 
-    dispatch(loadLocale(locale));
+    await dispatch(loadLocale(locale));
   };
 }
 
 export function init() {
-  return (dispatch) => {
-    dispatch(loadCurrentLocale());
+  return async (dispatch) => {
+    await dispatch(loadCurrentLocale());
   };
 }
