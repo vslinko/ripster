@@ -1,6 +1,9 @@
 /* eslint-disable no-var, no-console, func-names */
 
-var WebpackDevServer = require('webpack-dev-server');
+var express = require('express');
+var webpackDevMiddleware = require('webpack-dev-middleware');
+var webpackHotMiddleware = require('webpack-hot-middleware');
+var proxyMiddleware = require('express-http-proxy');
 var webpack = require('webpack');
 var webpackConfig = require('../webpack.config.frontend');
 var onBuild = require('./onBuild');
@@ -12,17 +15,6 @@ var compiler = webpack(webpackConfig);
 
 console.log('first build');
 
-var server = new WebpackDevServer(compiler, {
-  quiet: true,
-  hot: true,
-  stats: {
-    colors: true,
-  },
-  proxy: {
-    '*': webserverUrl,
-  },
-});
-
 compiler.plugin('invalid', function() {
   console.log('rebuild');
 });
@@ -32,4 +24,10 @@ compiler.plugin('done', function(stats) {
   onBuild(stats);
 });
 
-server.listen(port);
+var app = express();
+
+app.use(webpackDevMiddleware(compiler));
+app.use(webpackHotMiddleware(compiler));
+app.use(proxyMiddleware(webserverUrl));
+
+app.listen(port);

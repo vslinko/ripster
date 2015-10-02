@@ -1,4 +1,4 @@
-import {HotModuleReplacementPlugin, NoErrorsPlugin} from 'webpack';
+import {HotModuleReplacementPlugin, NoErrorsPlugin, optimize} from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import path from 'path';
 
@@ -18,8 +18,7 @@ export default {
     path.join(config.src, 'frontend'),
 
     ...(config.hot ? [
-      'webpack/hot/dev-server',
-      'webpack-dev-server/client?',
+      'webpack-hot-middleware/client',
     ] : []),
   ],
 
@@ -72,6 +71,7 @@ export default {
     ...(config.extractStyles ? [new ExtractTextPlugin('frontend.css')] : []),
 
     ...(config.hot ? [
+      new optimize.OccurenceOrderPlugin(),
       new HotModuleReplacementPlugin(),
       new NoErrorsPlugin(),
     ] : []),
