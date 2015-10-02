@@ -9,7 +9,7 @@ export default {
       {
         test: /\.js$/,
         include: [config.src],
-        loaders: ['babel?plugins=./build/babelRelayPlugin'],
+        loaders: ['babel'],
       },
       {
         test: /\.json$/,
@@ -43,4 +43,8 @@ export default {
 
     ...(config.prod ? [new optimize.UglifyJsPlugin()] : []),
   ],
+
+  babel: {
+    stage: 0,
+  },
 };

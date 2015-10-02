@@ -2,6 +2,9 @@ import {HotModuleReplacementPlugin, NoErrorsPlugin} from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import path from 'path';
 
+import babelPluginRelay from '../babelPluginRelay';
+import babelPluginReactTransform from 'babel-plugin-react-transform';
+
 import autoprefixer from 'autoprefixer';
 import mqpacker from 'css-mqpacker';
 
@@ -73,4 +76,30 @@ export default {
       new NoErrorsPlugin(),
     ] : []),
   ],
+
+  babel: {
+    ...base.babel,
+
+    ...(config.hot ? {
+      plugins: [
+        babelPluginRelay,
+        babelPluginReactTransform,
+      ],
+      extra: {
+        'react-transform': {
+          transforms: [
+            {
+              transform: 'react-transform-hmr',
+              imports: ['react'],
+              locals: ['module'],
+            },
+            {
+              transform: 'react-transform-catch-errors',
+              imports: ['react', 'redbox-react'],
+            },
+          ],
+        },
+      },
+    } : {}),
+  },
 };
