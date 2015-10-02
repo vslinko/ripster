@@ -1,22 +1,14 @@
-import React, {PropTypes} from 'react';
-import childrenToProps from 'frontend/utils/childrenToProps';
-import testable from 'frontend/utils/testable';
+import React from 'react';
 
 {{#less}}
 import './{{name}}.less';
 
 {{/less}}
-@childrenToProps
-@testable()
 export default class {{name}} {
-  static propTypes = {
-    children: PropTypes.node,
-  }
-
   render() {
     return (
       <div>
-        {this.props.children}
+        {{name}}
       </div>
     );
   }
