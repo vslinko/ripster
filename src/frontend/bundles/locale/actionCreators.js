@@ -56,10 +56,22 @@ export function loadLocale(locale) {
   };
 }
 
+function detectLanguage() {
+  const languages = (
+    window.navigator.languages || [window.navigator.language || window.navigator.userLanguage || 'en']
+  ).map(language => language.toLowerCase());
+
+  if (languages.includes('ru') || languages.includes('ru-ru')) {
+    return 'ru';
+  }
+
+  return 'en';
+}
+
 export function loadCurrentLocale() {
   return (dispatch) => {
     const cookies = cookie.parse(document.cookie);
-    const locale = cookies.locale || 'en';
+    const locale = cookies.locale || detectLanguage();
 
     dispatch(loadLocale(locale));
   };
