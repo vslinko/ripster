@@ -60,11 +60,11 @@ const getFeaturesFromFiles = R.curry(R.uncurryN(2, (options) => R.pipe(
   R.flatten
 )));
 
-const hasTag = (t) => (feature) => {
+const hasTag = (tagFilter) => (feature) => {
   const scenarioDefinition = R.head(feature.ast.scenarioDefinitions);
   const tags = scenarioDefinition.tags.map(R.prop('name'));
 
-  return tags.indexOf(t) >= 0;
+  return tags.indexOf(tagFilter) >= 0;
 };
 
 main(async () => {

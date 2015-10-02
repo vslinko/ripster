@@ -1,6 +1,7 @@
 {
   "extends": "airbnb",
   "rules": {
-    "vars-on-top": 0
+    "vars-on-top": 0,
+    "id-length": [2, {"exceptions": ["R"]}]
   }
 }

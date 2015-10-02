@@ -31,7 +31,7 @@ export function underscore(string) {
 
     string
       .slice(1)
-      .replace(/[A-Z]/g, c => `_${c.toLowerCase()}`),
+      .replace(/[A-Z]/g, piece => `_${piece.toLowerCase()}`),
   ].join('');
 }
 
@@ -42,7 +42,7 @@ export function dashify(string) {
 
     string
       .slice(1)
-      .replace(/[A-Z]/g, c => `-${c.toLowerCase()}`),
+      .replace(/[A-Z]/g, piece => `-${piece.toLowerCase()}`),
   ].join('');
 }
 

@@ -15,7 +15,7 @@ export function chain(...selectors) {
 }
 
 export function component(componentName) {
-  const c = (labels) => {
+  const object = (labels) => {
     return Object.keys(labels || {})
       .map((key) => {
         return byLabel(key, labels[key]);
@@ -24,9 +24,9 @@ export function component(componentName) {
       .join('');
   };
 
-  c.element = (elementName) => {
+  object.element = (elementName) => {
     return byElement(componentName + '-' + elementName);
   };
 
-  return c;
+  return object;
 }

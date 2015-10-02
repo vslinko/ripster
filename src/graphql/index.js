@@ -33,6 +33,7 @@ app.use(passport.authenticate(['bearer', 'anonymous'], {
 
 app.use(graphqlHTTP(request => ({
   schema,
+  graphiql: process.env.NODE_ENV !== 'production',
   rootValue: {
     domain: request.hostname,
     locale: request.cookies.locale || 'en',

@@ -114,10 +114,10 @@ screen.program.key(['C-c', 'q'], function() {
   screen.program.normalBuffer();
   psTree(process.pid, function(err, children) {
     if (children) {
-      children.forEach(function(p) {
+      children.forEach(function(processInfo) {
         try {
-          process.kill(p.PID, 'SIGKILL');
-        } catch (e) {
+          process.kill(processInfo.PID, 'SIGKILL');
+        } catch (error) {
           return;
         }
       });

@@ -15,12 +15,12 @@ var runTests = debounce(function() {
     return;
   }
 
-  var p = spawn('make', ['acceptance_test'], {
+  var makeProcess = spawn('make', ['acceptance_test'], {
     stdio: 'pipe',
   });
 
-  p.stdout.on('data', log.bind(null, 'tests'));
-  p.stderr.on('data', log.bind(null, 'tests'));
+  makeProcess.stdout.on('data', log.bind(null, 'tests'));
+  makeProcess.stderr.on('data', log.bind(null, 'tests'));
 }, 500);
 
 function wrap(fn) {
