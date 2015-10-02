@@ -28,8 +28,8 @@ function loadEnglish(cb) {
   }
 }
 
-export const setLocaleMessages = createAction();
-export const setLocale = createAction((locale) => {
+export const setLocaleMessages = createAction('setLocaleMessages');
+export const setLocale = createAction('setLocale', (locale) => {
   document.cookie = `locale=${locale}; path=/`;
   return locale;
 });

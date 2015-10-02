@@ -5,7 +5,7 @@ import applyMutation from 'frontend/utils/applyMutation';
 
 import CreateSessionMutation from './mutations/CreateSessionMutation';
 
-export const setToken = createAction();
+export const setToken = createAction('setToken');
 
 export function readToken() {
   return dispatch => {
