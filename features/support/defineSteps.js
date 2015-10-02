@@ -37,7 +37,17 @@ export function defineSteps(define) {
     });
 
     const step = (re, cb) => {
-      this.Given(re, (a, b, c, d, e, f) => {
+      const rem = re
+        .toString()
+        .replace(/^\/\^?/, '/^')
+        .replace(/\$?\/([a-z]*)$/, '[ ]*(#.+)?$/$1');
+
+      const index = rem.lastIndexOf('/');
+
+      const reSource = rem.slice(1, index);
+      const reFlags = rem.slice(index + 1);
+
+      this.Given(new RegExp(reSource, reFlags), (a, b, c, d, e, f) => {
         return cb(currentWorld, a, b, c, d, e, f);
       });
     };
