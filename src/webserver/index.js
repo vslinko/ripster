@@ -18,21 +18,20 @@ if (process.env.PUBLIC_DIR) {
   }));
 }
 
-if (process.env.GRAPHQL_URL) {
-  app.use('/graphql', proxy(process.env.GRAPHQL_URL, {
-    decorateRequest(req) {
-      if (req.headers.cookie) {
-        const token = cookie.parse(req.headers.cookie).token;
+app.use('/graphql', proxy(process.env.GRAPHQL_URL, {
+  preserveHostHdr: true,
+  decorateRequest(req) {
+    if (req.headers.cookie) {
+      const token = cookie.parse(req.headers.cookie).token;
 
-        if (token) {
-          req.headers.Authorization = `Bearer ${token}`;
-        }
+      if (token) {
+        req.headers.Authorization = `Bearer ${token}`;
       }
+    }
 
-      return req;
-    },
-  }));
-}
+    return req;
+  },
+}));
 
 app.get('*', async (req, res) => {
   res.send(template());
