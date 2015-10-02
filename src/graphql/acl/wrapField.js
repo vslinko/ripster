@@ -18,8 +18,8 @@ export default function wrapField(field) {
 
     const operationText = `operation "${operation}"`;
 
-    const objectText = object.name
-      ? `type ${object.name}`
+    const objectText = object.name || object.ofType
+      ? `type ${object.name || object.ofType.name}`
       : `object (:${object.labels.join(':')}) with id "${object._id}"`;
 
     const text = `${userText} can not make ${operationText} on ${objectText}`;
