@@ -110,6 +110,7 @@
     "postcss-loader": "^0.6.0",
     "ps-tree": "^1.0.0",
     "ramda": "^0.17.1",
+    "react-addons-perf": "^0.14.0-rc1",
     "react-transform-catch-errors": "^1.0.0",
     "react-transform-hmr": "^1.0.1",
     "redbox-react": "^1.0.5",

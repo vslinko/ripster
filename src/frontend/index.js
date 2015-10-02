@@ -31,6 +31,13 @@ async function initApp() {
     const container = document.getElementById('app');
 
     if (process.env.NODE_ENV !== 'production') {
+      const Perf = require('react-addons-perf');
+
+      window.Perf = Perf;
+      Perf.start();
+    }
+
+    if (process.env.NODE_ENV !== 'production') {
       const {DevTools, DebugPanel, LogMonitor} = require('redux-devtools/lib/react');
 
       render(
