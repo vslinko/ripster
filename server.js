@@ -14,16 +14,18 @@ var frontendPort = process.env.PORT
 var webserverPort = frontendPort + 1;
 var graphqlPort = webserverPort + 1;
 
-testRunner.wrap(function(runTests) {
-  createMoninor({
-    key: 'graphql',
-    script: path.join(__dirname, 'server', 'server.graphql.js'),
-    env: {
-      PORT: graphqlPort,
-    },
-    onListening: runTests,
+if (!process.env.GRAPHQL_URL) {
+  testRunner.wrap(function(runTests) {
+    createMoninor({
+      key: 'graphql',
+      script: path.join(__dirname, 'server', 'server.graphql.js'),
+      env: {
+        PORT: graphqlPort,
+      },
+      onListening: runTests,
+    });
   });
-});
+}
 
 testRunner.wrap(function(runTests) {
   createMoninor({
@@ -31,7 +33,7 @@ testRunner.wrap(function(runTests) {
     script: path.join(__dirname, 'server', 'server.webserver.js'),
     env: {
       PORT: webserverPort,
-      GRAPHQL_URL: 'http://localhost:' + graphqlPort + '/',
+      GRAPHQL_URL: process.env.GRAPHQL_URL || 'http://localhost:' + graphqlPort + '/',
       PUBLIC_DIR: path.join(__dirname, 'src', 'public'),
     },
     onListening: runTests,
