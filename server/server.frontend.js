@@ -26,8 +26,8 @@ compiler.plugin('done', function(stats) {
 
 var app = express();
 
-app.use(webpackDevMiddleware(compiler));
-app.use(webpackHotMiddleware(compiler));
+app.use(webpackDevMiddleware(compiler, {quiet: true}));
+app.use(webpackHotMiddleware(compiler, {log: false}));
 app.use(proxyMiddleware(webserverUrl));
 
 app.listen(port);
