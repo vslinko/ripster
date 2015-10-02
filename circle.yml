@@ -22,7 +22,6 @@ machine:
 dependencies:
   pre:
     - nvm install v4.1.0 && nvm alias default v4.1.0
-    - npm install -g npm@3.3.3
 
 test:
   pre:
