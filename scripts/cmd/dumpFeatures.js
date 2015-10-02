@@ -28,19 +28,21 @@ const readFile = async filePath => ({
 
 const readFiles = R.map(readFile);
 
+const noop = {};
+
 function safe(fn) {
   return (...args) => {
     try {
       return fn(...args);
     } catch (err) {
-      return null;
+      return noop;
     }
   };
 }
 
 const safeMap = fn => R.pipe(
   R.map(safe(fn)),
-  R.filter(value => value !== undefined)
+  R.filter(value => value !== noop)
 );
 
 const getFeaturesFromFiles = R.curry(R.uncurryN(2, (options) => R.pipe(
