@@ -34,6 +34,7 @@ app.use(passport.authenticate(['bearer', 'anonymous'], {
 app.use(graphqlHTTP(request => ({
   schema,
   rootValue: {
+    domain: request.hostname,
     locale: request.cookies.locale || 'en',
     user: request.user,
     loaders: createLoaders(),
