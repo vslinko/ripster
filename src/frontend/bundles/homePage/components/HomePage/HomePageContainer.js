@@ -33,15 +33,11 @@ export default compose(
     null,
     (stateProps, dispatchProps, parentProps) => ({
       ...stateProps,
-      children: [
-        <LocaleButtonsContainer key="localeButtons" />,
-        <SignInFormContainer key="form" />,
-        <div key="users">
-          {parentProps.viewer.users.edges.map((edge) => (
-            <UserInfoContainer key={edge.cursor} user={edge.node} />
-          ))}
-        </div>,
-      ],
+      localeButtons: <LocaleButtonsContainer />,
+      form: <SignInFormContainer />,
+      users: parentProps.viewer.users.edges.map((edge) => (
+        <UserInfoContainer key={edge.cursor} user={edge.node} />
+      )),
     })
   )
 )(HomePage);

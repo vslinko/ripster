@@ -1,10 +1,8 @@
 import React, {PropTypes} from 'react';
 import testable from 'frontend/utils/testable';
-import childrenToProps from 'frontend/utils/childrenToProps';
 
 import './HomePage.less';
 
-@childrenToProps
 @testable()
 export default class HomePage extends React.Component {
   static propTypes = {
