@@ -1,7 +1,7 @@
 const req = require.context(
   'frontend/bundles',
   true,
-  /^\.\/[a-z]+\/actionCreators(\/index)?\.js$/i
+  /^\.\/[a-z]+\/actionCreators(\/[a-z]+)?\.js$/i
 );
 
 const bundleInits = req
