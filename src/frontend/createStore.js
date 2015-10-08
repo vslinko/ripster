@@ -9,12 +9,18 @@ import reducers from './reducers';
 export default function createAppStore(initialState) {
   let finalCreateStore = createStore;
 
-  if (process.env.NODE_ENV !== 'production') {
-    const {devTools, persistState} = require('redux-devtools');
+  if (process.env.NODE_ENV === 'development') {
     const logger = require('redux-logger');
 
     finalCreateStore = compose(
       applyMiddleware(logger()),
+    )(finalCreateStore);
+  }
+
+  if (process.env.NODE_ENV !== 'production') {
+    const {devTools, persistState} = require('redux-devtools');
+
+    finalCreateStore = compose(
       devTools(),
       persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
     )(finalCreateStore);
