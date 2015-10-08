@@ -100,6 +100,10 @@ export default {
           ],
         },
       },
-    } : {}),
+    } : {
+      plugins: [
+        babelPluginRelay,
+      ],
+    }),
   },
 };
