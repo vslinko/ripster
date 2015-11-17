@@ -32,11 +32,7 @@ export default {
     ...base.module,
 
     loaders: [
-      ...base.module.loaders.map(loader => (
-        config.hotLoader && loader.loaders.indexOf('babel') >= 0
-          && loader.loaders.unshift('react-hot'),
-        loader
-      )),
+      ...base.module.loaders,
 
       {
         test: /\.less$/,
