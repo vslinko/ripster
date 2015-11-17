@@ -17,15 +17,6 @@ export default function createAppStore(initialState) {
     )(finalCreateStore);
   }
 
-  if (process.env.NODE_ENV !== 'production') {
-    const {devTools, persistState} = require('redux-devtools');
-
-    finalCreateStore = compose(
-      devTools(),
-      persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
-    )(finalCreateStore);
-  }
-
   finalCreateStore = compose(
     applyMiddleware(
       thunkMiddleware
