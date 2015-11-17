@@ -1,14 +1,32 @@
 import React, {PropTypes} from 'react';
+import {defineMessages} from 'react-intl';
 import testable from 'frontend/utils/testable';
+
+const messages = defineMessages({
+  email: {
+    id: 'SignInForm.email',
+    defaultMessage: 'Email',
+  },
+  password: {
+    id: 'SignInForm.password',
+    defaultMessage: 'Password',
+  },
+  submit: {
+    id: 'SignInForm.submit',
+    defaultMessage: 'Submit',
+  },
+});
 
 @testable()
 export default class SignInForm extends React.Component {
   static propTypes = {
     markTestElement: PropTypes.func.isRequired,
-    gettext: PropTypes.func.isRequired,
     fields: PropTypes.shape({
       email: PropTypes.object.isRequired,
       password: PropTypes.object.isRequired,
+    }).isRequired,
+    intl: PropTypes.shape({
+      formatMessage: PropTypes.func.isRequired,
     }).isRequired,
     handleSubmit: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired,
@@ -17,7 +35,10 @@ export default class SignInForm extends React.Component {
   render() {
     const {
       markTestElement,
-      gettext,
+
+      intl: {
+        formatMessage,
+      },
 
       fields: {
         email,
@@ -31,30 +52,32 @@ export default class SignInForm extends React.Component {
     return (
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="SignInForm-Email">{gettext('Email')}</label>
+          <label htmlFor="SignInForm-Email">
+            {formatMessage(messages.email)}
+          </label>
           <input
             {...markTestElement('Email')}
             type="email"
             id="SignInForm-Email"
-            placeholder={gettext('Email')}
+            placeholder={formatMessage(messages.email)}
             {...email}
             disabled={submitting}
           />
           {email.error && email.touched && <span>{email.error}</span>}
         </div>
         <div>
-          <label htmlFor="SignInForm-Password">{gettext('Password')}</label>
+          <label htmlFor="SignInForm-Password">{formatMessage(messages.password)}</label>
           <input
             {...markTestElement('Password')}
             type="password"
             id="SignInForm-Password"
-            placeholder={gettext('Password')}
+            placeholder={formatMessage(messages.password)}
             {...password}
             disabled={submitting}
           />
           {password.error && password.touched && <span>{password.error}</span>}
         </div>
-        <button disabled={submitting}>{gettext('Submit')}</button>
+        <button disabled={submitting}>{formatMessage(messages.submit)}</button>
       </form>
     );
   }

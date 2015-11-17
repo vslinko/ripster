@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import testable from 'frontend/utils/testable';
+import {FormattedNumber, FormattedDate} from 'react-intl';
 
 import styles from './HomePage.less';
 
@@ -9,23 +10,24 @@ export default class HomePage extends React.Component {
     localeButtons: PropTypes.node,
     form: PropTypes.node,
     users: PropTypes.node,
-    formatDate: PropTypes.func.isRequired,
-    formatNumber: PropTypes.func.isRequired,
-    formatCurrency: PropTypes.func.isRequired,
   }
 
   render() {
-    const {formatDate, formatNumber, formatCurrency} = this.props;
-
     return (
       <div className={styles.container}>
         {this.props.localeButtons}
         {this.props.form}
 
         <div>
-          <div>{'number: ' + formatNumber(10.900)}</div>
-          <div>{'date: ' + formatDate(new Date(1438101264 * 1000))}</div>
-          <div>{'currency: ' + formatCurrency(100000000.999999, 'USD')}</div>
+          <div>
+            <FormattedNumber value={10.900} />
+          </div>
+          <div>
+            <FormattedDate value={new Date(1438101264 * 1000)} />
+          </div>
+          <div>
+            <FormattedNumber value={100000000.999999} style="currency" currency="USD" />
+          </div>
         </div>
 
         {this.props.users}

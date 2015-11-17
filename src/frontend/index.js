@@ -9,6 +9,8 @@ import {RelayRoutingContext} from 'react-router-relay';
 import createStore from './createStore';
 import init from './init';
 
+import {ReduxIntlContainer} from 'frontend/bundles/common/components/ReduxIntl';
+
 async function initApp() {
   try {
     Relay.injectNetworkLayer(
@@ -23,9 +25,11 @@ async function initApp() {
 
     const component = (
       <Provider store={store}>
-        <ReduxRouter
-          RoutingContext={RelayRoutingContext}
-        />
+        <ReduxIntlContainer>
+          <ReduxRouter
+            RoutingContext={RelayRoutingContext}
+          />
+        </ReduxIntlContainer>
       </Provider>
     );
     const container = document.getElementById('app');

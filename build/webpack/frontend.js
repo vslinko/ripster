@@ -50,6 +50,7 @@ export default {
     alias: {
       frontend: path.join(config.src, 'frontend'),
       locale: path.join(config.src, 'locale'),
+      'react-intl$': 'react-intl/lib/react-intl',
     },
   },
 

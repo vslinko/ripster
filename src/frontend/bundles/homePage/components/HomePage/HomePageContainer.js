@@ -3,7 +3,6 @@ import Relay from 'react-relay';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
 import relay from 'frontend/utils/relay';
-import intlSelector from 'frontend/bundles/locale/selectors/intlSelector';
 
 import {LocaleButtonsContainer} from 'frontend/bundles/locale/components/LocaleButtons';
 import {SignInFormContainer} from 'frontend/bundles/auth/components/SignInForm';
@@ -29,7 +28,7 @@ export default compose(
     },
   }),
   connect(
-    intlSelector,
+    null,
     null,
     (stateProps, dispatchProps, parentProps) => ({
       ...stateProps,
