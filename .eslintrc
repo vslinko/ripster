@@ -2,6 +2,8 @@
   "extends": "airbnb",
   "rules": {
     "vars-on-top": 0,
-    "id-length": [2, {"exceptions": ["R"]}]
+    "id-length": [2, {"exceptions": ["R"]}],
+    "space-before-function-paren": 1,
+    "space-before-keywords": 1
   }
 }

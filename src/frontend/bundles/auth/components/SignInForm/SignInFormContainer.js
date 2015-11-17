@@ -1,6 +1,6 @@
 import {compose} from 'redux';
 import {connect} from 'react-redux';
-import {connectReduxForm} from 'redux-form';
+import {reduxForm} from 'redux-form';
 import gettextSelector from 'frontend/bundles/locale/selectors/gettextSelector';
 import wrapValidate from 'frontend/utils/wrapValidate';
 
@@ -16,7 +16,7 @@ export default compose(
       onSubmit: authorize,
     }
   ),
-  connectReduxForm({
+  reduxForm({
     form: 'SignInForm',
     fields: ['email', 'password'],
     validate: wrapValidate(validate),

@@ -4,8 +4,8 @@ import React from 'react';
 import {render} from 'react-dom';
 import Relay from 'react-relay';
 import {Provider} from 'react-redux';
-import {ReduxRouter} from 'redux-react-router';
-import ReactRouterRelay from 'react-router-relay';
+import {ReduxRouter} from 'redux-router';
+import {RelayRoutingContext} from 'react-router-relay';
 import createStore from './createStore';
 import init from './init';
 
@@ -24,7 +24,7 @@ async function initApp() {
     const component = (
       <Provider store={store}>
         <ReduxRouter
-          createElement={ReactRouterRelay.createElement}
+          RoutingContext={RelayRoutingContext}
         />
       </Provider>
     );

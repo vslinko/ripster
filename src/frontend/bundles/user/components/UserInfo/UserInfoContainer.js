@@ -1,7 +1,7 @@
 import Relay from 'react-relay';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
-import {connectReduxForm} from 'redux-form';
+import {reduxForm} from 'redux-form';
 import relay from 'frontend/utils/relay';
 
 import UserInfo from './UserInfo';
@@ -37,7 +37,7 @@ export default compose(
       },
     })
   ),
-  connectReduxForm({
+  reduxForm({
     form: 'UserInfo',
     fields: ['email'],
   })
