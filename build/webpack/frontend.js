@@ -5,9 +5,6 @@ import path from 'path';
 import babelPluginRelay from '../babelPluginRelay';
 import babelPluginReactTransform from 'babel-plugin-react-transform';
 
-import autoprefixer from 'autoprefixer';
-import mqpacker from 'css-mqpacker';
-
 import config from '../config';
 import base from './base';
 
@@ -37,14 +34,14 @@ export default {
       {
         test: /\.less$/,
         loader: config.extractStyles
-          ? ExtractTextPlugin.extract('style', 'css?sourceMap!postcss!less?sourceMap')
-          : 'style!css!postcss!less',
+          ? ExtractTextPlugin.extract('style', 'css?sourceMap!less?sourceMap')
+          : 'style!css?sourceMap!less?sourceMap',
       },
       {
         test: /\.css$/,
         loader: config.extractStyles
-          ? ExtractTextPlugin.extract('style', 'css?sourceMap!postcss')
-          : 'style!css!postcss',
+          ? ExtractTextPlugin.extract('style', 'css?sourceMap')
+          : 'style!css?sourceMap',
       },
     ],
   },
@@ -55,11 +52,6 @@ export default {
       locale: path.join(config.src, 'locale'),
     },
   },
-
-  postcss: () => ([
-    autoprefixer,
-    mqpacker,
-  ]),
 
   plugins: [
     ...base.plugins,
