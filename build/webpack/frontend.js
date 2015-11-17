@@ -34,14 +34,14 @@ export default {
       {
         test: /\.less$/,
         loader: config.extractStyles
-          ? ExtractTextPlugin.extract('style', 'css?sourceMap!less?sourceMap')
-          : 'style!css?sourceMap!less?sourceMap',
+          ? ExtractTextPlugin.extract('style', 'css?sourceMap&modules!less?sourceMap')
+          : 'style!css?sourceMap&modules!less?sourceMap',
       },
       {
         test: /\.css$/,
         loader: config.extractStyles
-          ? ExtractTextPlugin.extract('style', 'css?sourceMap')
-          : 'style!css?sourceMap',
+          ? ExtractTextPlugin.extract('style', 'css?sourceMap&modules')
+          : 'style!css?sourceMap&modules',
       },
     ],
   },

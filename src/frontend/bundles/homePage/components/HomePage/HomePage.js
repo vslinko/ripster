@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import testable from 'frontend/utils/testable';
 
-import './HomePage.less';
+import styles from './HomePage.less';
 
 @testable()
 export default class HomePage extends React.Component {
@@ -18,7 +18,7 @@ export default class HomePage extends React.Component {
     const {formatDate, formatNumber, formatCurrency} = this.props;
 
     return (
-      <div className="HomePage">
+      <div className={styles.container}>
         {this.props.localeButtons}
         {this.props.form}
 
