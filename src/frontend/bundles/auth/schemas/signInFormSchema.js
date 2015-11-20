@@ -8,6 +8,6 @@ export default schema.type('signInForm', {
   password: {
     notEmpty: schema.constraint(schema.validators.isNotEmpty, 'Password is empty'),
     minLength: schema.minLength(5, 'Password is less than 5'),
-    maxLength: schema.minLength(18, 'Password is more than 18'),
+    maxLength: schema.maxLength(18, 'Password is more than 18'),
   },
 });

@@ -1,5 +1,6 @@
 /dist/
-/features-dist/
+/features/*.feature
+/features/tap.json
 /node_modules/
 /npm-debug.log
 /ripster.json

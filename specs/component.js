@@ -14,7 +14,7 @@ export function chain(...selectors) {
   return selectors.join(' ');
 }
 
-export function component(componentName) {
+export default function component(componentName) {
   const object = (labels) => {
     return Object.keys(labels || {})
       .map((key) => {

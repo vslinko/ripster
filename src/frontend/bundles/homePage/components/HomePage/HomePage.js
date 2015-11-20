@@ -9,14 +9,22 @@ export default class HomePage extends React.Component {
   static propTypes = {
     localeButtons: PropTypes.node,
     form: PropTypes.node,
+    welcomeMessage: PropTypes.node,
     users: PropTypes.node,
+    markTestElement: PropTypes.func.isRequired,
   }
 
   render() {
+    const {markTestElement} = this.props;
+
     return (
       <div className={styles.container}>
         {this.props.localeButtons}
         {this.props.form}
+
+        <div {...markTestElement('Welcome')}>
+          {this.props.welcomeMessage}
+        </div>
 
         <div>
           <div>

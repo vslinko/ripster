@@ -28,10 +28,15 @@ export default compose(
     },
   }),
   connect(
-    null,
+    state => ({
+      authorized: !!state.auth,
+    }),
     null,
     (stateProps, dispatchProps, parentProps) => ({
       ...stateProps,
+      welcomeMessage: stateProps.authorized
+        ? 'authorized'
+        : 'anonymous',
       localeButtons: <LocaleButtonsContainer />,
       form: <SignInFormContainer />,
       users: parentProps.viewer.users.edges.map((edge) => (

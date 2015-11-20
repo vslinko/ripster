@@ -1,0 +1,6 @@
+{
+  "Test Scenario": {
+    "User should be authorized after form is submitted": "signin/success",
+    "Email should be validated": "signin/validation"
+  }
+}

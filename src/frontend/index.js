@@ -34,6 +34,10 @@ async function initApp() {
     );
     const container = document.getElementById('app');
 
+    if (process.env.NODE_ENV === 'test') {
+      window.TestUtils = require('react-addons-test-utils');
+    }
+
     if (process.env.NODE_ENV !== 'production') {
       const Perf = require('react-addons-perf');
 

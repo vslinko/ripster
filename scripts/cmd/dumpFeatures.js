@@ -8,7 +8,7 @@ import {parseBlocks, parseFeatures, compileGherkin} from 'adsoft-gherkin';
 const {argv} = yargs
   .string(['o', 'l', 't'])
   .alias('o', 'output-dir')
-  .default('o', 'features-dist')
+  .default('o', 'features')
   .alias('l', 'default-language')
   .alias('t', 'tag')
   .default('t', '@dev_ok');

@@ -1,0 +1,44 @@
+#!/usr/bin/env node
+/* eslint-disable no-var, no-console */
+
+const parser = require('tap-parser');
+
+const tapRipster = parser();
+
+const result = [];
+var currentTest = null;
+var currentAsserts = [];
+
+tapRipster.on('comment', (comment) => {
+  if (currentTest) {
+    result.push({
+      test: currentTest,
+      asserts: currentAsserts,
+    });
+  }
+
+  currentTest = comment.replace(/^#/, '').trim();
+  currentAsserts = [];
+});
+
+tapRipster.on('assert', (assert) => {
+  currentAsserts.push(assert);
+});
+
+tapRipster.on('complete', () => {
+  const json = result
+    .filter(row => !/^(tests|pass)\s+\d+$/.test(row.test))
+    .reduce((acc, row) => (
+      acc[row.test] = row.asserts
+        .filter(assert => !assert.ok)
+        .map(assert => ({
+          message: assert.name,
+          stack: assert.diag.stack,
+        })),
+      acc
+    ), {});
+
+  console.log(JSON.stringify(json, null, 2));
+});
+
+process.stdin.pipe(tapRipster);

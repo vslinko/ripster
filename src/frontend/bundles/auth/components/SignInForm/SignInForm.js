@@ -50,7 +50,7 @@ export default class SignInForm extends React.Component {
     } = this.props;
 
     return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} {...markTestElement('Form')}>
         <div>
           <label htmlFor="SignInForm-Email">
             {formatMessage(messages.email)}
@@ -63,7 +63,7 @@ export default class SignInForm extends React.Component {
             {...email}
             disabled={submitting}
           />
-          {email.error && email.touched && <span>{email.error}</span>}
+          {email.error && email.touched && <span {...markTestElement('EmailError')}>{email.error}</span>}
         </div>
         <div>
           <label htmlFor="SignInForm-Password">{formatMessage(messages.password)}</label>
@@ -75,9 +75,9 @@ export default class SignInForm extends React.Component {
             {...password}
             disabled={submitting}
           />
-          {password.error && password.touched && <span>{password.error}</span>}
+          {password.error && password.touched && <span {...markTestElement('PasswordError')}>{password.error}</span>}
         </div>
-        <button disabled={submitting}>{formatMessage(messages.submit)}</button>
+        <button disabled={submitting} {...markTestElement('Button')}>{formatMessage(messages.submit)}</button>
       </form>
     );
   }

@@ -6,6 +6,7 @@ var spawn = require('child_process').spawn;
 var log = require('./log');
 
 var shouldRunTests = process.env.NODE_ENV === 'test' && !process.env.CI;
+var specPattern = process.env.SPECS_PATTERN || 'specs/**/*.js';
 
 var builders = 0;
 var build = 0;
@@ -15,7 +16,7 @@ var runTests = debounce(function() {
     return;
   }
 
-  var makeProcess = spawn('make', ['acceptance_test'], {
+  var makeProcess = spawn('./node_modules/.bin/babel-tape-runner', [specPattern], {
     stdio: 'pipe',
   });
 
@@ -35,7 +36,7 @@ function wrap(fn) {
   });
 }
 
-gaze(['features/**/*', 'features-dist/*.feature'], function(err, watcher) {
+gaze(['specs/**/*'], function(err, watcher) {
   if (err) {
     throw err;
   }
