@@ -48,7 +48,7 @@ export default function wrapField(field) {
       return checks
         .filter(({access}) => access)
         .map(({object}) => object);
-    } else if (result && !await checkAccess(result, OP_READ)) {
+    } else if (result && !(await checkAccess(result, OP_READ))) {
       return null;
     }
 

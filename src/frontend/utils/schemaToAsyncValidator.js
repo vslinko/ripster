@@ -11,8 +11,6 @@ export default function schemaToAsyncValidator(schemaConstructor) {
 
     return schema.check(values)
       .then((validity) => {
-        console.log(values, validity);
-
         if (validity.valid) {
           return;
         }
