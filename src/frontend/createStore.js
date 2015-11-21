@@ -25,6 +25,7 @@ export default function createAppStore(initialState) {
       routes,
       createHistory,
     }),
+    window.devToolsExtension ? window.devToolsExtension() : cs => cs
   )(finalCreateStore);
 
   return finalCreateStore(combineReducers(reducers), initialState);
