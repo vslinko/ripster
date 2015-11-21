@@ -48,6 +48,21 @@ export default function wrapField(field) {
       return checks
         .filter(({access}) => access)
         .map(({object}) => object);
+    } else if (result && result.edges && Array.isArray(result.edges)) {
+      const checks = await* result.edges
+        .map(async (edge) => ({
+          edge,
+          access: await checkAccess(edge.node, OP_READ),
+        }));
+
+      return {
+        ...result,
+        edges: checks
+          .map(({edge, access}) => ({
+            ...edge,
+            node: access ? edge.node : null,
+          })),
+      };
     } else if (result && !(await checkAccess(result, OP_READ))) {
       return null;
     }
