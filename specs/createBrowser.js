@@ -44,13 +44,25 @@ export default function createBrowserTest(testOptions) {
           });
         },
         created: (err, window) => {
-          if (window) {
-            window.sessionStorage = {
+          if (window && !window.localStorage) {
+            window.localStorage = {
+              _storage: Object.create(null),
               setItem(key, value) {
-                this[key] = value;
+                this._storage[key] = String(value);
               },
               getItem(key) {
-                return this[key];
+                return this._storage[key];
+              },
+            };
+          }
+          if (window && !window.sessionStorage) {
+            window.sessionStorage = {
+              _storage: Object.create(null),
+              setItem(key, value) {
+                this._storage[key] = String(value);
+              },
+              getItem(key) {
+                return this._storage[key];
               },
             };
           }
