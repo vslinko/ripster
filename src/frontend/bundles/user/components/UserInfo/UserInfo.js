@@ -1,7 +1,5 @@
 import React, {PropTypes} from 'react';
-import testable from 'frontend/utils/testable';
 
-@testable()
 export default class UserInfo extends React.Component {
   static propTypes = {
     fields: PropTypes.shape({

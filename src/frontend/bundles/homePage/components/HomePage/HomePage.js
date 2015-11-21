@@ -1,10 +1,8 @@
 import React, {PropTypes} from 'react';
-import testable from 'frontend/utils/testable';
 import {FormattedNumber, FormattedDate} from 'react-intl';
 
 import styles from './HomePage.less';
 
-@testable()
 export default class HomePage extends React.Component {
   static propTypes = {
     localeButtons: PropTypes.node,

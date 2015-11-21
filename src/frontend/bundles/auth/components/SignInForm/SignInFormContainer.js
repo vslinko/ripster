@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
 import {injectIntl} from 'react-intl';
 import schemaToAsyncValidator from 'frontend/utils/schemaToAsyncValidator';
+import testable from 'frontend/utils/testable';
 
 import {authorize} from '../../actionCreators';
 import signInFormSchema from './../../schemas/signInFormSchema';
@@ -21,5 +22,6 @@ export default compose(
     fields: ['email', 'password'],
     asyncValidate: schemaToAsyncValidator(() => signInFormSchema),
   }),
-  injectIntl
+  injectIntl,
+  testable()
 )(SignInForm);

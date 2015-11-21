@@ -3,6 +3,7 @@ import Relay from 'react-relay';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
 import relay from 'frontend/utils/relay';
+import testable from 'frontend/utils/testable';
 
 import {LocaleButtonsContainer} from 'frontend/bundles/locale/components/LocaleButtons';
 import {SignInFormContainer} from 'frontend/bundles/auth/components/SignInForm';
@@ -43,5 +44,6 @@ export default compose(
         <UserInfoContainer key={edge.cursor} user={edge.node} />
       )),
     })
-  )
+  ),
+  testable()
 )(HomePage);
