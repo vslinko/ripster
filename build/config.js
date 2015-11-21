@@ -3,6 +3,7 @@ import fs from 'fs';
 
 const root = path.join(__dirname, '..');
 const src = path.join(root, 'src');
+const tests = path.join(root, 'tests');
 const dist = path.join(root, 'dist');
 
 const prod = process.env.NODE_ENV === 'production';
@@ -24,6 +25,7 @@ const nodeModulesExternals = fs.readdirSync(nodeModulesDirectory)
 export default {
   root,
   src,
+  tests,
   dist,
 
   prod,

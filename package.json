@@ -27,6 +27,7 @@
   },
   "scripts": {
     "lint": "eslint bin/* build features scripts server src *.js",
+    "test-unit": "./bin/unit_tests",
     "test-specs": "babel-tape-runner specs/**/*.js",
     "test-acceptenance": "babel-tape-runner specs/**/*.js | ./bin/tap_ripster > features/tap.json && cucumberjs",
     "precommit": "npm run lint"

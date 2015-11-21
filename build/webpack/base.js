@@ -8,13 +8,14 @@ export default {
     loaders: [
       {
         test: /\.js$/,
-        include: [config.src],
+        include: [config.src, config.tests],
         loaders: ['babel'],
       },
       {
         test: /\.json$/,
         include: [
           config.src,
+          config.tests,
           path.join(config.root, 'node_modules', 'intl', 'locale-data', 'json'),
         ],
         loaders: ['json'],
