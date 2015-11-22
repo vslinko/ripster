@@ -27,8 +27,8 @@
   },
   "scripts": {
     "lint": "eslint bin/* build features scripts server src *.js",
-    "test-unit": "./bin/unit_tests",
-    "test-specs": "babel-tape-runner specs/**/*.js",
+    "test-unit": "./bin/unit_tests | faucet",
+    "test-specs": "babel-tape-runner specs/**/*.js | faucet",
     "test-acceptenance": "babel-tape-runner specs/**/*.js | ./bin/tap_ripster > features/tap.json && cucumberjs",
     "precommit": "npm run lint"
   },
@@ -90,6 +90,7 @@
     "eslint-config-airbnb": "^0.1.1",
     "eslint-plugin-react": "^3.9.0",
     "extract-text-webpack-plugin": "^0.9.1",
+    "faucet": "0.0.1",
     "fecha": "^1.0.0",
     "file-loader": "^0.8.4",
     "forever-monitor": "^1.7.0",
