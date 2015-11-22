@@ -9,7 +9,7 @@ global.navigator = window.navigator;
 global.self = window;
 
 const req = require.context(
-  '.',
+  '../frontend',
   true,
   /Test\.js$/
 );

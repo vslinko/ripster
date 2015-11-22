@@ -8,7 +8,7 @@ export default {
   ...config.nodeMixin,
 
   entry: [
-    path.join(config.tests, 'frontend'),
+    path.join(config.src, 'cmd', 'frontendTests'),
   ],
 
   output: {
