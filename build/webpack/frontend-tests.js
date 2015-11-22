@@ -1,3 +1,4 @@
+import {DefinePlugin} from 'webpack';
 import path from 'path';
 
 import config from '../config';
@@ -17,6 +18,10 @@ export default {
   },
 
   plugins: [
+    new DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('test'),
+    }),
+
     ...frontend.plugins,
   ],
 };
