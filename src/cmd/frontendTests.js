@@ -8,6 +8,7 @@ const window = document.defaultView;
 global.window = window;
 global.document = window.document;
 global.navigator = window.navigator;
+global.location = window.location;
 global.self = window;
 
 const req = require.context(
