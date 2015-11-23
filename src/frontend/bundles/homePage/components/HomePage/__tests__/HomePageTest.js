@@ -10,7 +10,7 @@ test('frontend/bundles/homePage/components/HomePage/HomePage', (t) => {
 
   const welcome = findRenderedDOMComponentWithMarker(
     homePage,
-    'HomePage-Welcome'
+    'HomePage-WelcomeMessage'
   );
 
   t.ok(welcome);

@@ -1,7 +1,10 @@
 import React, {PropTypes} from 'react';
 import {FormattedNumber, FormattedDate} from 'react-intl';
+import {createMarker} from 'frontend/utils/marker';
 
 import styles from './HomePage.less';
+
+const mark = createMarker('HomePage');
 
 export default class HomePage extends React.Component {
   static propTypes = {
@@ -9,18 +12,15 @@ export default class HomePage extends React.Component {
     form: PropTypes.node,
     welcomeMessage: PropTypes.node,
     users: PropTypes.node,
-    markTestElement: PropTypes.func.isRequired,
   }
 
   render() {
-    const {markTestElement} = this.props;
-
     return (
-      <div className={styles.container}>
+      <div className={styles.container} {...mark('Container')}>
         {this.props.localeButtons}
         {this.props.form}
 
-        <div {...markTestElement('Welcome')}>
+        <div {...mark('WelcomeMessage')}>
           {this.props.welcomeMessage}
         </div>
 

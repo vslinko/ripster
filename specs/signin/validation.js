@@ -1,38 +1,38 @@
 import test from 'blue-tape';
 import createHeadlessBrowser from '../createHeadlessBrowser';
-import component from '../component';
+import {createMarker} from '../marker';
 
-const SignInForm = component('SignInForm');
+const SignInForm = createMarker('SignInForm');
 
 test('signin/validation', async (t) => {
   const b = createHeadlessBrowser();
 
   await b.openUrl('/');
-  await b.waitForSelector(SignInForm());
+  await b.waitForSelector(SignInForm('Form'));
 
-  t.notok(b.querySelector(SignInForm.element('EmailError')));
-  t.notok(b.querySelector(SignInForm.element('PasswordError')));
+  t.notok(b.querySelector(SignInForm('EmailError')));
+  t.notok(b.querySelector(SignInForm('PasswordError')));
 
-  b.fill(SignInForm.element('Email'), 'a');
-  b.fill(SignInForm.element('Password'), 'a');
+  b.fill(SignInForm('Email'), 'a');
+  b.fill(SignInForm('Password'), 'a');
 
-  t.notok(b.querySelector(SignInForm.element('EmailError')));
-  t.notok(b.querySelector(SignInForm.element('PasswordError')));
+  t.notok(b.querySelector(SignInForm('EmailError')));
+  t.notok(b.querySelector(SignInForm('PasswordError')));
 
-  b.submit(SignInForm.element('Form'));
+  b.submit(SignInForm('Form'));
   await b.tick();
-  t.ok(b.querySelector(SignInForm.element('EmailError')));
-  t.ok(b.querySelector(SignInForm.element('PasswordError')));
+  t.ok(b.querySelector(SignInForm('EmailError')));
+  t.ok(b.querySelector(SignInForm('PasswordError')));
 
-  b.fill(SignInForm.element('Email'), 'test@example.com');
-  b.submit(SignInForm.element('Form'));
+  b.fill(SignInForm('Email'), 'test@example.com');
+  b.submit(SignInForm('Form'));
   await b.tick();
-  t.notok(b.querySelector(SignInForm.element('EmailError')));
-  t.ok(b.querySelector(SignInForm.element('PasswordError')));
+  t.notok(b.querySelector(SignInForm('EmailError')));
+  t.ok(b.querySelector(SignInForm('PasswordError')));
 
-  b.fill(SignInForm.element('Password'), '12345');
-  b.submit(SignInForm.element('Form'));
+  b.fill(SignInForm('Password'), '12345');
+  b.submit(SignInForm('Form'));
   await b.tick();
-  t.notok(b.querySelector(SignInForm.element('EmailError')));
-  t.notok(b.querySelector(SignInForm.element('PasswordError')));
+  t.notok(b.querySelector(SignInForm('EmailError')));
+  t.notok(b.querySelector(SignInForm('PasswordError')));
 });

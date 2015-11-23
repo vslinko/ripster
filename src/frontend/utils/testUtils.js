@@ -2,10 +2,9 @@ import React from 'react';
 import {renderIntoDocument, findAllInRenderedTree, isDOMComponent} from 'react-addons-test-utils';
 import {findDOMNode} from 'react-dom';
 import {injectIntl, IntlProvider} from 'react-intl';
-import testable from './testable';
 
 export function renderComponent(Component, props = {}) {
-  const WrappedComponent = injectIntl(testable()(Component));
+  const WrappedComponent = injectIntl(Component);
 
   return renderIntoDocument(
     <IntlProvider>
@@ -17,7 +16,7 @@ export function renderComponent(Component, props = {}) {
 export function scryRenderedDOMComponentsWithMarker(root, marker) {
   return findAllInRenderedTree(root, (inst) => (
     isDOMComponent(inst)
-      && findDOMNode(inst).getAttribute('data-test-element') === marker
+      && findDOMNode(inst).getAttribute('data-marker') === marker
   ));
 }
 

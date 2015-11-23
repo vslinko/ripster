@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import {defineMessages} from 'react-intl';
+import {createMarker} from 'frontend/utils/marker';
 
 const messages = defineMessages({
   email: {
@@ -16,9 +17,10 @@ const messages = defineMessages({
   },
 });
 
+const mark = createMarker('SignInForm');
+
 export default class SignInForm extends React.Component {
   static propTypes = {
-    markTestElement: PropTypes.func.isRequired,
     fields: PropTypes.shape({
       email: PropTypes.object.isRequired,
       password: PropTypes.object.isRequired,
@@ -32,8 +34,6 @@ export default class SignInForm extends React.Component {
 
   render() {
     const {
-      markTestElement,
-
       intl: {
         formatMessage,
       },
@@ -48,34 +48,34 @@ export default class SignInForm extends React.Component {
     } = this.props;
 
     return (
-      <form onSubmit={handleSubmit} {...markTestElement('Form')}>
+      <form onSubmit={handleSubmit} {...mark('Form')}>
         <div>
           <label htmlFor="SignInForm-Email">
             {formatMessage(messages.email)}
           </label>
           <input
-            {...markTestElement('Email')}
+            {...mark('Email')}
             type="email"
             id="SignInForm-Email"
             placeholder={formatMessage(messages.email)}
             {...email}
             disabled={submitting}
           />
-          {email.error && email.touched && <span {...markTestElement('EmailError')}>{email.error}</span>}
+          {email.error && email.touched && <span {...mark('EmailError')}>{email.error}</span>}
         </div>
         <div>
           <label htmlFor="SignInForm-Password">{formatMessage(messages.password)}</label>
           <input
-            {...markTestElement('Password')}
+            {...mark('Password')}
             type="password"
             id="SignInForm-Password"
             placeholder={formatMessage(messages.password)}
             {...password}
             disabled={submitting}
           />
-          {password.error && password.touched && <span {...markTestElement('PasswordError')}>{password.error}</span>}
+          {password.error && password.touched && <span {...mark('PasswordError')}>{password.error}</span>}
         </div>
-        <button disabled={submitting} {...markTestElement('Button')}>{formatMessage(messages.submit)}</button>
+        <button disabled={submitting} {...mark('Button')}>{formatMessage(messages.submit)}</button>
       </form>
     );
   }
