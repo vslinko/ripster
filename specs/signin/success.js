@@ -1,30 +1,37 @@
 import test from 'blue-tape';
-import createBrowser from '../createBrowser';
+import createSeleniumBrowser from '../createSeleniumBrowser';
 import component from '../component';
 
 const SignInForm = component('SignInForm');
 const HomePage = component('HomePage');
 
 test('signin/success', async (t) => {
-  const b = createBrowser();
+  const b = (await createSeleniumBrowser())();
 
-  await b.openUrl('/');
-  await b.waitForSelector(SignInForm());
+  await b.url('/');
+  await b.waitForExist(SignInForm());
 
-  const button = b.querySelector(SignInForm.element('Button'));
-  const welcome = b.querySelector(HomePage.element('Welcome'));
+  t.equal(
+    await b.getText(HomePage.element('Welcome')),
+    'anonymous'
+  );
 
-  t.equal(welcome.textContent, 'anonymous');
+  await b.setValue(SignInForm.element('Email'), 'user1@example.com');
+  await b.setValue(SignInForm.element('Password'), '12345');
+  await b.submitForm(SignInForm());
 
-  b.fill(SignInForm.element('Email'), 'user1@example.com');
-  b.fill(SignInForm.element('Password'), '12345');
-  b.submit(SignInForm());
+  t.ok(
+    await b.getAttribute(SignInForm.element('Button'), 'disabled')
+  );
 
-  await b.waitFor(() => button.disabled === true);
-  t.equal(button.disabled, true);
+  await b.waitForEnabled(SignInForm.element('Button'));
 
-  await b.waitFor(() => button.disabled === false);
-  t.equal(button.disabled, false);
+  t.notok(
+    await b.getAttribute(SignInForm.element('Button'), 'disabled')
+  );
 
-  t.equal(welcome.textContent, 'authorized');
+  t.equal(
+    await b.getText(HomePage.element('Welcome')),
+    'authorized'
+  );
 });

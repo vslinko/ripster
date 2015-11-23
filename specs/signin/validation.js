@@ -1,11 +1,11 @@
 import test from 'blue-tape';
-import createBrowser from '../createBrowser';
+import createHeadlessBrowser from '../createHeadlessBrowser';
 import component from '../component';
 
 const SignInForm = component('SignInForm');
 
 test('signin/validation', async (t) => {
-  const b = createBrowser();
+  const b = createHeadlessBrowser();
 
   await b.openUrl('/');
   await b.waitForSelector(SignInForm());

@@ -2,7 +2,7 @@ import jsdom from 'jsdom';
 
 const cache = {};
 
-export default function createBrowserTest(testOptions) {
+export default function createHeadlessBrowser(testOptions) {
   const cookieJar = jsdom.createCookieJar();
   let currentUrl;
   let currentWindow;
