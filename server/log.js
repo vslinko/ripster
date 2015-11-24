@@ -1,3 +1,3 @@
-module.exports = process.env.NODE_ENV === 'test' && !process.env.CI
+module.exports = process.env.WINDOW_MODE
   ? require('./windowLog')
   : require('./streamLog');

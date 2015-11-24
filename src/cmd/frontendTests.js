@@ -17,4 +17,14 @@ const req = require.context(
   /Test\.js$/
 );
 
-req.keys().forEach(req);
+const allowedFiles = process.env.UNIT_TESTS
+  ? process.env.UNIT_TESTS.split(':')
+  : [];
+
+req.keys().forEach((file) => {
+  const filePath = file.replace(/^\.\//, '');
+
+  if (allowedFiles.length === 0 || allowedFiles.indexOf(filePath) >= 0) {
+    req(file);
+  }
+});

@@ -1,5 +1,5 @@
 export default function marker(value) {
-  if (process.env.NODE_ENV === 'test') {
+  if (process.env.NODE_ENV !== 'production') {
     return {
       'data-marker': value,
     };

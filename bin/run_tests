@@ -1,0 +1,262 @@
+#!/usr/bin/env node
+/* eslint-disable no-var, no-console */
+
+const portscanner = require('portscanner');
+const tapMerge = require('tap-merge');
+const debounce = require('lodash.debounce');
+const split = require('split');
+const yargs = require('yargs');
+const glob = require('glob');
+const stream = require('stream');
+const http = require('http');
+const childProcess = require('child_process');
+const path = require('path');
+const fs = require('fs');
+
+const argv = yargs
+  .boolean(['w'])
+  .alias('w', 'watch')
+  .argv;
+
+const frontendUnitTestsDir = path.join(__dirname, '..', 'src', 'frontend');
+const specsDir = path.join(__dirname, '..', 'specs');
+
+const outputStream = new stream.PassThrough();
+
+const streamQueue = [];
+var processingQueue = false;
+
+function processQueue() {
+  if (streamQueue.length === 0) {
+    return;
+  }
+
+  if (processingQueue) {
+    return;
+  }
+
+  processingQueue = true;
+
+  const nextStream = streamQueue.shift();
+
+  nextStream.pipe(outputStream, {end: false});
+
+  nextStream.on('end', () => {
+    processingQueue = false;
+    processQueue();
+  });
+}
+
+function addStreamToQueue(nextStream) {
+  streamQueue.push(nextStream);
+
+  if (!processingQueue) {
+    processQueue();
+  }
+}
+
+outputStream
+  .pipe(tapMerge())
+  .pipe(process.stdout);
+
+process.on('beforeExit', () => {
+  outputStream.end();
+});
+
+const userFiles = (argv._.length > 0 ? argv._ : [frontendUnitTestsDir, specsDir])
+  .map((userPath) => {
+    const absoluteUserPath = path.resolve(userPath);
+
+    const stat = fs.statSync(absoluteUserPath);
+
+    if (absoluteUserPath.indexOf(frontendUnitTestsDir) === 0) {
+      return {
+        type: 'frontendUnit',
+        path: absoluteUserPath,
+        files: stat.isDirectory()
+          ? glob.sync(absoluteUserPath + '/**/*Test.js')
+          : [absoluteUserPath],
+      };
+    } else if (absoluteUserPath.indexOf(specsDir) === 0) {
+      return {
+        type: 'spec',
+        path: absoluteUserPath,
+        files: stat.isDirectory()
+          ? glob.sync(absoluteUserPath + '/**/*Spec.js')
+          : [absoluteUserPath],
+      };
+    }
+
+    throw new Error(`Unkown type of path "${userPath}"`);
+  })
+  .reduce((acc, row) => {
+    acc[row.type] = acc[row.type].concat(row.files);
+    return acc;
+  }, {frontendUnit: [], spec: []});
+
+function checkPortIsOpen(port) {
+  return new Promise((resolve, reject) => {
+    portscanner.checkPortStatus(port, '127.0.0.1', (err, status) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(status === 'open');
+      }
+    });
+  });
+}
+
+function runFrontendUnitTests(files) {
+  if (files.length === 0) {
+    return;
+  }
+
+  var firstStream = new stream.PassThrough();
+  addStreamToQueue(firstStream);
+
+  process.env.UNIT_TESTS = files
+    .map(file => file.replace(frontendUnitTestsDir + '/', ''))
+    .join(':');
+
+  const webpack = require('webpack');
+  const config = require('../webpack.config.frontend-tests');
+
+  const compiler = webpack(config);
+
+  function onBuild() {
+    const testProcess = childProcess.fork(require.resolve('../dist/public/frontend-tests'), {
+      silent: true,
+    });
+
+    if (firstStream) {
+      testProcess.stdout.pipe(firstStream);
+      firstStream = null;
+    } else {
+      const nextStream = new stream.PassThrough();
+      testProcess.stdout.pipe(nextStream);
+      addStreamToQueue(nextStream);
+    }
+  }
+
+  if (argv.watch) {
+    compiler.watch(100, onBuild);
+  } else {
+    compiler.run(onBuild);
+  }
+}
+
+function runSpecTests(files) {
+  if (files.length === 0) {
+    return;
+  }
+
+  const cmd = require.resolve('../node_modules/.bin/babel-tape-runner');
+  const args = files.length > 0
+    ? files
+    : [specsDir + '/**/*Spec.js'];
+
+  function run() {
+    return new Promise((resolve) => {
+      const testProcess = childProcess.spawn(cmd, args, {
+        stdio: 'pipe',
+      });
+
+      const nextStream = new stream.PassThrough();
+      testProcess.stdout.pipe(nextStream);
+      addStreamToQueue(nextStream);
+
+      testProcess.on('exit', () => resolve());
+    });
+  }
+
+  Promise.all([
+    checkPortIsOpen(7474),
+    checkPortIsOpen(4444),
+    checkPortIsOpen(3000),
+  ]).then((results) => {
+    const neo4jOpened = results[0];
+    const seleniumOpened = results[1];
+    const serverOpened = results[2];
+
+    if (!neo4jOpened) {
+      console.error(`
+Unable to connect to port 7474: please check Neo4J running status
+If you're using OSX you can install Neo4J using Homebrew:
+
+  brew install neo4j
+
+If Neo4J is already installed on your OSX then you can start it:
+
+  neo4j start
+`);
+    }
+    if (!seleniumOpened) {
+      console.error(`
+Unable to connect to port 4444: please check Selenium running status
+You can run Selenium using this command:
+
+  npm run selenium
+`);
+    }
+    if (!serverOpened) {
+      console.error(`
+Unable to connect to port 3000: please check dev server running status
+You can run dev server using this command:
+
+  npm start
+`);
+    }
+
+    if (!neo4jOpened || !serverOpened) {
+      return;
+    }
+
+    if (argv.watch) {
+      var running = false;
+      var scheduled = false;
+
+      const debouncedRun = debounce(() => {
+        if (running) {
+          scheduled = true;
+          return;
+        }
+
+        running = true;
+        run().then(() => {
+          running = false;
+
+          if (scheduled) {
+            scheduled = false;
+            debouncedRun();
+          }
+        });
+      }, 500);
+
+      const req = http.get('http://localhost:3000/__webpack_hmr', (res) => {
+        debouncedRun();
+
+        res
+          .pipe(split(/\n\n/))
+          .on('data', (pack) => {
+            const payload = pack.replace(/^data:\s*/, '');
+
+            if (payload === '\uD83D\uDC93') {
+              return;
+            }
+
+            debouncedRun();
+          });
+      });
+
+      req.on('error', (err) => {
+        console.error(err.message);
+        process.exit(1);
+      });
+    } else {
+      run();
+    }
+  });
+}
+
+runFrontendUnitTests(userFiles.frontendUnit);
+runSpecTests(userFiles.spec);

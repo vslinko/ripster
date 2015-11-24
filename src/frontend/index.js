@@ -34,15 +34,11 @@ async function initApp() {
     );
     const container = document.getElementById('app');
 
-    if (process.env.NODE_ENV === 'test') {
-      window.TestUtils = require('react-addons-test-utils');
-    }
-
     if (process.env.NODE_ENV !== 'production') {
-      const Perf = require('react-addons-perf');
+      window.TestUtils = require('react-addons-test-utils');
+      window.Perf = require('react-addons-perf');
 
-      window.Perf = Perf;
-      Perf.start();
+      window.Perf.start();
     }
 
     render(component, container);
