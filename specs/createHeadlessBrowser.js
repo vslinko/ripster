@@ -26,8 +26,9 @@ export default function createHeadlessBrowser(testOptions) {
           'Accept-Language': systemLanguage,
         },
         features: {
-          FetchExternalResources: ['script', 'css'],
+          FetchExternalResources: ['script', 'link'],
           ProcessExternalResources: ['script'],
+          SkipExternalResources: /maps\.googleapis\.com/,
         },
         resourceLoader: (resource, callback) => {
           if (cache[resource.url.href]) {
@@ -44,7 +45,13 @@ export default function createHeadlessBrowser(testOptions) {
           });
         },
         created: (err, window) => {
-          if (window && !window.localStorage) {
+          if (!window) {
+            return;
+          }
+
+          window.navigator.languages = [systemLanguage];
+
+          if (!window.localStorage) {
             window.localStorage = {
               _storage: Object.create(null),
               setItem(key, value) {
@@ -55,7 +62,8 @@ export default function createHeadlessBrowser(testOptions) {
               },
             };
           }
-          if (window && !window.sessionStorage) {
+
+          if (!window.sessionStorage) {
             window.sessionStorage = {
               _storage: Object.create(null),
               setItem(key, value) {
@@ -210,6 +218,20 @@ export default function createHeadlessBrowser(testOptions) {
     });
   }
 
+  function nodeIsVisible(node) {
+    let nextNode = node;
+
+    do {
+      if (currentWindow.getComputedStyle(nextNode).getPropertyValue('display') === 'none') {
+        return false;
+      }
+
+      nextNode = nextNode.parentNode;
+    } while (nextNode && nextNode !== currentWindow.document);
+
+    return true;
+  }
+
   return {
     openUrl,
     querySelectorAll,
@@ -228,5 +250,6 @@ export default function createHeadlessBrowser(testOptions) {
     dump,
     getWindow,
     tick,
+    nodeIsVisible,
   };
 }
