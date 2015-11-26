@@ -6,6 +6,7 @@ const tapMerge = require('tap-merge');
 const debounce = require('lodash.debounce');
 const split = require('split');
 const yargs = require('yargs');
+const gaze = require('gaze');
 const glob = require('glob');
 const stream = require('stream');
 const http = require('http');
@@ -231,6 +232,12 @@ You can run dev server using this command:
           }
         });
       }, 500);
+
+      gaze(args, (err, watcher) => {
+        watcher.on('all', () => {
+          debouncedRun();
+        });
+      });
 
       const req = http.get('http://localhost:3000/__webpack_hmr', (res) => {
         debouncedRun();
