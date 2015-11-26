@@ -201,6 +201,20 @@ export default function createHeadlessBrowser(testOptions) {
     clickNode(node);
   }
 
+  function blurNode(node) {
+    currentWindow.TestUtils.Simulate.blur(node);
+  }
+
+  function blur(selector) {
+    const node = currentWindow.document.querySelector(selector);
+
+    if (!node) {
+      throw new Error(`Unable to blur (${selector})`);
+    }
+
+    blurNode(node);
+  }
+
   function reload() {
     return openUrl(currentUrl);
   }
@@ -247,6 +261,8 @@ export default function createHeadlessBrowser(testOptions) {
     submit,
     clickNode,
     click,
+    blurNode,
+    blur,
     reload,
     dump,
     getWindow,
