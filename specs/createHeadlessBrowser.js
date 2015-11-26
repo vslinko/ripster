@@ -10,6 +10,7 @@ export default function createHeadlessBrowser(testOptions) {
   const options = testOptions || {};
   const systemLanguage = options.systemLanguage || 'en';
   const proxyConsole = options.proxyConsole || false;
+  const initialStorage = options.initialStorage;
 
   const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
   const waitForTimeout = Number(process.env.WAIT_FOR_TIMEOUT || '5000');
@@ -53,7 +54,7 @@ export default function createHeadlessBrowser(testOptions) {
 
           if (!window.localStorage) {
             window.localStorage = {
-              _storage: Object.create(null),
+              _storage: Object.assign(Object.create(null), initialStorage),
               setItem(key, value) {
                 this._storage[key] = String(value);
               },
