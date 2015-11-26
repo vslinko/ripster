@@ -144,7 +144,7 @@ export default function createHeadlessBrowser(testOptions) {
   }
 
   function waitFor(test, timeoutMessage) {
-    return asyncGet(test, timeoutMessage || 'Timeout')
+    return asyncGet(test, timeoutMessage || () => 'Timeout')
       .then(() => undefined);
   }
 
