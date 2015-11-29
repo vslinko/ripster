@@ -1,5 +1,5 @@
-import path from 'path';
-import fs from 'fs';
+const path = require('path');
+const fs = require('fs');
 
 const root = path.join(__dirname, '..');
 const src = path.join(root, 'src');
@@ -22,7 +22,7 @@ const nodeModulesExternals = fs.readdirSync(nodeModulesDirectory)
     acc
   ), {});
 
-export default {
+module.exports = {
   root,
   src,
   tests,

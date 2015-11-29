@@ -33,7 +33,7 @@ app.use('/graphql', proxy(process.env.GRAPHQL_URL, {
   },
 }));
 
-app.get('*', async (req, res) => {
+app.get('*', (req, res) => {
   res.send(template());
 });
 

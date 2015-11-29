@@ -1,20 +1,13 @@
-import path from 'path';
+const path = require('path');
 
-import config from '../config';
-import base from './base';
+const config = require('../config');
+const base = require('./base');
 
-export default {
-  ...base,
-  ...config.nodeMixin,
-
+module.exports = Object.assign({}, base, config.nodeMixin, {
   entry: path.join(config.src, 'cmd', 'graphql'),
 
   output: {
     path: path.join(config.dist),
     filename: 'graphql.js',
   },
-
-  plugins: [
-    ...base.plugins,
-  ],
-};
+});

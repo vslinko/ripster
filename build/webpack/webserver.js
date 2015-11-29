@@ -1,13 +1,10 @@
-import {DefinePlugin} from 'webpack';
-import path from 'path';
+const webpack = require('webpack');
+const path = require('path');
 
-import config from '../config';
-import base from './base';
+const config = require('../config');
+const base = require('./base');
 
-export default {
-  ...base,
-  ...config.nodeMixin,
-
+module.exports = Object.assign({}, base, config.nodeMixin, {
   entry: path.join(config.src, 'cmd', 'webserver'),
 
   output: {
@@ -16,28 +13,9 @@ export default {
     publicPath: '/',
   },
 
-  module: {
-    ...base.module,
-
-    loaders: [
-      ...base.module.loaders,
-
-      {
-        test: /\.less$/,
-        loaders: ['null'],
-      },
-      {
-        test: /\.css$/,
-        loaders: ['null'],
-      },
-    ],
-  },
-
-  plugins: [
-    ...base.plugins,
-
-    new DefinePlugin({
+  plugins: base.plugins.concat([
+    new webpack.DefinePlugin({
       'process.env.EXTRACTED_STYLES': config.extractStyles,
     }),
-  ],
-};
+  ]),
+});

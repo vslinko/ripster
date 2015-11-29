@@ -1,23 +1,29 @@
-import {HotModuleReplacementPlugin, NoErrorsPlugin, optimize} from 'webpack';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import path from 'path';
+'use strict';
 
-import babelPluginRelay from '../babelPluginRelay';
-import babelPluginReactTransform from 'babel-plugin-react-transform';
+const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path');
 
-import config from '../config';
-import base from './base';
+const babelPluginRelay = require('../babelPluginRelay');
+const babelPluginReactTransform = require('babel-plugin-react-transform');
 
-export default {
-  ...base,
+const config = require('../config');
+const base = require('./base');
 
-  entry: [
-    path.join(config.src, 'frontend'),
+module.exports = Object.assign({}, base, {
+  entry: () => {
+    const entry = [
+      path.join(config.src, 'frontend'),
+    ];
 
-    ...(config.hot ? [
-      'webpack-hot-middleware/client',
-    ] : []),
-  ],
+    if (config.hot) {
+      return entry.concat([
+        'webpack-hot-middleware/client',
+      ]);
+    }
+
+    return entry;
+  }(),
 
   output: {
     path: path.join(config.dist, 'public'),
@@ -25,12 +31,8 @@ export default {
     publicPath: '/',
   },
 
-  module: {
-    ...base.module,
-
-    loaders: [
-      ...base.module.loaders,
-
+  module: Object.assign({}, base.module, {
+    loaders: base.module.loaders.concat([
       {
         test: /\.less$/,
         loader: config.extractStyles
@@ -43,8 +45,12 @@ export default {
           ? ExtractTextPlugin.extract('style', 'css?sourceMap&modules')
           : 'style!css?sourceMap&modules',
       },
-    ],
-  },
+      {
+        test: /\.(png|svg|eot|ttf|woff)$/,
+        loaders: ['url?limit=10000'],
+      },
+    ]),
+  }),
 
   resolve: {
     alias: {
@@ -54,45 +60,56 @@ export default {
     },
   },
 
-  plugins: [
-    ...base.plugins,
+  plugins: () => {
+    let plugins = base.plugins.concat();
 
-    ...(config.extractStyles ? [new ExtractTextPlugin('frontend.css')] : []),
+    if (config.extractStyles) {
+      plugins = plugins.concat([
+        new ExtractTextPlugin('frontend.css'),
+      ]);
+    }
 
-    ...(config.hot ? [
-      new optimize.OccurenceOrderPlugin(),
-      new HotModuleReplacementPlugin(),
-      new NoErrorsPlugin(),
-    ] : []),
-  ],
+    if (config.hot) {
+      plugins = plugins.concat([
+        new webpack.optimize.OccurenceOrderPlugin(),
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin(),
+      ]);
+    }
 
-  babel: {
-    ...base.babel,
+    return plugins;
+  }(),
 
-    ...(config.hot ? {
+  babel: () => {
+    let babel = Object.assign({}, base.babel, {
       plugins: [
         babelPluginRelay,
-        babelPluginReactTransform,
       ],
-      extra: {
-        'react-transform': {
-          transforms: [
-            {
-              transform: 'react-transform-hmr',
-              imports: ['react'],
-              locals: ['module'],
-            },
-            {
-              transform: 'react-transform-catch-errors',
-              imports: ['react', 'redbox-react'],
-            },
-          ],
+    });
+
+    if (config.hot) {
+      babel = Object.assign({}, babel, {
+        plugins: babel.plugins.concat([
+          babelPluginReactTransform,
+        ]),
+        extra: {
+          'react-transform': {
+            transforms: [
+              {
+                transform: 'react-transform-hmr',
+                imports: ['react'],
+                locals: ['module'],
+              },
+              {
+                transform: 'react-transform-catch-errors',
+                imports: ['react', 'redbox-react'],
+              },
+            ],
+          },
         },
-      },
-    } : {
-      plugins: [
-        babelPluginRelay,
-      ],
-    }),
-  },
-};
+      });
+    }
+
+    return babel;
+  }(),
+});

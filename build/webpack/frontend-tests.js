@@ -1,27 +1,21 @@
-import {DefinePlugin} from 'webpack';
-import path from 'path';
+const webpack = require('webpack');
+const path = require('path');
 
-import config from '../config';
-import frontend from './frontend';
+const config = require('../config');
+const frontend = require('./frontend');
 
-export default {
-  ...frontend,
-  ...config.nodeMixin,
-
+module.exports = Object.assign({}, frontend, config.nodeMixin, {
   entry: [
     path.join(config.src, 'cmd', 'frontendTests'),
   ],
 
-  output: {
-    ...frontend.output,
+  output: Object.assign({}, frontend.output, {
     filename: 'frontend-tests.js',
-  },
+  }),
 
   plugins: [
-    new DefinePlugin({
+    new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('test'),
     }),
-
-    ...frontend.plugins,
-  ],
-};
+  ].concat(frontend.plugins),
+});

@@ -1,9 +1,11 @@
-import {ProvidePlugin, DefinePlugin, optimize} from 'webpack';
-import path from 'path';
+'use strict';
 
-import config from '../config';
+const webpack = require('webpack');
+const path = require('path');
 
-export default {
+const config = require('../config');
+
+module.exports = {
   module: {
     loaders: [
       {
@@ -20,10 +22,6 @@ export default {
         ],
         loaders: ['json'],
       },
-      {
-        test: /\.(png|svg|eot|ttf|woff)$/,
-        loaders: ['url?limit=10000'],
-      },
     ],
   },
 
@@ -31,19 +29,27 @@ export default {
 
   devtool: config.dev ? 'cheap-module-source-map' : 'source-map',
 
-  plugins: [
-    new ProvidePlugin({
-      'fetch': 'isomorphic-fetch',
-    }),
+  plugins: () => {
+    let plugins = [
+      new webpack.ProvidePlugin({
+        'fetch': 'isomorphic-fetch',
+      }),
 
-    new DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(
-        process.env.NODE_ENV || 'development'
-      ),
-    }),
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify(
+          process.env.NODE_ENV || 'development'
+        ),
+      }),
+    ];
 
-    ...(config.prod ? [new optimize.UglifyJsPlugin()] : []),
-  ],
+    if (config.prod) {
+      plugins = plugins.concat([
+        new webpack.optimize.UglifyJsPlugin(),
+      ]);
+    }
+
+    return plugins;
+  }(),
 
   babel: {
     stage: 0,
