@@ -7,6 +7,46 @@ const url = process.env.NEO4J_URL
 
 export const db = new neo4j.GraphDatabase(url);
 
+export async function transaction(cb) {
+  const tx = db.beginTransaction();
+
+  function executeTransactionQuery(query) {
+    return new Promise((resolve, reject) => {
+      tx.cypher(query, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  }
+
+  try {
+    await cb(executeTransactionQuery);
+
+    await new Promise((resolve, reject) => {
+      tx.commit((err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
+    });
+  } catch (err) {
+    if (tx.state === tx.STATE_OPEN || tx.state === tx.STATE_PENDING) {
+      await new Promise((resolve, reject) => {
+        tx.rollback(() => {
+          reject(err);
+        });
+      });
+    } else {
+      throw err;
+    }
+  }
+}
+
 export function executeQuery(query) {
   return new Promise((resolve, reject) => {
     db.cypher(query, (err, result) => {
