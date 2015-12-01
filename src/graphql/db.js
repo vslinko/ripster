@@ -23,7 +23,7 @@ export async function transaction(cb) {
   }
 
   try {
-    await cb(executeTransactionQuery);
+    const result = await cb(executeTransactionQuery);
 
     await new Promise((resolve, reject) => {
       tx.commit((err) => {
@@ -34,6 +34,8 @@ export async function transaction(cb) {
         }
       });
     });
+
+    return result;
   } catch (err) {
     if (tx.state === tx.STATE_OPEN || tx.state === tx.STATE_PENDING) {
       await new Promise((resolve, reject) => {
