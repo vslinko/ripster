@@ -10,7 +10,7 @@ export default async function loadFixtures() {
   if (!fixtures) {
     fixtures = (await readFileAsync(fixturesFile))
       .toString()
-      .split(/;\n/);
+      .split(/;\r?\n/);
   }
 
   await executeQuery(cypher`
