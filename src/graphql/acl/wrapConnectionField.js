@@ -6,9 +6,12 @@ export default function wrapConnectionField(field) {
 
   return {
     ...other,
-    args: connectionArgs,
-    resolve: (root, args, ...restArgs) => connectionFromPromisedArray(
-      Promise.resolve(resolve(root, args, ...restArgs)),
+    args: {
+      ...(other.args || {}),
+      ...connectionArgs,
+    },
+    resolve: (root, args, info) => connectionFromPromisedArray(
+      Promise.resolve(resolve(root, args, info)),
       args
     ),
   };
