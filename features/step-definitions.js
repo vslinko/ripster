@@ -1,10 +1,10 @@
-/* eslint-disable new-cap, no-var */
+'use strict';
 
 const mapping = require('./mapping.json');
 const results = require('./tap.json');
 
 module.exports = function steps() {
-  var scenarioName;
+  let scenarioName;
 
   this.Before((scenario) => {
     scenarioName = scenario.getName();

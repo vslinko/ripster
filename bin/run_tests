@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* eslint-disable no-var, no-console */
+'use strict';
 
 const portscanner = require('portscanner');
 const tapMerge = require('tap-merge');
@@ -25,7 +25,7 @@ const specsDir = path.join(__dirname, '..', 'specs');
 const outputStream = new stream.PassThrough();
 
 const streamQueue = [];
-var processingQueue = false;
+let processingQueue = false;
 
 function processQueue() {
   if (streamQueue.length === 0) {
@@ -112,7 +112,7 @@ function runFrontendUnitTests(files) {
     return;
   }
 
-  var firstStream = new stream.PassThrough();
+  let firstStream = new stream.PassThrough();
   addStreamToQueue(firstStream);
 
   process.env.UNIT_TESTS = files
@@ -213,8 +213,8 @@ You can run dev server using this command:
     }
 
     if (argv.watch) {
-      var running = false;
-      var scheduled = false;
+      let running = false;
+      let scheduled = false;
 
       const debouncedRun = debounce(() => {
         if (running) {

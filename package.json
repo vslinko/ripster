@@ -27,7 +27,7 @@
   },
   "scripts": {
     "selenium": "selenium-standalone install && selenium-standalone start",
-    "lint": "eslint bin/* build features scripts server src *.js",
+    "lint": "eslint bin/* build features scripts server specs src *.js",
     "test": "./bin/run_tests | faucet",
     "test-watch": "./bin/run_tests --watch | faucet",
     "test-unit": "./bin/run_tests src/frontend | faucet",

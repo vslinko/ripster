@@ -8,7 +8,7 @@ async () => {
   const result = await graphql(Schema, introspectionQuery);
 
   if (result.errors) {
-    console.error('ERROR:', JSON.stringify(result.errors, null, 2)); // eslint-disable-line no-console
+    console.error('ERROR:', JSON.stringify(result.errors, null, 2));
     return;
   }
 

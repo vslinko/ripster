@@ -28,6 +28,6 @@ main(async () => {
   uniq(defs)
     .sort()
     .forEach((key) => {
-      console.log(key); // eslint-disable-line no-console
+      console.log(key);
     });
 });

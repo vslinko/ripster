@@ -27,7 +27,7 @@ export default function wrapMutation(field) {
     throw new Error(`Forbidden: ${text}`);
   };
 
-  const {type, resolve, ...other} = field(assertAccess);
+  const { type, resolve, ...other } = field(assertAccess);
 
   const wrappedResolve = (rootValue, args, info) => {
     currentInfo = info;
@@ -35,5 +35,5 @@ export default function wrapMutation(field) {
     return resolve(rootValue, args, info);
   };
 
-  return {type, resolve: wrappedResolve, ...other};
+  return { type, resolve: wrappedResolve, ...other };
 }

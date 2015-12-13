@@ -28,7 +28,7 @@ const { nodeInterface, nodeField } = nodeDefinitions(
 const refs = Object.keys(refCreators)
   .reduce((acc, key) => {
     acc[key] = refCreators[key](acc);
-    const {connectionType, edgeType} = connectionDefinitions({
+    const { connectionType, edgeType } = connectionDefinitions({
       name: acc[key].name,
       nodeType: acc[key],
     });

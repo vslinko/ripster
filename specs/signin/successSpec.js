@@ -1,6 +1,6 @@
 import test from 'blue-tape';
 import createSeleniumBrowser from '../createSeleniumBrowser';
-import {createMarker} from '../marker';
+import { createMarker } from '../marker';
 
 const SignInForm = createMarker('SignInForm');
 const HomePage = createMarker('HomePage');

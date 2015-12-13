@@ -1,13 +1,13 @@
 #!/usr/bin/env node
-/* eslint-disable no-var, no-console */
+'use strict';
 
 const parser = require('tap-parser');
 
 const tapRipster = parser();
 
 const result = [];
-var currentTest = null;
-var currentAsserts = [];
+let currentTest = null;
+let currentAsserts = [];
 
 tapRipster.on('comment', (comment) => {
   if (currentTest) {

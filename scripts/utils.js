@@ -51,7 +51,7 @@ export async function main(programm) {
     await programm();
     process.exit(0);
   } catch (err) {
-    console.log(err.stack); // eslint-disable-line no-console
+    console.log(err.stack);
     process.exit(1);
   }
 }

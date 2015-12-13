@@ -1,6 +1,6 @@
 import test from 'blue-tape';
 import createHeadlessBrowser from '../createHeadlessBrowser';
-import {createMarker} from '../marker';
+import { createMarker } from '../marker';
 
 const SignInForm = createMarker('SignInForm');
 
