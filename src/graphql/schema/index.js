@@ -26,14 +26,18 @@ const { nodeInterface, nodeField } = nodeDefinitions(
 );
 
 const refs = Object.keys(refCreators)
-  .reduce((acc, key) => (
-    acc[key] = refCreators[key](acc),
-    acc[key + 'Connection'] = connectionDefinitions({
+  .reduce((acc, key) => {
+    acc[key] = refCreators[key](acc);
+    const {connectionType, edgeType} = connectionDefinitions({
       name: acc[key].name,
       nodeType: acc[key],
-    }).connectionType,
-    acc
-  ), { nodeInterface, nodeField });
+    });
+
+    acc[key + 'Connection'] = connectionType;
+    acc[key + 'Edge'] = edgeType;
+
+    return acc;
+  }, { nodeInterface, nodeField });
 
 export default new GraphQLSchema({
   query: refs.rootQuery,
