@@ -1,4 +1,4 @@
-import {schema} from 'vstack-validator';
+import { schema } from 'vstack-validator';
 
 export default schema.type('signInForm', {
   email: {

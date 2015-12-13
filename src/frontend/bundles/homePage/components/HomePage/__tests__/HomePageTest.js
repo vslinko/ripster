@@ -1,5 +1,5 @@
 import test from 'blue-tape';
-import {renderComponent, findRenderedDOMComponentWithMarker} from 'frontend/utils/testUtils';
+import { renderComponent, findRenderedDOMComponentWithMarker } from 'frontend/utils/testUtils';
 
 import HomePage from '../HomePage';
 

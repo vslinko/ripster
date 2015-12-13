@@ -40,7 +40,7 @@ function processQueue() {
 
   const nextStream = streamQueue.shift();
 
-  nextStream.pipe(outputStream, {end: false});
+  nextStream.pipe(outputStream, { end: false });
 
   nextStream.on('end', () => {
     processingQueue = false;
@@ -93,7 +93,7 @@ const userFiles = (argv._.length > 0 ? argv._ : [frontendUnitTestsDir, specsDir]
   .reduce((acc, row) => {
     acc[row.type] = acc[row.type].concat(row.files);
     return acc;
-  }, {frontendUnit: [], spec: []});
+  }, { frontendUnit: [], spec: [] });
 
 function checkPortIsOpen(port) {
   return new Promise((resolve, reject) => {

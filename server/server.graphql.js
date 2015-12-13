@@ -1,18 +1,18 @@
-/* eslint-disable no-var, no-console, func-names */
+'use strict';
 
-var webpack = require('webpack');
-var forever = require('forever-monitor');
-var path = require('path');
-var webpackConfig = require('../webpack.config.graphql');
-var onBuild = require('./onBuild');
+const webpack = require('webpack');
+const forever = require('forever-monitor');
+const path = require('path');
+const webpackConfig = require('../webpack.config.graphql');
+const onBuild = require('./onBuild');
 
-var monitor;
-var compiler = webpack(webpackConfig);
-var script = path.join(__dirname, '..', 'dist', 'graphql.js');
+let monitor;
+const compiler = webpack(webpackConfig);
+const script = path.join(__dirname, '..', 'dist', 'graphql.js');
 
 console.log('first build');
 
-compiler.watch(100, function(err, stats) {
+compiler.watch(100, (err, stats) => {
   if (err) {
     throw err;
   }
@@ -29,6 +29,6 @@ compiler.watch(100, function(err, stats) {
   }
 });
 
-compiler.plugin('invalid', function() {
+compiler.plugin('invalid', () => {
   console.log('rebuild');
 });

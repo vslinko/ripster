@@ -1,13 +1,13 @@
-import {GraphQLString} from 'graphql';
-import {mutationWithClientMutationId} from 'graphql-relay';
+import { GraphQLString } from 'graphql';
+import { mutationWithClientMutationId } from 'graphql-relay';
 import createUser from '../../queries/user/createUser';
-import {wrapField, OP_CREATE} from '../../acl';
+import { wrapField, OP_CREATE } from '../../acl';
 
 export default refs => wrapField(assertAccess => mutationWithClientMutationId({
   name: 'CreateUser',
   inputFields: {
-    email: {type: GraphQLString},
-    password: {type: GraphQLString},
+    email: { type: GraphQLString },
+    password: { type: GraphQLString },
   },
   outputFields: {
     user: wrapField({
@@ -15,7 +15,7 @@ export default refs => wrapField(assertAccess => mutationWithClientMutationId({
       resolve: user => user,
     }),
   },
-  mutateAndGetPayload: async ({email, password}) => {
+  mutateAndGetPayload: async ({ email, password }) => {
     await assertAccess(refs.user, OP_CREATE);
 
     return await createUser(email, password);

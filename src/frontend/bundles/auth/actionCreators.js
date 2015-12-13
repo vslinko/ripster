@@ -1,4 +1,4 @@
-import {createAction} from 'redux-act';
+import { createAction } from 'redux-act';
 import cookie from 'cookie';
 
 import applyMutation from 'frontend/utils/applyMutation';
@@ -17,9 +17,9 @@ export function readToken() {
   };
 }
 
-export function authorize({email, password}) {
+export function authorize({ email, password }) {
   return async (dispatch) => {
-    const result = await applyMutation(new CreateSessionMutation({email, password}));
+    const result = await applyMutation(new CreateSessionMutation({ email, password }));
     const token = result.createSession.session.sid;
 
     document.cookie = `token=${token}; path=/`;

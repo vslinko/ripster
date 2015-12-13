@@ -1,4 +1,4 @@
-import {createReducer} from 'redux-act';
+import { createReducer } from 'redux-act';
 import * as ac from '../actionCreators';
 
 export default createReducer(

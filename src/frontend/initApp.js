@@ -1,13 +1,13 @@
 import React from 'react';
-import {render} from 'react-dom';
+import { render } from 'react-dom';
 import Relay from 'react-relay';
-import {Provider} from 'react-redux';
-import {ReduxRouter} from 'redux-router';
-import {RelayRoutingContext} from 'react-router-relay';
+import { Provider } from 'react-redux';
+import { ReduxRouter } from 'redux-router';
+import { RelayRoutingContext } from 'react-router-relay';
 import createStore from './createStore';
 import init from './init';
 
-import {ReduxIntlContainer} from 'frontend/bundles/common/components/ReduxIntl';
+import { ReduxIntlContainer } from 'frontend/bundles/common/components/ReduxIntl';
 
 export default async function initApp() {
   try {

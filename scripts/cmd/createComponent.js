@@ -1,5 +1,5 @@
-import {existsAsync, mkdirAsync} from 'fs-extra-promise';
-import {join} from 'path';
+import { existsAsync, mkdirAsync } from 'fs-extra-promise';
+import { join } from 'path';
 import {
   mainAnswers,
   dashify,

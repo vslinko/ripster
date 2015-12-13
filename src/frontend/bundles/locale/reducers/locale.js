@@ -1,10 +1,10 @@
-import {createReducer} from 'redux-act';
+import { createReducer } from 'redux-act';
 
 import * as ac from '../actionCreators';
 
 export default createReducer(
   {
-    [ac.setLocale]: (state, {locale, messages}) => ({locale, messages}),
+    [ac.setLocale]: (state, { locale, messages }) => ({ locale, messages }),
   },
   {
     locale: undefined,

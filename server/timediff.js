@@ -1,12 +1,12 @@
-/* eslint-disable no-var */
+'use strict';
 
-var timers = {};
+const timers = {};
 
 function timediff(type) {
-  var diffString;
-  var date = new Date();
+  let diffString;
+  const date = new Date();
 
-  var diff = timers[type]
+  const diff = timers[type]
     ? date - timers[type]
     : 0;
 

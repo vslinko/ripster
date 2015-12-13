@@ -1,5 +1,5 @@
-import {routerStateReducer} from 'redux-router';
-import {reducer as formReducer} from 'redux-form';
+import { routerStateReducer } from 'redux-router';
+import { reducer as formReducer } from 'redux-form';
 
 const pattern = /^\.\/[a-z]+\/reducers\/([a-z]+)\.js$/i;
 
@@ -15,4 +15,4 @@ export default req.keys().reduce((acc, key) => {
   acc[name] = req(key);
 
   return acc;
-}, {router: routerStateReducer, form: formReducer});
+}, { router: routerStateReducer, form: formReducer });

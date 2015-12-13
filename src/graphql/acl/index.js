@@ -23,8 +23,8 @@ export {
   OP_DELETE,
 } from 'access-rule';
 
-export {default as wrapField} from './wrapField';
-export {default as wrapConnectionField} from './wrapConnectionField';
+export { default as wrapField } from './wrapField';
+export { default as wrapConnectionField } from './wrapConnectionField';
 
 export default byType({
   CreateSessionPayload: allow,

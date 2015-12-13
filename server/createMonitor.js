@@ -1,17 +1,15 @@
-/* eslint-disable no-var, no-console, func-names */
-
-var forever = require('forever-monitor');
-var log = require('./log');
+const forever = require('forever-monitor');
+const log = require('./log');
 
 function createMoninor(config) {
-  var monitor = new forever.Monitor(config.script, {
+  const monitor = new forever.Monitor(config.script, {
     silent: true,
     max: 1,
     env: config.env,
   });
 
-  monitor.on('stdout', function(buffer) {
-    var message = buffer.toString();
+  monitor.on('stdout', (buffer) => {
+    const message = buffer.toString();
 
     if (config.onListening && /listening/.test(message)) {
       config.onListening(config.key);

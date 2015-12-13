@@ -1,12 +1,12 @@
 import React from 'react';
 import Relay from 'react-relay';
-import {compose} from 'redux';
-import {connect} from 'react-redux';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 import relay from 'frontend/utils/relay';
 
-import {LocaleButtonsContainer} from 'frontend/bundles/locale/components/LocaleButtons';
-import {SignInFormContainer} from 'frontend/bundles/auth/components/SignInForm';
-import {UserInfoContainer} from 'frontend/bundles/user/components/UserInfo';
+import { LocaleButtonsContainer } from 'frontend/bundles/locale/components/LocaleButtons';
+import { SignInFormContainer } from 'frontend/bundles/auth/components/SignInForm';
+import { UserInfoContainer } from 'frontend/bundles/user/components/UserInfo';
 
 import HomePage from './HomePage';
 

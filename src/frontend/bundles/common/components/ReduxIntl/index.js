@@ -1,1 +1,1 @@
-export {default as ReduxIntlContainer} from './ReduxIntlContainer';
+export { default as ReduxIntlContainer } from './ReduxIntlContainer';

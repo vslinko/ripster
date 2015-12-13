@@ -1,4 +1,4 @@
-import acl, {OP_READ} from '.';
+import acl, { OP_READ } from '.';
 
 export default function wrapField(field) {
   let currentInfo;
@@ -27,7 +27,7 @@ export default function wrapField(field) {
     throw new Error(`Forbidden: ${text}`);
   };
 
-  const {type, resolve, ...other} = typeof field === 'function'
+  const { type, resolve, ...other } = typeof field === 'function'
     ? field(assertAccess)
     : field;
 
@@ -46,8 +46,8 @@ export default function wrapField(field) {
         }));
 
       return checks
-        .filter(({access}) => access)
-        .map(({object}) => object);
+        .filter(({ access }) => access)
+        .map(({ object }) => object);
     } else if (result && result.edges && Array.isArray(result.edges)) {
       const checks = await* result.edges
         .map(async (edge) => ({
@@ -58,7 +58,7 @@ export default function wrapField(field) {
       return {
         ...result,
         edges: checks
-          .map(({edge, access}) => ({
+          .map(({ edge, access }) => ({
             ...edge,
             node: access ? edge.node : null,
           })),
@@ -70,5 +70,5 @@ export default function wrapField(field) {
     return result;
   };
 
-  return {type, resolve: wrappedResolve, ...other};
+  return { type, resolve: wrappedResolve, ...other };
 }

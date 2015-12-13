@@ -1,7 +1,7 @@
-import {GraphQLObjectType, GraphQLString} from 'graphql';
+import { GraphQLObjectType, GraphQLString } from 'graphql';
 import getSessionOwner from '../../queries/session/getSessionOwner';
-import {idField, prop} from '../../utils';
-import {wrapField} from '../../acl';
+import { idField, prop } from '../../utils';
+import { wrapField } from '../../acl';
 
 export default refs => new GraphQLObjectType({
   name: 'Session',

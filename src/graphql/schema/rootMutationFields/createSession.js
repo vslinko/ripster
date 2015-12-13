@@ -1,9 +1,9 @@
 import bcrypt from 'bcryptjs';
-import {GraphQLString} from 'graphql';
-import {mutationWithClientMutationId} from 'graphql-relay';
+import { GraphQLString } from 'graphql';
+import { mutationWithClientMutationId } from 'graphql-relay';
 import getUserByEmail from '../../queries/user/getUserByEmail';
 import createSessionForUser from '../../queries/session/createSessionForUser';
-import {wrapField, OP_CREATE} from '../../acl';
+import { wrapField, OP_CREATE } from '../../acl';
 
 function comparePasswords(password, hash) {
   return new Promise((resolve, reject) => {
@@ -24,8 +24,8 @@ function timeout() {
 export default refs => wrapField(assertAccess => mutationWithClientMutationId({
   name: 'CreateSession',
   inputFields: {
-    email: {type: GraphQLString},
-    password: {type: GraphQLString},
+    email: { type: GraphQLString },
+    password: { type: GraphQLString },
   },
   outputFields: {
     session: wrapField({
@@ -33,7 +33,7 @@ export default refs => wrapField(assertAccess => mutationWithClientMutationId({
       resolve: session => session,
     }),
   },
-  mutateAndGetPayload: async ({email, password}, info) => {
+  mutateAndGetPayload: async ({ email, password }, info) => {
     await assertAccess(refs.session, OP_CREATE);
 
     const user = await getUserByEmail(email);

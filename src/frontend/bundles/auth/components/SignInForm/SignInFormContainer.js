@@ -1,10 +1,10 @@
-import {compose} from 'redux';
-import {connect} from 'react-redux';
-import {reduxForm} from 'redux-form';
-import {injectIntl} from 'react-intl';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { reduxForm } from 'redux-form';
+import { injectIntl } from 'react-intl';
 import schemaToAsyncValidator from 'frontend/utils/schemaToAsyncValidator';
 
-import {authorize} from '../../actionCreators';
+import { authorize } from '../../actionCreators';
 import signInFormSchema from './../../schemas/signInFormSchema';
 
 import SignInForm from './SignInForm';

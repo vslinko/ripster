@@ -1,7 +1,7 @@
-import {readFileSync, writeFileSync} from 'fs';
-import {join} from 'path';
+import { readFileSync, writeFileSync } from 'fs';
+import { join } from 'path';
 import glob from 'glob';
-import {transformFileSync} from 'babel-core';
+import { transformFileSync } from 'babel-core';
 
 const componentFilesPattern = join(
   __dirname, '..', '..', 'src', 'frontend', 'bundles', '*', 'components', '*', '*.js'

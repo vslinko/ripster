@@ -1,4 +1,4 @@
-import {App} from 'frontend/bundles/common/components/App';
+import { App } from 'frontend/bundles/common/components/App';
 
 const req = require.context(
   'frontend/bundles',

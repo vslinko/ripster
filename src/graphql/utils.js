@@ -1,4 +1,4 @@
-import {globalIdField} from 'graphql-relay';
+import { globalIdField } from 'graphql-relay';
 
 export function idField(type, idFieldName = 'uuid') {
   return globalIdField(type, object => object.properties[idFieldName]);

@@ -15,11 +15,11 @@ class Cypher {
     return this._getOptions({});
   }
 
-  _getOptions({paramPrefix = 'p_'}) {
+  _getOptions({ paramPrefix = 'p_' }) {
     return this._strings
-      .reduce(({query, params}, string, index) => {
+      .reduce(({ query, params }, string, index) => {
         if (index === 0) {
-          return {query: string, params: {}};
+          return { query: string, params: {} };
         }
 
         const paramIndex = index - 1;
@@ -32,13 +32,13 @@ class Cypher {
 
           return {
             query: `${query}${options.query}${string}`,
-            params: {...params, ...options.params},
+            params: { ...params, ...options.params },
           };
         }
 
         return {
           query: `${query}{${paramPrefix}${paramIndex}}${string}`,
-          params: {...params, [`${paramPrefix}${paramIndex}`]: value},
+          params: { ...params, [`${paramPrefix}${paramIndex}`]: value },
         };
       }, {});
   }

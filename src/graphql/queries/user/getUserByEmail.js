@@ -1,8 +1,8 @@
-import {executeQuery, cypher} from '../../db';
+import { executeQuery, cypher } from '../../db';
 
 export default async function getUserByEmail(email) {
   const result = await executeQuery(cypher`
-    MATCH (u:User {email: ${email}})
+    MATCH (u:User { email: ${email} })
     RETURN u
   `);
 

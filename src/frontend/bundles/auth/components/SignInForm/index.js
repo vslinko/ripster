@@ -1,2 +1,2 @@
-export {default as SignInForm} from './SignInForm';
-export {default as SignInFormContainer} from './SignInFormContainer';
+export { default as SignInForm } from './SignInForm';
+export { default as SignInFormContainer } from './SignInFormContainer';

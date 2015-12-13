@@ -1,6 +1,6 @@
 import uuid from 'node-uuid';
 import bcrypt from 'bcryptjs';
-import {executeQuery, cypher} from '../../db';
+import { executeQuery, cypher } from '../../db';
 
 function hashPassword(password) {
   return new Promise((resolve, reject) => {

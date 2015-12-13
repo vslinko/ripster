@@ -1,18 +1,16 @@
-/* eslint-disable no-var, no-console, func-names */
-
 function onBuild(stats) {
-  var jsonStats = stats.toJson();
-  var hasErrors = jsonStats.errors.length > 0;
-  var hasWarnings = jsonStats.warnings.length > 0;
+  const jsonStats = stats.toJson();
+  const hasErrors = jsonStats.errors.length > 0;
+  const hasWarnings = jsonStats.warnings.length > 0;
 
   if (hasErrors) {
-    jsonStats.errors.forEach(function(message) {
+    jsonStats.errors.forEach((message) => {
       console.error(message);
     });
   }
 
   if (hasWarnings) {
-    jsonStats.warnings.forEach(function(message) {
+    jsonStats.warnings.forEach((message) => {
       console.warn(message);
     });
   }

@@ -1,7 +1,7 @@
-import {readFileAsync} from 'fs-extra-promise';
-import {join} from 'path';
-import {rootDir} from './utils';
-import {executeQuery, cypher} from '../src/graphql/db';
+import { readFileAsync } from 'fs-extra-promise';
+import { join } from 'path';
+import { rootDir } from './utils';
+import { executeQuery, cypher } from '../src/graphql/db';
 
 const fixturesFile = join(rootDir, 'db', 'fixtures.cypher');
 let fixtures;

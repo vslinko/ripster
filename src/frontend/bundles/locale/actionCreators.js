@@ -1,5 +1,5 @@
-import {createAction} from 'redux-act';
-import {addLocaleData} from 'react-intl';
+import { createAction } from 'redux-act';
+import { addLocaleData } from 'react-intl';
 import cookie from 'cookie';
 
 function loadRussian(cb) {
@@ -16,9 +16,9 @@ function loadEnglish(cb) {
   });
 }
 
-export const setLocale = createAction(({locale, messages}) => {
+export const setLocale = createAction(({ locale, messages }) => {
   document.cookie = `locale=${locale}; path=/`;
-  return {locale, messages};
+  return { locale, messages };
 });
 
 export function loadLocale(locale) {
@@ -27,15 +27,15 @@ export function loadLocale(locale) {
       let loader;
 
       switch (locale) {
-      case 'ru':
-        loader = loadRussian;
-        break;
-      default:
-        loader = loadEnglish;
+        case 'ru':
+          loader = loadRussian;
+          break;
+        default:
+          loader = loadEnglish;
       }
 
       loader((messages) => {
-        dispatch(setLocale({locale, messages}));
+        dispatch(setLocale({ locale, messages }));
         resolve();
       });
     });

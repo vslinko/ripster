@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 export default class UserInfo extends React.Component {
   static propTypes = {
@@ -10,7 +10,7 @@ export default class UserInfo extends React.Component {
 
   render() {
     const {
-      fields: {email},
+      fields: { email },
       handleSubmit,
     } = this.props;
 

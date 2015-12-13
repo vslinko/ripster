@@ -1,17 +1,15 @@
-/* eslint-disable no-var, no-console, func-names */
+const chalk = require('chalk');
+const fecha = require('fecha');
+const pad = require('pad');
+const timediff = require('./timediff');
 
-var chalk = require('chalk');
-var fecha = require('fecha');
-var pad = require('pad');
-var timediff = require('./timediff');
-
-var textColor = {
+const textColor = {
   graphql: chalk.blue,
   webserver: chalk.magenta,
   frontend: chalk.cyan,
   tests: chalk.yellow,
 };
-var borderColor = {
+const borderColor = {
   graphql: chalk.bgBlue,
   webserver: chalk.bgMagenta,
   frontend: chalk.bgCyan,
@@ -19,13 +17,13 @@ var borderColor = {
 };
 
 function log(type, message) {
-  var lines = String(message).split('\n');
+  const lines = String(message).split('\n');
 
   lines
-    .filter(function(line) {
+    .filter((line) => {
       return line.trim().length > 0;
     })
-    .forEach(function(line) {
+    .forEach((line) => {
       console.log(
         chalk.yellow(fecha.format(new Date(), 'HH:mm:ss')),
         textColor[type](type.slice(0, 1)),

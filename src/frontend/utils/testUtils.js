@@ -1,7 +1,7 @@
 import React from 'react';
-import {renderIntoDocument, findAllInRenderedTree, isDOMComponent} from 'react-addons-test-utils';
-import {findDOMNode} from 'react-dom';
-import {injectIntl, IntlProvider} from 'react-intl';
+import { renderIntoDocument, findAllInRenderedTree, isDOMComponent } from 'react-addons-test-utils';
+import { findDOMNode } from 'react-dom';
+import { injectIntl, IntlProvider } from 'react-intl';
 
 export function renderComponent(Component, props = {}) {
   const WrappedComponent = injectIntl(Component);

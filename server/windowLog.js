@@ -1,18 +1,16 @@
-/* eslint-disable no-var, no-console, no-process-exit, func-names */
+const blessed = require('blessed');
+const chalk = require('chalk');
+const fecha = require('fecha');
+const pad = require('pad');
+const psTree = require('ps-tree');
+const timediff = require('./timediff');
 
-var blessed = require('blessed');
-var chalk = require('chalk');
-var fecha = require('fecha');
-var pad = require('pad');
-var psTree = require('ps-tree');
-var timediff = require('./timediff');
-
-var screen = blessed.screen({
+const screen = blessed.screen({
   smartCSR: true,
   dockBorders: true,
 });
 
-var graphqlLog = blessed.log({
+const graphqlLog = blessed.log({
   parent: screen,
   label: 'graphql',
   top: '0',
@@ -34,7 +32,7 @@ var graphqlLog = blessed.log({
   },
 });
 
-var webserverLog = blessed.log({
+const webserverLog = blessed.log({
   parent: screen,
   label: 'webserver',
   top: '0',
@@ -56,7 +54,7 @@ var webserverLog = blessed.log({
   },
 });
 
-var frontendLog = blessed.log({
+const frontendLog = blessed.log({
   parent: screen,
   label: 'frontend',
   top: '20%-1',
@@ -78,7 +76,7 @@ var frontendLog = blessed.log({
   },
 });
 
-var testsLog = blessed.log({
+const testsLog = blessed.log({
   parent: screen,
   label: 'tests',
   top: '56%-1',
@@ -100,21 +98,21 @@ var testsLog = blessed.log({
   },
 });
 
-var terms = [graphqlLog, webserverLog, frontendLog, testsLog];
+const terms = [graphqlLog, webserverLog, frontendLog, testsLog];
 
-terms.forEach(function(term) {
+terms.forEach((term) => {
   term.on('wheelup', term.scroll.bind(term, -1));
   term.on('wheeldown', term.scroll.bind(term, 1));
 });
 
-screen.program.key(['C-c', 'q'], function() {
+screen.program.key(['C-c', 'q'], () => {
   screen.program.clear();
   screen.program.disableMouse();
   screen.program.showCursor();
   screen.program.normalBuffer();
-  psTree(process.pid, function(err, children) {
+  psTree(process.pid, (err, children) => {
     if (children) {
-      children.forEach(function(processInfo) {
+      children.forEach((processInfo) => {
         try {
           process.kill(processInfo.PID, 'SIGKILL');
         } catch (error) {
@@ -126,7 +124,7 @@ screen.program.key(['C-c', 'q'], function() {
   });
 });
 
-var logs = {
+const logs = {
   graphql: graphqlLog,
   webserver: webserverLog,
   frontend: frontendLog,
@@ -134,13 +132,13 @@ var logs = {
 };
 
 function log(type, message) {
-  var lines = String(message).split('\n');
+  const lines = String(message).split('\n');
 
   lines
-    .filter(function(line) {
+    .filter((line) => {
       return line.trim().length > 0;
     })
-    .forEach(function(line) {
+    .forEach((line) => {
       logs[type].log([
         chalk.yellow(fecha.format(new Date(), 'HH:mm:ss')),
         chalk.green(pad(timediff(type), 7)),

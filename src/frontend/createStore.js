@@ -1,7 +1,7 @@
-import {createHistory} from 'history';
-import {createStore, applyMiddleware, compose, combineReducers} from 'redux';
+import { createHistory } from 'history';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import {reduxReactRouter} from 'redux-router';
+import { reduxReactRouter } from 'redux-router';
 import logger from 'redux-logger';
 
 import routes from './routes';

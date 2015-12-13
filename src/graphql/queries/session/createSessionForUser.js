@@ -1,5 +1,5 @@
-import {randomBytes} from 'crypto';
-import {executeQuery, cypher} from '../../db';
+import { randomBytes } from 'crypto';
+import { executeQuery, cypher } from '../../db';
 
 function generateSessionId() {
   return new Promise((resolve, reject) => {
@@ -17,8 +17,8 @@ export default async function createSessionForUser(user) {
   const sessionId = await generateSessionId();
 
   const result = await executeQuery(cypher`
-    MATCH (u:User {uuid: ${user.properties.uuid}})
-    CREATE (s:Session {sid: ${sessionId}})
+    MATCH (u:User { uuid: ${user.properties.uuid} })
+    CREATE (s:Session { sid: ${sessionId} })
     CREATE (u)-[:OWNS]->(s)
     RETURN s
   `);

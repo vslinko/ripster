@@ -1,5 +1,5 @@
 import Relay from 'react-relay';
-import {HomePageContainer} from '../components/HomePage';
+import { HomePageContainer } from '../components/HomePage';
 
 export default {
   path: '/',

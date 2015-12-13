@@ -1,6 +1,6 @@
-import {GraphQLObjectType} from 'graphql';
-import {attachFields} from '../utils';
-import {wrapField} from '../acl';
+import { GraphQLObjectType } from 'graphql';
+import { attachFields } from '../utils';
+import { wrapField } from '../acl';
 
 import * as fields from './rootQueryFields';
 

@@ -1,8 +1,8 @@
-import {writeFileSync} from 'fs';
-import {join} from 'path';
+import { writeFileSync } from 'fs';
+import { join } from 'path';
 import Schema from '../../src/graphql/schema';
-import {graphql} from 'graphql';
-import {introspectionQuery} from 'graphql/utilities';
+import { graphql } from 'graphql';
+import { introspectionQuery } from 'graphql/utilities';
 
 async () => {
   const result = await graphql(Schema, introspectionQuery);

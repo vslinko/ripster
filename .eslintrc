@@ -2,9 +2,6 @@
   "parser": "babel-eslint",
   "extends": "airbnb",
   "rules": {
-    "vars-on-top": 0,
-    "id-length": [2, {"exceptions": ["R", "t"]}],
-    "space-before-function-paren": 1,
-    "space-before-keywords": 1
+    "vars-on-top": 0
   }
 }

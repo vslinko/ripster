@@ -1,7 +1,7 @@
 import DataLoader from 'dataloader';
-import {executeQuery} from './db';
+import { executeQuery } from './db';
 
-function createNodeLoader({queriesLoader, nodeLabel, idFieldName = 'uuid'}) {
+function createNodeLoader({ queriesLoader, nodeLabel, idFieldName = 'uuid' }) {
   return new DataLoader(async (ids) => {
     const response = await queriesLoader.load({
       query: `
@@ -9,7 +9,7 @@ function createNodeLoader({queriesLoader, nodeLabel, idFieldName = 'uuid'}) {
         WHERE n.${idFieldName} IN {ids}
         RETURN n
       `,
-      params: {ids},
+      params: { ids },
     });
 
     const nodes = response.map(row => row.n);
@@ -24,7 +24,7 @@ function createNodeLoader({queriesLoader, nodeLabel, idFieldName = 'uuid'}) {
 
 export default function createLoaders() {
   const queriesLoader = new DataLoader((queries) => {
-    return executeQuery({queries});
+    return executeQuery({ queries });
   });
 
   return {

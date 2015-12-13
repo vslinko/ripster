@@ -1,19 +1,19 @@
-/* eslint-disable no-var, no-console, func-names */
+'use strict';
 
-var gaze = require('gaze');
-var debounce = require('lodash.debounce');
-var spawn = require('child_process').spawn;
-var log = require('./log');
+const gaze = require('gaze');
+const debounce = require('lodash.debounce');
+const spawn = require('child_process').spawn;
+const log = require('./log');
 
-var shouldRunTests = process.env.NODE_ENV === 'test' && !process.env.CI;
-var specPattern = process.env.SPECS_PATTERN || 'specs/**/*.js';
+const shouldRunTests = process.env.NODE_ENV === 'test' && !process.env.CI;
+const specPattern = process.env.SPECS_PATTERN || 'specs/**/*.js';
 
-var builders = 0;
-var build = 0;
+let builders = 0;
+let build = 0;
 
-var runUnitTests = function() {
-  return new Promise(function(resolve) {
-    var makeProcess = spawn('./bin/unit_tests', [], {
+const runUnitTests = () => {
+  return new Promise((resolve) => {
+    const makeProcess = spawn('./bin/unit_tests', [], {
       stdio: 'pipe',
     });
 
@@ -24,9 +24,9 @@ var runUnitTests = function() {
   });
 };
 
-var runSpecs = function() {
-  return new Promise(function(resolve) {
-    var makeProcess = spawn('./node_modules/.bin/babel-tape-runner', [specPattern], {
+const runSpecs = () => {
+  return new Promise((resolve) => {
+    const makeProcess = spawn('./node_modules/.bin/babel-tape-runner', [specPattern], {
       stdio: 'pipe',
     });
 
@@ -37,7 +37,7 @@ var runSpecs = function() {
   });
 };
 
-var runTests = debounce(function() {
+const runTests = debounce(() => {
   if (!shouldRunTests) {
     return;
   }
@@ -51,7 +51,7 @@ var runTests = debounce(function() {
 
   runUnitTests()
     .then(runSpecs)
-    .then(function() {
+    .then(() => {
       runTests.running = false;
 
       if (runTests.schedule) {
@@ -64,7 +64,7 @@ var runTests = debounce(function() {
 function wrap(fn) {
   builders++;
 
-  fn(function() {
+  fn(() => {
     build++;
 
     if (build >= builders) {
@@ -73,12 +73,12 @@ function wrap(fn) {
   });
 }
 
-gaze(['specs/**/*'], function(err, watcher) {
+gaze(['specs/**/*'], (err, watcher) => {
   if (err) {
     throw err;
   }
 
-  watcher.on('all', function() {
+  watcher.on('all', () => {
     runTests();
   });
 });

@@ -1,6 +1,6 @@
-import React, {PropTypes} from 'react';
-import {defineMessages} from 'react-intl';
-import {createMarker} from 'frontend/utils/marker';
+import React, { PropTypes } from 'react';
+import { defineMessages } from 'react-intl';
+import { createMarker } from 'frontend/utils/marker';
 
 const messages = defineMessages({
   email: {

@@ -1,21 +1,19 @@
-/* eslint-disable no-var, func-names */
-
 if (!process.env.CI) {
   process.env.HOT_REPLACEMENT = '1';
 }
 
-var path = require('path');
-var createMoninor = require('./server/createMonitor');
-var testRunner = require('./server/testRunner');
+const path = require('path');
+const createMoninor = require('./server/createMonitor');
+const testRunner = require('./server/testRunner');
 
-var frontendPort = process.env.PORT
+const frontendPort = process.env.PORT
   ? Number(process.env.PORT)
   : 3000;
-var webserverPort = frontendPort + 1;
-var graphqlPort = webserverPort + 1;
+const webserverPort = frontendPort + 1;
+const graphqlPort = webserverPort + 1;
 
 if (!process.env.GRAPHQL_URL) {
-  testRunner.wrap(function(runTests) {
+  testRunner.wrap((runTests) => {
     createMoninor({
       key: 'graphql',
       script: path.join(__dirname, 'server', 'server.graphql.js'),
@@ -27,7 +25,7 @@ if (!process.env.GRAPHQL_URL) {
   });
 }
 
-testRunner.wrap(function(runTests) {
+testRunner.wrap((runTests) => {
   createMoninor({
     key: 'webserver',
     script: path.join(__dirname, 'server', 'server.webserver.js'),
@@ -40,7 +38,7 @@ testRunner.wrap(function(runTests) {
   });
 });
 
-testRunner.wrap(function(runTests) {
+testRunner.wrap((runTests) => {
   createMoninor({
     key: 'frontend',
     script: path.join(__dirname, 'server', 'server.frontend.js'),

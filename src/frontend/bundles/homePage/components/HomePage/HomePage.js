@@ -1,6 +1,6 @@
-import React, {PropTypes} from 'react';
-import {FormattedNumber, FormattedDate} from 'react-intl';
-import {createMarker} from 'frontend/utils/marker';
+import React, { PropTypes } from 'react';
+import { FormattedNumber, FormattedDate } from 'react-intl';
+import { createMarker } from 'frontend/utils/marker';
 
 import styles from './HomePage.less';
 

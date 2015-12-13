@@ -1,6 +1,6 @@
 import 'source-map-support/register';
 import 'babel/polyfill';
-import {jsdom} from 'jsdom';
+import { jsdom } from 'jsdom';
 
 const document = jsdom('');
 const window = document.defaultView;

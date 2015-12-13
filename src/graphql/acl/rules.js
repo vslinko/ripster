@@ -1,5 +1,5 @@
-import {GraphQLObjectType, GraphQLInterfaceType, GraphQLList} from 'graphql';
-import {OP_CREATE, everyRule, deny} from 'access-rule';
+import { GraphQLObjectType, GraphQLInterfaceType, GraphQLList } from 'graphql';
+import { OP_CREATE, everyRule, deny } from 'access-rule';
 import isOwner from '../queries/common/isOwner';
 
 export function byType(spec) {

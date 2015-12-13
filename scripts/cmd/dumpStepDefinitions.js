@@ -1,6 +1,6 @@
-import {uniq} from 'ramda';
-import {join} from 'path';
-import {rootDir, main, glob} from '../utils';
+import { uniq } from 'ramda';
+import { join } from 'path';
+import { rootDir, main, glob } from '../utils';
 
 main(async () => {
   const definitionFiles = await glob(

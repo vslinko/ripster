@@ -1,33 +1,31 @@
-/* eslint-disable no-var, no-console, func-names */
+const express = require('express');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const proxyMiddleware = require('express-http-proxy');
+const webpack = require('webpack');
+const webpackConfig = require('../webpack.config.frontend');
+const onBuild = require('./onBuild');
 
-var express = require('express');
-var webpackDevMiddleware = require('webpack-dev-middleware');
-var webpackHotMiddleware = require('webpack-hot-middleware');
-var proxyMiddleware = require('express-http-proxy');
-var webpack = require('webpack');
-var webpackConfig = require('../webpack.config.frontend');
-var onBuild = require('./onBuild');
+const port = process.env.PORT;
+const webserverUrl = process.env.WEBSERVER_URL;
 
-var port = process.env.PORT;
-var webserverUrl = process.env.WEBSERVER_URL;
-
-var compiler = webpack(webpackConfig);
+const compiler = webpack(webpackConfig);
 
 console.log('first build');
 
-compiler.plugin('invalid', function() {
+compiler.plugin('invalid', () => {
   console.log('rebuild');
 });
 
-compiler.plugin('done', function(stats) {
+compiler.plugin('done', (stats) => {
   console.log('listening ' + port);
   onBuild(stats);
 });
 
-var app = express();
+const app = express();
 
-app.use(webpackDevMiddleware(compiler, {quiet: true}));
-app.use(webpackHotMiddleware(compiler, {log: false}));
+app.use(webpackDevMiddleware(compiler, { quiet: true }));
+app.use(webpackHotMiddleware(compiler, { log: false }));
 app.use(proxyMiddleware(webserverUrl));
 
 app.listen(port);

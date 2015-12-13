@@ -1,5 +1,5 @@
-import {GraphQLObjectType} from 'graphql';
-import {attachFields} from '../utils';
+import { GraphQLObjectType } from 'graphql';
+import { attachFields } from '../utils';
 
 import * as fields from './rootMutationFields';
 

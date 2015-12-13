@@ -1,4 +1,4 @@
-import {executeQuery, cypher} from '../../db';
+import { executeQuery, cypher } from '../../db';
 
 export default async function isOwner(object, subject) {
   const result = await executeQuery(cypher`
