@@ -1,9 +1,9 @@
 import { GraphQLString } from 'graphql';
 import { mutationWithClientMutationId } from 'graphql-relay';
 import setEmail from '../../queries/user/setEmail';
-import { wrapField, OP_UPDATE } from '../../acl';
+import { wrapMutation, wrapField, OP_UPDATE } from '../../acl';
 
-export default refs => wrapField(assertAccess => mutationWithClientMutationId({
+export default refs => wrapMutation(assertAccess => mutationWithClientMutationId({
   name: 'SetEmail',
   inputFields: {
     uuid: { type: GraphQLString },

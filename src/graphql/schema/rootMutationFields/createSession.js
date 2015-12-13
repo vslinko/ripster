@@ -3,7 +3,7 @@ import { GraphQLString } from 'graphql';
 import { mutationWithClientMutationId } from 'graphql-relay';
 import getUserByEmail from '../../queries/user/getUserByEmail';
 import createSessionForUser from '../../queries/session/createSessionForUser';
-import { wrapField, OP_CREATE } from '../../acl';
+import { wrapMutation, wrapField, OP_CREATE } from '../../acl';
 
 function comparePasswords(password, hash) {
   return new Promise((resolve, reject) => {
@@ -21,7 +21,7 @@ function timeout() {
   return new Promise(resolve => setTimeout(resolve, 500));
 }
 
-export default refs => wrapField(assertAccess => mutationWithClientMutationId({
+export default refs => wrapMutation(assertAccess => mutationWithClientMutationId({
   name: 'CreateSession',
   inputFields: {
     email: { type: GraphQLString },

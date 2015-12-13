@@ -27,16 +27,14 @@ export default function wrapField(field) {
     throw new Error(`Forbidden: ${text}`);
   };
 
-  const { type, resolve, ...other } = typeof field === 'function'
-    ? field(assertAccess)
-    : field;
+  const { type, resolve, ...other } = field;
 
-  const wrappedResolve = async (root, args, info) => {
+  const wrappedResolve = async (rootValue, args, info) => {
     currentInfo = info;
 
     await assertAccess(type, OP_READ);
 
-    const result = await resolve(root, args, info);
+    const result = await resolve(rootValue, args, info);
 
     if (Array.isArray(result)) {
       const checks = await* result
