@@ -1,12 +1,12 @@
-import { GraphQLString } from 'graphql';
-import { mutationWithClientMutationId } from 'graphql-relay';
+import { GraphQLID, GraphQLString } from 'graphql';
+import { mutationWithClientMutationId, fromGlobalId } from 'graphql-relay';
 import setEmail from '../../queries/user/setEmail';
 import { wrapMutation, wrapField, OP_UPDATE } from '../../acl';
 
 export default refs => wrapMutation(assertAccess => mutationWithClientMutationId({
   name: 'SetEmail',
   inputFields: {
-    uuid: { type: GraphQLString },
+    id: { type: GraphQLID },
     email: { type: GraphQLString },
   },
   outputFields: {
@@ -15,8 +15,8 @@ export default refs => wrapMutation(assertAccess => mutationWithClientMutationId
       resolve: user => user,
     }),
   },
-  mutateAndGetPayload: async ({ uuid, email }, { rootValue }) => {
-    const user = await rootValue.loaders.User.load(uuid);
+  mutateAndGetPayload: async ({ id, email }, { rootValue }) => {
+    const user = await rootValue.loaders.User.load(fromGlobalId(id).id);
 
     if (!user) {
       return null;

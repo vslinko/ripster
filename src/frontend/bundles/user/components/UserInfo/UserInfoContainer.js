@@ -14,7 +14,7 @@ export default compose(
     fragments: {
       user: () => Relay.QL`
         fragment on User {
-          uuid
+          id
           email
           ${SetEmailMutation.getFragment('user')}
         }
@@ -31,7 +31,7 @@ export default compose(
         user: parentProps.user,
         email,
       }),
-      formKey: parentProps.user.uuid,
+      formKey: parentProps.user.id,
       initialValues: {
         email: parentProps.user.email,
       },

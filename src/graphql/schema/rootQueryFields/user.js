@@ -1,10 +1,11 @@
-import { GraphQLID } from 'graphql';
+import { GraphQLID, GraphQLNonNull } from 'graphql';
+import { fromGlobalId } from 'graphql-relay';
 import { wrapField } from '../../acl';
 
 export default refs => wrapField({
   type: refs.user,
   args: {
-    uuid: { type: GraphQLID },
+    id: { type: new GraphQLNonNull(GraphQLID) },
   },
-  resolve: (root, args) => root.loaders.User.load(args.uuid),
+  resolve: (rootValue, args) => rootValue.loaders.User.load(fromGlobalId(args.id).id),
 });

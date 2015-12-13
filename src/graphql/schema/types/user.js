@@ -7,10 +7,6 @@ export default refs => new GraphQLObjectType({
   name: 'User',
   fields: () => ({
     id: idField('User'),
-    uuid: {
-      type: GraphQLString,
-      resolve: prop('uuid'),
-    },
     email: {
       type: GraphQLString,
       resolve: prop('email'),
