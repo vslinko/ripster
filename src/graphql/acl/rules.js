@@ -60,7 +60,9 @@ export function complex(baseRule, operations) {
 
 export function admin(object, subject) {
   return Promise.resolve(
-    subject && subject.properties.role === 'ADMIN'
+    subject && subject.properties
+      ? subject.properties.role === 'ADMIN'
+      : false
   );
 }
 
