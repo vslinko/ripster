@@ -116,8 +116,8 @@ function runFrontendUnitTests(files) {
   addStreamToQueue(firstStream);
 
   process.env.UNIT_TESTS = files
-    .map(file => file.replace(frontendUnitTestsDir + '/', ''))
-    .join(':');
+    .map(file => file.replace(frontendUnitTestsDir.replace(/\\/g, '/') + '/', ''))
+    .join('#');
 
   const webpack = require('webpack');
   const config = require('../webpack.config.frontend-tests');
@@ -151,7 +151,9 @@ function runSpecTests(files) {
     return;
   }
 
-  const cmd = require.resolve('../node_modules/.bin/babel-tape-runner');
+  const cmd = /^win/.test(process.platform)
+    ? require.resolve('../node_modules/.bin/babel-tape-runner.cmd')
+    : require.resolve('../node_modules/.bin/babel-tape-runner');
   const args = files.length > 0
     ? files
     : [specsDir + '/**/*Spec.js'];
