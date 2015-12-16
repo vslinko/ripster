@@ -18,7 +18,7 @@ const req = require.context(
 );
 
 const allowedFiles = process.env.UNIT_TESTS
-  ? process.env.UNIT_TESTS.split(':')
+  ? process.env.UNIT_TESTS.split('#')
   : [];
 
 req.keys().forEach((file) => {
