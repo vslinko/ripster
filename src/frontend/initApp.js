@@ -1,11 +1,14 @@
+import { createHistory } from 'history';
 import React from 'react';
 import { render } from 'react-dom';
 import Relay from 'react-relay';
 import { Provider } from 'react-redux';
-import { ReduxRouter } from 'redux-router';
+import { Router } from 'react-router';
+import { syncReduxAndRouter } from 'redux-simple-router';
 import { RelayRoutingContext } from 'react-router-relay';
 import createStore from './createStore';
 import init from './init';
+import routes from './routes';
 
 import { ReduxIntlContainer } from 'frontend/bundles/common/components/ReduxIntl';
 
@@ -21,12 +24,15 @@ export default async function initApp() {
 
     await store.dispatch(init());
 
+    const history = createHistory();
+    syncReduxAndRouter(history, store);
+
     const component = (
       <Provider store={store}>
         <ReduxIntlContainer>
-          <ReduxRouter
-            RoutingContext={RelayRoutingContext}
-          />
+          <Router RoutingContext={RelayRoutingContext} >
+            {routes}
+          </Router>
         </ReduxIntlContainer>
       </Provider>
     );
