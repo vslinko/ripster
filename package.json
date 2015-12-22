@@ -66,6 +66,7 @@
     "react-router-relay": "^0.8.0",
     "redux": "^3.0.5",
     "redux-act": "^0.2.0",
+    "redux-batched-subscribe": "^0.1.4",
     "redux-form": "^3.1.7",
     "redux-router": "vslinko-forks/redux-router",
     "redux-thunk": "^1.0.0",
