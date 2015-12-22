@@ -1,5 +1,5 @@
 import 'source-map-support/register';
-import 'babel/polyfill';
+import 'babel-polyfill';
 import { jsdom } from 'jsdom';
 
 const document = jsdom('');

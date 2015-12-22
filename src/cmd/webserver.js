@@ -1,5 +1,5 @@
 import 'source-map-support/register';
-import 'babel/polyfill';
+import 'babel-polyfill';
 import app from '../webserver';
 
 const port = process.env.PORT || '3000';

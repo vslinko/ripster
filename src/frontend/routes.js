@@ -9,6 +9,6 @@ const req = require.context(
 export default [
   {
     component: App,
-    childRoutes: req.keys().map(req),
+    childRoutes: req.keys().map(key => req(key).default),
   },
 ];

@@ -11,6 +11,8 @@ const bundleInits = req
 
 export default function init() {
   return async (dispatch) => {
-    await* bundleInits.map(bundleInit => dispatch(bundleInit()));
+    await Promise.all(
+      bundleInits.map(bundleInit => dispatch(bundleInit()))
+    );
   };
 }
