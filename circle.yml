@@ -1,8 +1,6 @@
 machine:
   pre:
     - sudo sed -i "s/dbms.security.auth_enabled=true/dbms.security.auth_enabled=false/g" /etc/neo4j/neo4j-server.properties
-    - sudo sed -i "s/#wrapper.java.initmemory=512/wrapper.java.initmemory=2048/g" /etc/neo4j/neo4j-wrapper.conf
-    - sudo sed -i "s/#wrapper.java.maxmemory=512/wrapper.java.maxmemory=2048/g" /etc/neo4j/neo4j-wrapper.conf
     - sudo service couchdb stop
     - sudo service memcached stop
     - sudo service mongodb stop
@@ -11,29 +9,29 @@ machine:
     - sudo service rabbitmq-server stop
     - sudo service redis-server stop
     - sudo service zookeeper stop
-  environment:
-    WAIT_FOR_TIMEOUT: 60000
-    NODE_ENV: test
-    HOT_RELOAD: ""
   timezone: Europe/Moscow
   services:
     - neo4j
+  environment:
+    SELENIUM_BROWSER: firefox
+    WAIT_FOR_TIMEOUT: 10000
+    NODE_ENV: test
+  post:
+    - nvm install v5.3.0 && nvm alias default v5.3.0
 
-dependencies:
-  pre:
-    - nvm install v4.1.0 && nvm alias default v4.1.0
+database:
+  override:
+    - ./bin/load_fixtures
 
 test:
   pre:
-    - mkdir -p $CIRCLE_TEST_REPORTS/cucumber
     - npm start: {background: true}
-    - ./bin/dump_features
-    - sleep 5
+    - npm run selenium: {background: true}
   override:
     - npm run lint
-    - CUCUMBER_FORMAT=json make acceptance_test -s > $CIRCLE_TEST_REPORTS/cucumber/tests.cucumber
-  post:
-    - ./bin/dump_step_definitions | tee $CIRCLE_ARTIFACTS/steps.txt
+    - ./bin/run_tests src/graphql | ./node_modules/.bin/faucet
+    - ./bin/run_tests src/frontend | ./node_modules/.bin/faucet
+    - ./bin/run_tests specs | ./node_modules/.bin/faucet
 
 deployment:
   staging:
@@ -42,9 +40,3 @@ deployment:
       - git fetch origin --unshallow || true
       - git push -f git@heroku.com:ripster.git $CIRCLE_SHA1:refs/heads/master
       - heroku run --app ripster ./bin/load_fixtures
-
-general:
-  branches:
-    only:
-      - master
-      - /#\d+/
