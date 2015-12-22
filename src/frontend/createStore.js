@@ -12,7 +12,7 @@ export default function createAppStore(initialState) {
 
   if (window.localStorage && window.localStorage.getItem('redux-logger')) {
     finalCreateStore = compose(
-      applyMiddleware(logger()),
+      applyMiddleware(logger())
     )(finalCreateStore);
   }
 

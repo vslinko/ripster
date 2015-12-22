@@ -19,14 +19,14 @@ const {
   tag,
 } = argv;
 
-const removeFiles = R.map(unlinkAsync);
+const removeFiles = files => Promise.all(R.map(unlinkAsync, files));
 
 const readFile = async filePath => ({
   path: readFileAsync,
   content: (await readFileAsync(filePath)).toString(),
 });
 
-const readFiles = R.map(readFile);
+const readFiles = files => Promise.all(R.map(readFile, files));
 
 const noop = {};
 
@@ -71,22 +71,24 @@ main(async () => {
   if (await existsAsync(outputDir)) {
     const oldFeaturesFilePathes = await glob(join(outputDir, '**', '*.feature'));
 
-    await* removeFiles(oldFeaturesFilePathes);
+    await removeFiles(oldFeaturesFilePathes);
   } else {
     await mkdirAsync(outputDir);
   }
 
   const filePathes = await glob(join(rootDir, 'planned-features', '**', '*.md'));
-  const files = await* readFiles(filePathes);
+  const files = await readFiles(filePathes);
   let features = getFeaturesFromFiles({ defaultLanguage }, files);
 
   if (tag) {
     features = features.filter(hasTag(tag));
   }
 
-  await* features
-    .map(async (feature, index) => writeFileAsync(
-      join(outputDir, `${index}.feature`),
-      await compileGherkin(feature.ast)
-    ));
+  await Promise.all(
+    features
+      .map(async (feature, index) => writeFileAsync(
+        join(outputDir, `${index}.feature`),
+        await compileGherkin(feature.ast)
+      ))
+  );
 });

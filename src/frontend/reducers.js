@@ -12,7 +12,7 @@ const req = require.context(
 export default req.keys().reduce((acc, key) => {
   const name = pattern.exec(key)[1];
 
-  acc[name] = req(key);
+  acc[name] = req(key).default;
 
   return acc;
 }, { router: routerStateReducer, form: formReducer });
