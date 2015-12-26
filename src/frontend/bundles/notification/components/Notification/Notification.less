@@ -1,0 +1,108 @@
+ /*
+ adapted from https://github.com/7rulnik/evil-martians-test-project
+ no license specified
+ */
+
+.notification {
+	display: flex;
+	min-height: 76px;
+	color: #fff;
+	background: rgb(61, 57, 53, .95);
+	justify-content: flex-start;
+	align-items: center;
+	position: relative;
+	font-size: 1rem;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+	overflow: hidden;
+}
+
+.container {
+	width: 588px;
+	position: fixed;
+  top: 0;
+  right: 0;
+	left: 0;
+  margin-top: 10px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+& + & {
+	margin-top: 20px;
+}
+
+.unread {
+	margin-top: 0;
+}
+
+.unread:not(:last-child) {
+	border-bottom: 1px dotted #5b544d;
+}
+
+.icon {
+	width: 10%;
+	padding-left: 1rem;
+	position: absolute;
+
+	@supports (-moz-appearance:meterbar) and (display:flex) {
+		top: 8px;
+	}
+}
+
+
+.icon {
+	width: 60px;
+	height: 60px;
+}
+
+
+.text {
+	margin: 0;
+	margin-left: 6rem;
+	width: 70%;
+	padding-right: 1rem;
+}
+
+.btn {
+	width: 72px;
+	height: 100%;
+	top: 0;
+	display: block;
+	border: 0;
+	background: 0;
+	cursor: pointer;
+	color: #796e65;
+	border-left: 1px dotted #796e65;
+	position: absolute;
+	right: 0;
+
+	&:hover {
+		color: #fff;
+	}
+
+	&:focus {
+		outline: 0;
+	}
+}
+
+.date {
+	color: #766b63;
+	font-size: .75rem;
+}
+
+.history {
+	display: block;
+	cursor: pointer;
+	text-align: center;
+	text-transform: uppercase;
+	font-size: .7rem;
+	min-height: 32px;
+	line-height: 32px;
+	background: rgb(61, 57, 53, .95);
+	color: #796e65;
+
+	&:hover {
+		color: #fff;
+	}
+}

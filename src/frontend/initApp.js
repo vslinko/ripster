@@ -9,18 +9,27 @@ import { RelayRoutingContext } from 'react-router-relay';
 import createStore from './createStore';
 import init from './init';
 import routes from './routes';
+import RelayNetworkLayer from './RelayNetworkLayer';
 
 import { ReduxIntlContainer } from 'frontend/bundles/common/components/ReduxIntl';
+import { addNotification } from 'frontend/bundles/notification/actionCreators';
 
 export default async function initApp() {
+  const store = createStore();
+
+  const onRelayError = (error) => {
+    store.dispatch(addNotification({
+      important: true,
+      text: error.message,
+    }));
+  };
+
   try {
     Relay.injectNetworkLayer(
-      new Relay.DefaultNetworkLayer('/graphql', {
+      new RelayNetworkLayer('/graphql', {
         credentials: 'same-origin',
-      })
+      }, onRelayError)
     );
-
-    const store = createStore();
 
     await store.dispatch(init());
 
