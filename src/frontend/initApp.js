@@ -1,4 +1,4 @@
-import { createHistory } from 'history';
+import createHistory from 'history/lib/createBrowserHistory';
 import React from 'react';
 import { render } from 'react-dom';
 import Relay from 'react-relay';
