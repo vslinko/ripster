@@ -5,16 +5,16 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Notifications } from '../Notification';
 
-function NotificationBar({ notifications, dispatch }) {
+function NotificationBar({ notifications, dispatch, onHistoryClick, onRead }) {
   return (
-  <Notifications
-    {...notifications}
-    dispatch={dispatch}
-    closeTimeout={3000}
-    viewUnread={notifications.viewUnread}
-    recentSize={3}
-    onHistoryClick={() => alert('History ....!')}
-    onRead={id => console.log('read it', id)}
+    <Notifications
+      {...notifications}
+      dispatch={dispatch}
+      closeTimeout={3000}
+      viewUnread={notifications.viewUnread}
+      recentSize={3}
+      onHistoryClick={() => onHistoryClick()}
+      onRead={id => onRead(id)}
     />
   );
 }
@@ -25,6 +25,11 @@ NotificationBar.propTypes = {
     viewUnread: PropTypes.bool,
     notificationList: PropTypes.array,
   }).isRequired,
+};
+
+NotificationBar.defaultProps = {
+  onHistoryClick: () => {},
+  onRead: () => {},
 };
 
 export default connect(

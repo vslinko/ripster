@@ -4,11 +4,7 @@ import React, { Component, PropTypes } from 'react';
 import { readNotification } from '../../actionCreators';
 import Notification from './Notification';
 
-// require('./Notification.css');
 import styles from './Notification.less';
-// import styles from './HomePage.less';
-
-console.log(JSON.stringify(styles));
 
 export default class Notifications extends Component {
   render() {
@@ -33,8 +29,9 @@ export default class Notifications extends Component {
                   if (dispatch) {
                     dispatch(readNotification(id));
                   }
-                }}/>
-              );
+                }}
+              />
+            );
           })
         }
 
@@ -58,7 +55,7 @@ export default class Notifications extends Component {
               <Notification {...notification}
                 key={notification.id}
                 viewUnread={viewUnread}
-                />
+              />
             );
           })
         }
