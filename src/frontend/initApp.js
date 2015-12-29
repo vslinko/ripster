@@ -30,7 +30,7 @@ export default async function initApp() {
     const component = (
       <Provider store={store}>
         <ReduxIntlContainer>
-          <Router RoutingContext={RelayRoutingContext} routes={routes} />
+          <Router RoutingContext={RelayRoutingContext} routes={routes} history={history} />
         </ReduxIntlContainer>
       </Provider>
     );
