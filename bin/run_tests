@@ -123,10 +123,17 @@ function runUnitTests(opts) {
   const webpack = require('webpack');
   const compiler = webpack(opts.webpackConfig);
 
-  function onBuild() {
+  function onBuild(err) {
+    if (err) {
+      console.log(err.stack);
+      return;
+    }
+
     const testProcess = childProcess.fork(require.resolve(opts.binPath), {
       silent: true,
     });
+
+    testProcess.stderr.pipe(process.stderr);
 
     if (firstStream) {
       testProcess.stdout.pipe(firstStream);
@@ -162,6 +169,8 @@ function runSpecTests(files) {
       const testProcess = childProcess.spawn(cmd, args, {
         stdio: 'pipe',
       });
+
+      testProcess.stderr.pipe(process.stderr);
 
       const nextStream = new stream.PassThrough();
       testProcess.stdout.pipe(nextStream);
