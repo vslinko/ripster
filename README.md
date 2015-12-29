@@ -1,14 +1,5 @@
 # Ripster
 
-> A ripster doesn't do what they do because they want to be cool, they just do
-> it to have fun, the result is they look cool, and people try to do it too.
-
-Hello! That's my own small "framework".
-I want to use only those technologies that make me excited about them.
-That means that list of those technologies could change over time.
-
-Highlights:
-
 * [Access Rule](https://github.com/vslinko/access-rule)
 * [babel-plugin-react-transform](https://github.com/gaearon/babel-plugin-react-transform)
 * [Babel](http://babeljs.io). I love all the new features of ECMAScript! And babel allows me to use those features right now.
@@ -48,5 +39,3 @@ Highlights:
 * [source-map-support](https://github.com/evanw/node-source-map-support)
 * [Strulidator](https://github.com/vslinko/strulidator) is my view on how should looks validator of complex nested structures.
 * [Webpack](http://webpack.github.io) is very powerful tool that helps me build first-grade releases. Finest tool at current time but not simplest.
-
-I believe that best Developer Experience leads us to best User Experience.
