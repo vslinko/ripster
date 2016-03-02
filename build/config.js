@@ -18,7 +18,7 @@ const nodeModulesDirectory = path.join(root, 'node_modules');
 const nodeModulesExternals = fs.readdirSync(nodeModulesDirectory)
   .filter(name => name !== '.bin')
   .reduce((acc, name) => (
-    acc[name] = `commonjs ${name}`,
+    acc[name] = `commonjs ${name}`, // eslint-disable-line
     acc
   ), {});
 

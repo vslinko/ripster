@@ -11,7 +11,6 @@ const localeFilesPattern = join(
 );
 
 const babelOptions = {
-  stage: 0,
   plugins: ['react-intl'],
 };
 

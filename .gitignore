@@ -4,3 +4,5 @@
 /node_modules/
 /npm-debug.log
 /ripster.json
+/.idea
+/.tags*

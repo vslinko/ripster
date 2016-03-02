@@ -4,9 +4,6 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
 
-const babelPluginRelay = require('../babelPluginRelay');
-const babelPluginReactTransform = require('babel-plugin-react-transform');
-
 const config = require('../config');
 const base = require('./base');
 
@@ -81,19 +78,12 @@ module.exports = Object.assign({}, base, {
   }(),
 
   babel: () => {
-    let babel = Object.assign({}, base.babel, {
-      plugins: [
-        babelPluginRelay,
-      ],
-    });
+    let babel = {};
 
     if (config.hot) {
       babel = Object.assign({}, babel, {
-        plugins: babel.plugins.concat([
-          babelPluginReactTransform,
-        ]),
-        extra: {
-          'react-transform': {
+        plugins: [
+          ['react-transform', {
             transforms: [
               {
                 transform: 'react-transform-hmr',
@@ -105,8 +95,8 @@ module.exports = Object.assign({}, base, {
                 imports: ['react', 'redbox-react'],
               },
             ],
-          },
-        },
+          }],
+        ],
       });
     }
 

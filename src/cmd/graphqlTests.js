@@ -1,5 +1,5 @@
 import 'source-map-support/register';
-import 'babel/polyfill';
+import 'babel-polyfill';
 
 const req = require.context(
   '../graphql',
