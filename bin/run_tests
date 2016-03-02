@@ -65,7 +65,8 @@ process.on('beforeExit', () => {
   outputStream.end();
 });
 
-const userFiles = (argv._.length > 0 ? argv._ : [graphqlUnitTestsDir, frontendUnitTestsDir, specsDir])
+const userFiles = (argv._.length > 0 ? argv._ :
+  [graphqlUnitTestsDir, frontendUnitTestsDir, specsDir])
   .map((userPath) => {
     const absoluteUserPath = path.resolve(userPath);
 
@@ -76,7 +77,7 @@ const userFiles = (argv._.length > 0 ? argv._ : [graphqlUnitTestsDir, frontendUn
         type: 'graphqlUnit',
         path: absoluteUserPath,
         files: stat.isDirectory()
-          ? glob.sync(absoluteUserPath + '/**/*Test.js')
+          ? glob.sync(`${absoluteUserPath}/**/*Test.js`)
           : [absoluteUserPath],
       };
     } else if (absoluteUserPath.indexOf(frontendUnitTestsDir) === 0) {
@@ -84,7 +85,7 @@ const userFiles = (argv._.length > 0 ? argv._ : [graphqlUnitTestsDir, frontendUn
         type: 'frontendUnit',
         path: absoluteUserPath,
         files: stat.isDirectory()
-          ? glob.sync(absoluteUserPath + '/**/*Test.js')
+          ? glob.sync(`${absoluteUserPath}/**/*Test.js`)
           : [absoluteUserPath],
       };
     } else if (absoluteUserPath.indexOf(specsDir) === 0) {
@@ -92,7 +93,7 @@ const userFiles = (argv._.length > 0 ? argv._ : [graphqlUnitTestsDir, frontendUn
         type: 'spec',
         path: absoluteUserPath,
         files: stat.isDirectory()
-          ? glob.sync(absoluteUserPath + '/**/*Spec.js')
+          ? glob.sync(`${absoluteUserPath}/**/*Spec.js`)
           : [absoluteUserPath],
       };
     }
@@ -100,7 +101,7 @@ const userFiles = (argv._.length > 0 ? argv._ : [graphqlUnitTestsDir, frontendUn
     throw new Error(`Unkown type of path "${userPath}"`);
   })
   .reduce((acc, row) => {
-    acc[row.type] = acc[row.type].concat(row.files);
+    acc[row.type] = acc[row.type].concat(row.files); // eslint-disable-line no-param-reassign
     return acc;
   }, { graphqlUnit: [], frontendUnit: [], spec: [] });
 
@@ -162,7 +163,7 @@ function runSpecTests(files) {
     : require.resolve('../node_modules/.bin/babel-tape-runner');
   const args = files.length > 0
     ? files
-    : [specsDir + '/**/*Spec.js'];
+    : [`${specsDir}/**/*Spec.js`];
 
   function run() {
     return new Promise((resolve) => {
@@ -276,8 +277,8 @@ You can run dev server using this command:
 }
 
 process.env.UNIT_TESTS = []
-  .concat(userFiles.graphqlUnit.map(file => file.replace(graphqlUnitTestsDir.replace(/\\/g, '/') + '/', '')))
-  .concat(userFiles.frontendUnit.map(file => file.replace(frontendUnitTestsDir.replace(/\\/g, '/') + '/', '')))
+  .concat(userFiles.graphqlUnit.map(file => file.replace(graphqlUnitTestsDir.replace(/\\/g, '/') + '/', ''))) // eslint-disable-line
+  .concat(userFiles.frontendUnit.map(file => file.replace(frontendUnitTestsDir.replace(/\\/g, '/') + '/', ''))) // eslint-disable-line
   .join('#');
 
 if (userFiles.graphqlUnit.length > 0) {

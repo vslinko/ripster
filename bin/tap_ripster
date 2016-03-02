@@ -29,7 +29,7 @@ tapRipster.on('complete', () => {
   const json = result
     .filter(row => !/^(tests|pass)\s+\d+$/.test(row.test))
     .reduce((acc, row) => (
-      acc[row.test] = row.asserts
+      acc[row.test] = row.asserts // eslint-disable-line
         .filter(assert => !assert.ok)
         .map(assert => ({
           message: assert.name,

@@ -1,4 +1,4 @@
-import { routeReducer } from 'redux-simple-router';
+import { routerReducer } from 'react-router-redux';
 import { reducer as formReducer } from 'redux-form';
 
 const pattern = /^\.\/[a-z]+\/reducers\/([a-z]+)\.js$/i;
@@ -15,4 +15,4 @@ export default req.keys().reduce((acc, key) => {
   acc[name] = req(key).default;
 
   return acc;
-}, { routing: routeReducer, form: formReducer });
+}, { routing: routerReducer, form: formReducer });

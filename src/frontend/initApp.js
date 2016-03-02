@@ -1,11 +1,10 @@
-import { createHistory } from 'history';
 import React from 'react';
 import { render } from 'react-dom';
 import Relay from 'react-relay';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router';
-import { syncReduxAndRouter } from 'redux-simple-router';
-import { RelayRoutingContext } from 'react-router-relay';
+import { browserHistory } from 'react-router';
+import { syncHistoryWithStore } from 'react-router-redux';
+import { RelayRouter } from 'react-router-relay';
 import createStore from './createStore';
 import init from './init';
 import routes from './routes';
@@ -24,13 +23,12 @@ export default async function initApp() {
 
     await store.dispatch(init());
 
-    const history = createHistory();
-    syncReduxAndRouter(history, store);
+    const history = syncHistoryWithStore(browserHistory, store);
 
     const component = (
       <Provider store={store}>
         <ReduxIntlContainer>
-          <Router RoutingContext={RelayRoutingContext} routes={routes} history={history} />
+          <RelayRouter routes={routes} history={history} />
         </ReduxIntlContainer>
       </Provider>
     );
