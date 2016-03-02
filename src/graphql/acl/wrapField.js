@@ -37,21 +37,25 @@ export default function wrapField(field) {
     const result = await resolve(rootValue, args, info);
 
     if (Array.isArray(result)) {
-      const checks = await* result
-        .map(async (object) => ({
-          object,
-          access: await checkAccess(object, OP_READ),
-        }));
+      const checks = await Promise.all(
+        result
+          .map(async (object) => ({
+            object,
+            access: await checkAccess(object, OP_READ),
+          }))
+      );
 
       return checks
         .filter(({ access }) => access)
         .map(({ object }) => object);
     } else if (result && result.edges && Array.isArray(result.edges)) {
-      const checks = await* result.edges
-        .map(async (edge) => ({
-          edge,
-          access: await checkAccess(edge.node, OP_READ),
-        }));
+      const checks = await Promise.all(
+        result.edges
+          .map(async (edge) => ({
+            edge,
+            access: await checkAccess(edge.node, OP_READ),
+          }))
+      );
 
       return {
         ...result,

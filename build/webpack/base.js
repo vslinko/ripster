@@ -50,8 +50,4 @@ module.exports = {
 
     return plugins;
   }(),
-
-  babel: {
-    stage: 0,
-  },
 };

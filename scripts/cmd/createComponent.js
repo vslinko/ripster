@@ -64,7 +64,7 @@ mainAnswers(questions, async (context) => {
 
   await mkdirAsync(directory);
 
-  await* [
+  await Promise.all([
     renderTemplate(
       join(directory, 'index.js'),
       join('component', 'index.js'),
@@ -88,5 +88,5 @@ mainAnswers(questions, async (context) => {
       join('component', 'component.less'),
       context
     ),
-  ];
+  ]);
 });
