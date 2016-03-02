@@ -2,7 +2,7 @@ import Relay from 'react-relay';
 
 export default function applyMutation(mutation) {
   return new Promise((resolve, reject) => {
-    Relay.Store.update(mutation, {
+    Relay.Store.commitUpdate(mutation, {
       onSuccess: resolve,
       onFailure: (transaction) => {
         let error = transaction.getError() || new Error('Mutation failed');
